@@ -1,14 +1,25 @@
-const { Client, Interaction, EmbedBuilder, ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.js')
-const path = require('path');
+const {
+  Client,
+  Interaction,
+  EmbedBuilder,
+  ApplicationCommandOptionType,
+  PermissionFlagsBits,
+} = require("discord.js");
+const path = require("path");
 
 // Logging tool
-const winston = require('winston');
+const winston = require("winston");
 const logger = winston.createLogger({
-	transports: [
-		new winston.transports.Console(),
-		new winston.transports.File({ filename: `logs/log.log` }),
-	],
-	format: winston.format.printf(log => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`),
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: `logs/log.log` }),
+  ],
+  format: winston.format.printf(
+    (log) =>
+      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${
+        log.message
+      } ${new Date(Date.now()).toUTCString()}`
+  ),
 });
 
 module.exports = {
@@ -19,7 +30,7 @@ module.exports = {
    */
 
   callback: async (bot, interaction) => {
-    const targetUserId = interaction.options.get('target-user').value;
+    const targetUserId = interaction.options.get("target-user").value;
 
     await interaction.deferReply();
 
@@ -35,7 +46,7 @@ module.exports = {
     if (targetUserId === interaction.guild.ownerId) {
       await interaction.editReply(`You can't ban the server owner`);
       return;
-    };
+    }
 
     // Unban the targetUser
     try {
@@ -50,48 +61,51 @@ module.exports = {
           {
             name: `User`,
             value: `<@${targetUserId}>`,
-            inline: true
+            inline: true,
           },
           {
             name: `Moderator`,
             value: `<@${interaction.member.user.id}>`,
-            inline: true
+            inline: true,
           }
         )
         .setFooter({
-          text: `ID: ${targetUserId}`
+          text: `ID: ${targetUserId}`,
         })
         .setTimestamp()
-        .setColor('Blurple')
+        .setColor("Blurple");
 
       await interaction.editReply({
         // content: `User ${targetUser} was banned\nReason: ${reason}`,
-        embeds: [unbanEmbed]
+        embeds: [unbanEmbed],
       });
     } catch (error) {
       await interaction.editReply({
-        content: `Bot Error, Try again later`
+        content: `Bot Error, Try again later`,
       });
-      logger.log('error', `There was an error when unbanning:\n${error}`)
+      logger.log("error", `There was an error when unbanning:\n${error}`);
       console.log(error);
     }
-  },  // What the bot replies with
-  
-  name: 'unban', // Name of the command
-  description: 'Unbans a member from the server', // Description of the command
+  }, // What the bot replies with
+
+  name: "unban", // Name of the command
+  description: "Unbans a member from the server", // Description of the command
   // devOnly: true, // Is a dev only command
   // testOnly: true, // Is a test command
-  usage: '/unban [user | userID]',
-  example: '/unban 130462164640202754',
+  usage: "/unban [user | userID]",
+  example: "/unban 130462164640202754",
   options: [
     {
-      name: 'target-user',
-      description: 'The user that you want to ban from the server',
+      name: "target-user",
+      description: "The user that you want to ban from the server",
       required: true,
-      type: ApplicationCommandOptionType.Mentionable
+      type: ApplicationCommandOptionType.Mentionable,
     },
   ], // Input options
   // deleted: true, // If the command is no longer in use
   permissionsRequired: [PermissionFlagsBits.BanMembers], // What permissions are needed to run the command
-  botPermissions: [PermissionFlagsBits.BanMembers, PermissionFlagsBits.EmbedLinks], // What permissions the bot needs to run the command
+  botPermissions: [
+    PermissionFlagsBits.BanMembers,
+    PermissionFlagsBits.EmbedLinks,
+  ], // What permissions the bot needs to run the command
 };

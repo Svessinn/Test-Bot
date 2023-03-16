@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = (existingCommand, localCommand) => {
   const areChoicesDifferent = (existingChoices, localChoices) => {
@@ -8,12 +8,12 @@ module.exports = (existingCommand, localCommand) => {
       );
       if (!existingChoice) {
         return true;
-      };
+      }
 
       if (localChoice.value !== existingChoice.value) {
         return true;
-      };
-    };
+      }
+    }
     return false;
   };
 
@@ -25,7 +25,7 @@ module.exports = (existingCommand, localCommand) => {
 
       if (!existingOption) {
         return true;
-      };
+      }
 
       if (
         localOption.description !== existingOption.description ||
@@ -39,8 +39,8 @@ module.exports = (existingCommand, localCommand) => {
         )
       ) {
         return true;
-      };
-    };
+      }
+    }
     return false;
   };
 
@@ -50,6 +50,6 @@ module.exports = (existingCommand, localCommand) => {
     areOptionsDifferent(existingCommand.options, localCommand.options || [])
   ) {
     return true;
-  };
+  }
   return false;
 };

@@ -1,26 +1,30 @@
-const getLocalCommands = require('../../utils/getLocalCommands');
-const areCommandsDifferent = require('../../utils/areCommandsDifferent');
-const path = require('path');
-const { Client } = require('discord.js');
+const getLocalCommands = require("../../utils/getLocalCommands");
+const areCommandsDifferent = require("../../utils/areCommandsDifferent");
+const path = require("path");
+const { Client } = require("discord.js");
 
 // Logging tool
-const winston = require('winston');
+const winston = require("winston");
 const logger = winston.createLogger({
-	transports: [
-		new winston.transports.Console(),
-		new winston.transports.File({ filename: `logs/log.log` }),
-	],
-	format: winston.format.printf(log => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`),
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: `logs/log.log` }),
+  ],
+  format: winston.format.printf(
+    (log) =>
+      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${
+        log.message
+      } ${new Date(Date.now()).toUTCString()}`
+  ),
 });
 
 /**
- * 
- * @param {Client} bot 
- * @returns 
+ *
+ * @param {Client} bot
+ * @returns
  */
 let localCommand;
 module.exports = async (bot) => {
-  
   try {
     const localCommands = getLocalCommands();
     const applicationCommands = bot.application.commands;
@@ -36,35 +40,41 @@ module.exports = async (bot) => {
       if (existingCommand) {
         if (localCommand.deleted) {
           await applicationCommands.delete(existingCommand.id);
-          logger.log('info', `Deleted command "${name}"`);
+          logger.log("info", `Deleted command "${name}"`);
           continue;
-        };
+        }
 
         if (areCommandsDifferent(existingCommand, localCommand)) {
           await applicationCommands.edit(existingCommand.id, {
             description,
-            options
+            options,
           });
 
-          logger.log('info', `Edited command: "${name}"`)
-        };
+          logger.log("info", `Edited command: "${name}"`);
+        }
       } else {
         if (localCommand.deleted) {
-          logger.log('info', `Skipping command registration for "${name}" as it is set to deleted`);
+          logger.log(
+            "info",
+            `Skipping command registration for "${name}" as it is set to deleted`
+          );
           continue;
-        };
+        }
 
         await applicationCommands.create({
           name,
           description,
-          options
+          options,
         });
 
-        logger.log('info', `Registered command "${name}"`)
-      };
-    };
+        logger.log("info", `Registered command "${name}"`);
+      }
+    }
   } catch (error) {
-    logger.log('error', `There was an error in registering ${localCommand.name}\n${error}\n`);
+    logger.log(
+      "error",
+      `There was an error in registering ${localCommand.name}\n${error}\n`
+    );
     console.log(error);
   }
 };

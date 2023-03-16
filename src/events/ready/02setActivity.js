@@ -1,17 +1,17 @@
-const { ActivityType, Client } = require('discord.js');
-const path = require('path');
+const { ActivityType, Client } = require("discord.js");
+const path = require("path");
 
 let status = [
   {
     name: "Development", // Activity name
     type: ActivityType.Streaming,
-    url: 'https://twitch.tv/TheSvess'
-  }
+    url: "https://twitch.tv/TheSvess",
+  },
 ];
 
 /**
- * 
- * @param {Client} bot 
+ *
+ * @param {Client} bot
  */
 
 module.exports = (bot) => {

@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 module.exports = (directory, foldersOnly = false) => {
   let fileNames = [];
@@ -12,13 +12,13 @@ module.exports = (directory, foldersOnly = false) => {
     if (foldersOnly) {
       if (file.isDirectory()) {
         fileNames.push(filePath);
-      };
+      }
     } else {
       if (file.isFile()) {
         fileNames.push(filePath);
-      };
-    };
-  };
+      }
+    }
+  }
 
   return fileNames;
 };
