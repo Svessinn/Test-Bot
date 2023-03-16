@@ -1,6 +1,5 @@
 const { Client, Interaction } = require("discord.js");
 const path = require("path");
-const { clientId } = require("../../../config.json");
 
 // Logging tool
 const winston = require("winston");
@@ -20,11 +19,11 @@ const logger = winston.createLogger({
 module.exports = {
   /**
    *
-   * @param {Client} bot
+   * @param {Client} client
    * @param {Interaction} interaction
    */
 
-  callback: async (bot, interaction) => {
+  callback: async (client, interaction) => {
     await interaction.deferReply({
       ephemeral: false,
     });

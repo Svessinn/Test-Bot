@@ -6,7 +6,6 @@ const {
   EmbedBuilder,
 } = require("discord.js");
 const path = require("path");
-const { clientId } = require("../../../config.json");
 
 // Logging tool
 const winston = require("winston");
@@ -26,16 +25,16 @@ const logger = winston.createLogger({
 module.exports = {
   /**
    *
-   * @param {Client} bot
+   * @param {Client} client
    * @param {Interaction} interaction
    */
 
-  callback: async (bot, interaction) => {
+  callback: async (client, interaction) => {
     await interaction.deferReply();
 
     try {
       await interaction.editReply({
-        content: `Vote for our bot on top.gg: https://top.gg/bot/${clientId}/vote`,
+        content: `Vote for our bot on top.gg: https://top.gg/bot/${client.user.id}/vote`,
       });
     } catch (error) {
       await interaction.editReply({

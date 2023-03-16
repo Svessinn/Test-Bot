@@ -5,7 +5,7 @@ const { Client, IntentsBitField } = require("discord.js");
 const TOKEN = process.env.TOKEN;
 
 // Setting up the bot client
-const bot = new Client({
+const client = new Client({
   intents: [
     IntentsBitField.Flags.Guilds,
     IntentsBitField.Flags.GuildMembers,
@@ -38,7 +38,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // Event handler shit
 const eventHandler = require("./handlers/eventHandler");
-eventHandler(bot);
+eventHandler(client);
 
 // Logging in
-bot.login(TOKEN);
+client.login(TOKEN);

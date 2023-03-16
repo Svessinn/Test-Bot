@@ -18,9 +18,9 @@ const logger = winston.createLogger({
 
 /**
  *
- * @param {Client} bot
+ * @param {Client} client
  */
 
-module.exports = (bot) => {
-  logger.log("info", `"${bot.user.username}" is online.`);
+module.exports = (client) => {
+  logger.log("info", `"${client.user.username}" is online.`);
 };

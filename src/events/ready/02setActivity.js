@@ -11,12 +11,12 @@ let status = [
 
 /**
  *
- * @param {Client} bot
+ * @param {Client} client
  */
 
-module.exports = (bot) => {
+module.exports = (client) => {
   setInterval(() => {
     let random = Math.floor(Math.random() * status.length);
-    bot.user.setActivity(status[random]);
+    client.user.setActivity(status[random]);
   }, 60000);
 };

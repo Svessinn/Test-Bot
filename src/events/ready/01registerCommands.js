@@ -20,14 +20,14 @@ const logger = winston.createLogger({
 
 /**
  *
- * @param {Client} bot
+ * @param {Client} client
  * @returns
  */
 let localCommand;
-module.exports = async (bot) => {
+module.exports = async (client) => {
   try {
     const localCommands = getLocalCommands();
-    const applicationCommands = bot.application.commands;
+    const applicationCommands = client.application.commands;
     await applicationCommands.fetch();
 
     for (localCommand of localCommands) {

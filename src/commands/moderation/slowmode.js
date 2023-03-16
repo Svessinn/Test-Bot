@@ -26,11 +26,11 @@ const logger = winston.createLogger({
 module.exports = {
   /**
    *
-   * @param {Client} bot
+   * @param {Client} client
    * @param {Interaction} interaction
    */
 
-  callback: async (bot, interaction) => {
+  callback: async (client, interaction) => {
     const targetChannelId = interaction.options.get("target-channel").value;
     const duration = interaction.options.get("time")?.value || "5s";
 

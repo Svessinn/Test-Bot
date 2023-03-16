@@ -32,11 +32,11 @@ const logger = winston.createLogger({
 module.exports = {
   /**
    *
-   * @param {Client} bot
+   * @param {Client} client
    * @param {Interaction} interaction
    */
 
-  callback: async (bot, interaction) => {
+  callback: async (client, interaction) => {
     await interaction.deferReply();
     try {
       const getLocalCommands = require("../../utils/getLocalCommands");
@@ -51,7 +51,7 @@ module.exports = {
       }
 
       let commandsEmbed = new EmbedBuilder()
-        .setTitle(`${bot.user.username} Commands`)
+        .setTitle(`${client.user.username} Commands`)
         .setColor("Blurple");
       if (interaction.options.get("category")?.value || false) {
         try {
@@ -84,9 +84,9 @@ module.exports = {
   },
 
   name: "commands",
-  description: "Get help regarding  the bot",
+  description: "Get a list of commands",
   // devOnly: true, // Is a dev only command
-  testOnly: true, // Is a test command
+  // testOnly: true, // Is a test command
   usage: "/commands",
   example: `/commands`,
   options: [

@@ -26,11 +26,11 @@ const logger = winston.createLogger({
 module.exports = {
   /**
    *
-   * @param {Client} bot
+   * @param {Client} client
    * @param {Interaction} interaction
    */
 
-  callback: async (bot, interaction) => {
+  callback: async (client, interaction) => {
     const targetUserId = interaction.options.get("target-user").value;
     const duration = interaction.options.get("duration").value;
     const reason =
@@ -87,7 +87,7 @@ module.exports = {
 
       let kickEmbed = new EmbedBuilder()
         .setAuthor({
-          name: `Member Kicked | ${targetUser.user.tag}`,
+          name: `Member Timed Out | ${targetUser.user.tag}`,
           //iconURL: targetUser.avatarURL
         })
         .addFields(

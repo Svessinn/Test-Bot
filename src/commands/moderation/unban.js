@@ -25,11 +25,11 @@ const logger = winston.createLogger({
 module.exports = {
   /**
    *
-   * @param {Client} bot
+   * @param {Client} client
    * @param {Interaction} interaction
    */
 
-  callback: async (bot, interaction) => {
+  callback: async (client, interaction) => {
     const targetUserId = interaction.options.get("target-user").value;
 
     await interaction.deferReply();

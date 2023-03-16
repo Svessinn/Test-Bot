@@ -24,11 +24,11 @@ const logger = winston.createLogger({
 module.exports = {
   /**
    *
-   * @param {Client} bot
+   * @param {Client} client
    * @param {Interaction} interaction
    */
 
-  callback: async (bot, interaction) => {
+  callback: async (client, interaction) => {
     await interaction.deferReply();
 
     const reply = await interaction.fetchReply();
@@ -36,11 +36,11 @@ module.exports = {
     const ping = reply.createdTimestamp - interaction.createdTimestamp;
 
     interaction.editReply(
-      `Pong! Client ${ping}ms | Websocket: ${bot.ws.ping}ms`
+      `Pong! Client ${ping}ms | Websocket: ${client.ws.ping}ms`
     );
     /*
     interaction.reply({
-      content: `Pong! ${bot.ws.ping}ms`, // The content the bot replies with
+      content: `Pong! ${client.ws.ping}ms`, // The content the bot replies with
       //ephemeral: true, // If only the user that send the command should see the reply
     })
     */

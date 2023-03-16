@@ -20,12 +20,12 @@ const logger = winston.createLogger({
 
 /**
  *
- * @param {Client} bot
+ * @param {Client} client
  * @param {Interaction} interaction
  * @returns
  */
 
-module.exports = async (bot, interaction) => {
+module.exports = async (client, interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
   const localCommands = getLocalCommands();
@@ -82,7 +82,7 @@ module.exports = async (bot, interaction) => {
       }
     }
 
-    await commandObject.callback(bot, interaction);
+    await commandObject.callback(client, interaction);
   } catch (error) {
     logger.log("error", `There was an error running this command: \n${error}`);
     console.log(error);
