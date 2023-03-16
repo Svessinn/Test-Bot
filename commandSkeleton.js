@@ -43,8 +43,8 @@ module.exports = {
   description: '', // Description of the command
   // devOnly: true, // Is a dev only command
   // testOnly: true, // Is a test command
-  usage: '',
-  example: '',
+  usage: '', // How to use this command. [required], (optional)
+  example: '', // Example of how to run this command
   // options: [], // Input options
   // deleted: true, // If the command is no longer in use
   // permissionsRequired: [], // What permissions are needed to run the command
