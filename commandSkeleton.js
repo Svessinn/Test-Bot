@@ -1,0 +1,52 @@
+const { Client, Interaction } = require('discord.js')
+const path = require('path');
+const { clientId } = require('../../../config.json')
+
+// Logging tool
+const winston = require('winston');
+const logger = winston.createLogger({
+	transports: [
+		new winston.transports.Console(),
+		new winston.transports.File({ filename: `logs/log.log` }),
+	],
+	format: winston.format.printf(log => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`),
+});
+
+module.exports = {
+  /**
+   * 
+   * @param {Client} bot 
+   * @param {Interaction} interaction 
+   */
+
+  callback: async (bot, interaction) => {
+    await interaction.deferReply({
+      ephemeral: false,
+    });
+
+    try {
+      await interaction.editReply({
+        content: '',
+        embeds: [],
+      });
+    } catch (error) {
+      await interaction.editReply({
+        content: '',
+        embeds: [],
+      });
+      logger.log('error', `There was an error:\n${error}`)
+      console.log(error);
+    };
+  },  // What the bot replies with
+
+  name: '', // Name of the command
+  description: '', // Description of the command
+  // devOnly: true, // Is a dev only command
+  // testOnly: true, // Is a test command
+  usage: '',
+  example: '',
+  // options: [], // Input options
+  // deleted: true, // If the command is no longer in use
+  // permissionsRequired: [], // What permissions are needed to run the command
+  // botPermissions: [], // What permissions the bot needs to run the command
+};
