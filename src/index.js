@@ -3,6 +3,8 @@ require("dotenv").config();
 const path = require("path");
 const { Client, IntentsBitField } = require("discord.js");
 const TOKEN = process.env.TOKEN;
+const eventHandler = require("./handlers/eventHandler");
+const { createClient } = require("@supabase/supabase-js");
 
 // Setting up the bot client
 const client = new Client({
@@ -30,14 +32,11 @@ const logger = winston.createLogger({
   ),
 });
 
-// Connecting to a database
-const { createClient } = require("@supabase/supabase-js");
+// Connecting to supabase
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_KEY;
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// Event handler shit
-const eventHandler = require("./handlers/eventHandler");
 eventHandler(client);
 
 // Logging in
