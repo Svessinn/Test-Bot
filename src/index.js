@@ -2,6 +2,7 @@
 require("dotenv").config();
 const path = require("path");
 const { Client, IntentsBitField } = require("discord.js");
+const winston = require("winston");
 const TOKEN = process.env.TOKEN;
 const eventHandler = require("./handlers/eventHandler");
 const { createClient } = require("@supabase/supabase-js");
@@ -18,7 +19,6 @@ const client = new Client({
 });
 
 // Logging tool
-const winston = require("winston");
 const logger = winston.createLogger({
   transports: [
     new winston.transports.Console(),
