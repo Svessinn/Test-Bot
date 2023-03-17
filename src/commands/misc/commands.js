@@ -6,6 +6,8 @@ const {
   EmbedBuilder,
 } = require("discord.js");
 const path = require("path");
+const getAllFiles = require("../../utils/getAllFiles");
+const getLocalCommands = require("../../utils/getLocalCommands");
 
 String.prototype.capitalize = function () {
   return this.replace(/(^|\s)([a-z])/g, function (m, p1, p2) {
@@ -15,7 +17,6 @@ String.prototype.capitalize = function () {
 
 // Logging tool
 const winston = require("winston");
-const getAllFiles = require("../../utils/getAllFiles");
 const logger = winston.createLogger({
   transports: [
     new winston.transports.Console(),
@@ -29,6 +30,16 @@ const logger = winston.createLogger({
   ),
 });
 
+let subCats = [];
+allFiles = getAllFiles(path.join(__dirname, ".."), true);
+allFiles.forEach((file) => {
+  f = file.replace(/\\/g, "/").split("/").pop();
+  subCats.push({
+    name: f.capitalize(),
+    value: f,
+  });
+});
+
 module.exports = {
   /**
    *
@@ -39,7 +50,6 @@ module.exports = {
   callback: async (client, interaction) => {
     await interaction.deferReply();
     try {
-      const getLocalCommands = require("../../utils/getLocalCommands");
       const subCategory =
         interaction.options.get("category")?.value || undefined;
       const localCommands = getLocalCommands(subCategory);
@@ -94,20 +104,7 @@ module.exports = {
       name: "category",
       description: "Get commands for a specific category",
       type: ApplicationCommandOptionType.String,
-      choices: [
-        {
-          name: "Admin",
-          value: "admin",
-        },
-        {
-          name: "Miscellanious",
-          value: "misc",
-        },
-        {
-          name: "Moderation",
-          value: "moderation",
-        },
-      ],
+      choices: subCats,
     },
   ],
 
