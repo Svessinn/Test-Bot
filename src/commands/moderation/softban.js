@@ -1,5 +1,4 @@
 const { Client, Interaction, EmbedBuilder, ApplicationCommandOptionType, PermissionFlagsBits } = require("discord.js");
-const { type } = require("express/lib/response");
 const path = require("path");
 
 // Logging tool
