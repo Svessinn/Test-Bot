@@ -1,26 +1,12 @@
-const {
-  Client,
-  Interaction,
-  EmbedBuilder,
-  ApplicationCommandOptionType,
-  PermissionFlagsBits,
-} = require("discord.js");
+const { Client, Interaction, EmbedBuilder, ApplicationCommandOptionType, PermissionFlagsBits } = require("discord.js");
 const path = require("path");
 const ms = require("ms");
 
 // Logging tool
 const winston = require("winston");
 const logger = winston.createLogger({
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: `logs/log.log` }),
-  ],
-  format: winston.format.printf(
-    (log) =>
-      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${
-        log.message
-      } ${new Date(Date.now()).toUTCString()}`
-  ),
+  transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
+  format: winston.format.printf((log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`),
 });
 
 module.exports = {
@@ -50,10 +36,7 @@ module.exports = {
 
     // Timeout the user
     try {
-      if (
-        targetChannel.rateLimitPerUser &&
-        !(interaction.options.get("time")?.value || false)
-      ) {
+      if (targetChannel.rateLimitPerUser && !(interaction.options.get("time")?.value || false)) {
         sDuration = 0;
       }
       await targetChannel.setRateLimitPerUser(sDuration);
@@ -92,8 +75,5 @@ module.exports = {
   ], // Input options
   // deleted: true, // If the command is no longer in use
   permissionsRequired: [PermissionFlagsBits.ManageChannels], // What permissions are needed to run the command
-  botPermissions: [
-    PermissionFlagsBits.ManageChannels,
-    PermissionFlagsBits.EmbedLinks,
-  ], // What permissions the bot needs to run the command
+  botPermissions: [PermissionFlagsBits.ManageChannels, PermissionFlagsBits.EmbedLinks], // What permissions the bot needs to run the command
 };

@@ -9,27 +9,13 @@ const { createClient } = require("@supabase/supabase-js");
 
 // Setting up the bot client
 const client = new Client({
-  intents: [
-    IntentsBitField.Flags.Guilds,
-    IntentsBitField.Flags.GuildMembers,
-    IntentsBitField.Flags.GuildMessageReactions,
-    IntentsBitField.Flags.GuildMessages,
-    IntentsBitField.Flags.MessageContent,
-  ],
+  intents: [IntentsBitField.Flags.Guilds, IntentsBitField.Flags.GuildMembers, IntentsBitField.Flags.GuildMessageReactions, IntentsBitField.Flags.GuildMessages, IntentsBitField.Flags.MessageContent],
 });
 
 // Logging tool
 const logger = winston.createLogger({
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: `logs/log.log` }),
-  ],
-  format: winston.format.printf(
-    (log) =>
-      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${
-        log.message
-      } ${new Date(Date.now()).toUTCString()}`
-  ),
+  transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
+  format: winston.format.printf((log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`),
 });
 
 // Connecting to supabase

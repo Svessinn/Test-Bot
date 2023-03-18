@@ -1,10 +1,4 @@
-const {
-  Client,
-  Interaction,
-  ApplicationCommandOptionType,
-  PermissionFlagsBits,
-  EmbedBuilder,
-} = require("discord.js");
+const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits, EmbedBuilder } = require("discord.js");
 const path = require("path");
 const getAllFiles = require("../../utils/getAllFiles");
 const getLocalCommands = require("../../utils/getLocalCommands");
@@ -18,16 +12,8 @@ String.prototype.capitalize = function () {
 // Logging tool
 const winston = require("winston");
 const logger = winston.createLogger({
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: `logs/log.log` }),
-  ],
-  format: winston.format.printf(
-    (log) =>
-      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${
-        log.message
-      } ${new Date(Date.now()).toUTCString()}`
-  ),
+  transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
+  format: winston.format.printf((log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`),
 });
 
 let subCats = [];
@@ -50,8 +36,7 @@ module.exports = {
   callback: async (client, interaction) => {
     await interaction.deferReply();
     try {
-      const subCategory =
-        interaction.options.get("category")?.value || undefined;
+      const subCategory = interaction.options.get("category")?.value || undefined;
       const localCommands = getLocalCommands(subCategory);
       if (!localCommands.length) {
         interaction.editReply({
@@ -60,14 +45,10 @@ module.exports = {
         return;
       }
 
-      let commandsEmbed = new EmbedBuilder()
-        .setTitle(`${client.user.username} Commands`)
-        .setColor("Blurple");
+      let commandsEmbed = new EmbedBuilder().setTitle(`${client.user.username} Commands`).setColor("Blurple");
       if (interaction.options.get("category")?.value || false) {
         try {
-          commandsEmbed.setDescription(
-            `${interaction.options.get("category").value.capitalize()} commands`
-          );
+          commandsEmbed.setDescription(`${interaction.options.get("category").value.capitalize()} commands`);
         } catch (error) {
           interaction.editReply({
             content: "Invalid command category",

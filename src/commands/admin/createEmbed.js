@@ -1,25 +1,11 @@
-const {
-  Client,
-  Interaction,
-  EmbedBuilder,
-  ApplicationCommandOptionType,
-  PermissionFlagsBits,
-} = require("discord.js");
+const { Client, Interaction, EmbedBuilder, ApplicationCommandOptionType, PermissionFlagsBits } = require("discord.js");
 const path = require("path");
 
 // Logging tool
 const winston = require("winston");
 const logger = winston.createLogger({
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: `logs/log.log` }),
-  ],
-  format: winston.format.printf(
-    (log) =>
-      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${
-        log.message
-      } ${new Date(Date.now()).toUTCString()}`
-  ),
+  transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
+  format: winston.format.printf((log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`),
 });
 
 module.exports = {
@@ -36,57 +22,21 @@ module.exports = {
     });
 
     let embed = new EmbedBuilder()
-      .setColor(
-        interaction.options.get("color")
-          ? interaction.options.get("color").value
-          : null
-      )
-      .setTitle(
-        interaction.options.get("title")
-          ? interaction.options.get("title").value
-          : null
-      )
-      .setURL(
-        interaction.options.get("title-url")
-          ? interaction.options.get("title-url").value
-          : null
-      )
+      .setColor(interaction.options.get("color") ? interaction.options.get("color").value : null)
+      .setTitle(interaction.options.get("title") ? interaction.options.get("title").value : null)
+      .setURL(interaction.options.get("title-url") ? interaction.options.get("title-url").value : null)
       .setAuthor({
-        name: interaction.options.get("author-name")
-          ? interaction.options.get("author-name").value
-          : null,
-        iconURL: interaction.options.get("author-icon-url")
-          ? interaction.options.get("author-icon-url").value
-          : null,
-        url: interaction.options.get("author-url")
-          ? interaction.options.get("author-url").value
-          : null,
+        name: interaction.options.get("author-name") ? interaction.options.get("author-name").value : null,
+        iconURL: interaction.options.get("author-icon-url") ? interaction.options.get("author-icon-url").value : null,
+        url: interaction.options.get("author-url") ? interaction.options.get("author-url").value : null,
       })
-      .setDescription(
-        interaction.options.get("description")
-          ? interaction.options.get("description").value.replace(/\\/g, "\n")
-          : null
-      )
-      .setThumbnail(
-        interaction.options.get("thumbnail-url")
-          ? interaction.options.get("thumbnail-url").value
-          : null
-      )
-      .setImage(
-        interaction.options.get("image-url")
-          ? interaction.options.get("image-url").value
-          : null
-      )
-      .setTimestamp(
-        interaction.options.get("timestamp")?.value || false ? Date.now() : null
-      )
+      .setDescription(interaction.options.get("description") ? interaction.options.get("description").value.replace(/\\/g, "\n") : null)
+      .setThumbnail(interaction.options.get("thumbnail-url") ? interaction.options.get("thumbnail-url").value : null)
+      .setImage(interaction.options.get("image-url") ? interaction.options.get("image-url").value : null)
+      .setTimestamp(interaction.options.get("timestamp")?.value || false ? Date.now() : null)
       .setFooter({
-        text: interaction.options.get("footer-text")
-          ? interaction.options.get("footer-text").value
-          : null,
-        iconURL: interaction.options.get("footer-icon-url")
-          ? interaction.options.get("footer-icon-url").value
-          : null,
+        text: interaction.options.get("footer-text") ? interaction.options.get("footer-text").value : null,
+        iconURL: interaction.options.get("footer-icon-url") ? interaction.options.get("footer-icon-url").value : null,
       });
 
     interaction.channel.send({
@@ -103,10 +53,8 @@ module.exports = {
   description: "Creates an embed", // Description of the command
   // devOnly: true, // Is a dev only command
   // testOnly: true, // Is a test command
-  usage:
-    "/create-embed [description] (colour, title, title-url, author-name, author-icon-url, thumbnail-url, image-url, timestamp, footer-text, footer-icon-url)",
-  example:
-    "/create-embed description:this is an embed colour:#5539cc timestamp:True",
+  usage: "/create-embed [description] (colour, title, title-url, author-name, author-icon-url, thumbnail-url, image-url, timestamp, footer-text, footer-icon-url)",
+  example: "/create-embed description:this is an embed colour:#5539cc timestamp:True",
   nameLocalizations: {},
   options: [
     {

@@ -1,26 +1,12 @@
-const {
-  Client,
-  Interaction,
-  EmbedBuilder,
-  ApplicationCommandOptionType,
-  PermissionFlagsBits,
-} = require("discord.js");
+const { Client, Interaction, EmbedBuilder, ApplicationCommandOptionType, PermissionFlagsBits } = require("discord.js");
 const path = require("path");
 const ms = require("ms");
 
 // Logging tool
 const winston = require("winston");
 const logger = winston.createLogger({
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: `logs/log.log` }),
-  ],
-  format: winston.format.printf(
-    (log) =>
-      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${
-        log.message
-      } ${new Date(Date.now()).toUTCString()}`
-  ),
+  transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
+  format: winston.format.printf((log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`),
 });
 
 module.exports = {
@@ -33,8 +19,7 @@ module.exports = {
   callback: async (client, interaction) => {
     const targetUserId = interaction.options.get("target-user").value;
     const duration = interaction.options.get("duration").value;
-    const reason =
-      interaction.options.get("reason")?.value || "No reason provided";
+    const reason = interaction.options.get("reason")?.value || "No reason provided";
 
     await interaction.deferReply();
 
@@ -51,12 +36,7 @@ module.exports = {
       return;
     }
 
-    const msDuration =
-      ms(duration) < 2419198000
-        ? ms(duration) > 5000
-          ? ms(duration)
-          : 5000
-        : 2419198000;
+    const msDuration = ms(duration) < 2419198000 ? (ms(duration) > 5000 ? ms(duration) : 5000) : 2419198000;
 
     if (isNaN(msDuration)) {
       await interaction.editReply("Prease provide a valie timeout duration");
@@ -170,8 +150,5 @@ module.exports = {
   ], // Input options
   // deleted: true, // If the command is no longer in use
   permissionsRequired: [PermissionFlagsBits.MuteMembers], // What permissions are needed to run the command
-  botPermissions: [
-    PermissionFlagsBits.MuteMembers,
-    PermissionFlagsBits.EmbedLinks,
-  ], // What permissions the bot needs to run the command
+  botPermissions: [PermissionFlagsBits.MuteMembers, PermissionFlagsBits.EmbedLinks], // What permissions the bot needs to run the command
 };

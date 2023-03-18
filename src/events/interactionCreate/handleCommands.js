@@ -6,16 +6,8 @@ const { Client, Interaction } = require("discord.js");
 // Logging tool
 const winston = require("winston");
 const logger = winston.createLogger({
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: `logs/log.log` }),
-  ],
-  format: winston.format.printf(
-    (log) =>
-      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${
-        log.message
-      } ${new Date(Date.now()).toUTCString()}`
-  ),
+  transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
+  format: winston.format.printf((log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`),
 });
 
 /**
@@ -31,9 +23,7 @@ module.exports = async (client, interaction) => {
   const localCommands = getLocalCommands();
 
   try {
-    const commandObject = localCommands.find(
-      (cmd) => cmd.name === interaction.commandName
-    );
+    const commandObject = localCommands.find((cmd) => cmd.name === interaction.commandName);
     if (!commandObject) return;
 
     if (commandObject.devOnly) {

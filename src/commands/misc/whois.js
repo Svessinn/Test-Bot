@@ -1,25 +1,11 @@
-const {
-  Client,
-  Interaction,
-  ApplicationCommandOptionType,
-  PermissionFlagsBits,
-  EmbedBuilder,
-} = require("discord.js");
+const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits, EmbedBuilder } = require("discord.js");
 const path = require("path");
 
 // Logging tool
 const winston = require("winston");
 const logger = winston.createLogger({
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: `logs/log.log` }),
-  ],
-  format: winston.format.printf(
-    (log) =>
-      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${
-        log.message
-      } ${new Date(Date.now()).toUTCString()}`
-  ),
+  transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
+  format: winston.format.printf((log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`),
 });
 
 module.exports = {
@@ -32,8 +18,7 @@ module.exports = {
   callback: async (client, interaction) => {
     await interaction.deferReply();
 
-    const targetUserId =
-      interaction.options.get("target-user")?.value || interaction.user.id;
+    const targetUserId = interaction.options.get("target-user")?.value || interaction.user.id;
     // console.log(interaction.options.get('target-user'))
 
     let targetUser;
@@ -42,30 +27,20 @@ module.exports = {
     } catch (err) {
       logger.log("error", err);
       interaction.editReply({
-        embeds: [
-          new EmbedBuilder().setDescription(
-            `I couldn't find the user ${targetUserId}`
-          ),
-        ],
+        embeds: [new EmbedBuilder().setDescription(`I couldn't find the user ${targetUserId}`)],
       });
       return;
     }
 
     try {
-      const joinTime = Date.parse(interaction.member.joinedAt)
-        .toString()
-        .slice(0, -3);
-      const registerTime = Date.parse(interaction.user.createdAt)
-        .toString()
-        .slice(0, -3);
+      const joinTime = Date.parse(interaction.member.joinedAt).toString().slice(0, -3);
+      const registerTime = Date.parse(interaction.user.createdAt).toString().slice(0, -3);
 
       let roles = [];
 
       if (targetUser._roles.length) {
         for (let i = 0; i < targetUser._roles.length; i++) {
-          let a = await targetUser.roles.cache.find(
-            (r) => r.id === targetUser._roles[i]
-          );
+          let a = await targetUser.roles.cache.find((r) => r.id === targetUser._roles[i]);
 
           roles.push({
             role: `<@&${targetUser._roles[i]}>`,
@@ -120,10 +95,7 @@ module.exports = {
       await interaction.editReply({
         content: `Bot Error, Try again later`,
       });
-      logger.log(
-        "error",
-        `There was an error when getting user info:\n${error}`
-      );
+      logger.log("error", `There was an error when getting user info:\n${error}`);
       console.log(error);
     }
   }, // What the bot replies with

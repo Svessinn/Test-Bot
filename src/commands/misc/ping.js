@@ -1,24 +1,11 @@
-const {
-  Client,
-  Interaction,
-  ApplicationCommandOptionType,
-  PermissionFlagsBits,
-} = require("discord.js");
+const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits } = require("discord.js");
 const path = require("path");
 
 // Logging tool
 const winston = require("winston");
 const logger = winston.createLogger({
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: `logs/log.log` }),
-  ],
-  format: winston.format.printf(
-    (log) =>
-      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${
-        log.message
-      } ${new Date(Date.now()).toUTCString()}`
-  ),
+  transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
+  format: winston.format.printf((log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`),
 });
 
 module.exports = {
@@ -35,9 +22,7 @@ module.exports = {
 
     const ping = reply.createdTimestamp - interaction.createdTimestamp;
 
-    interaction.editReply(
-      `Pong! Client ${ping}ms | Websocket: ${client.ws.ping}ms`
-    );
+    interaction.editReply(`Pong! Client ${ping}ms | Websocket: ${client.ws.ping}ms`);
     /*
     interaction.reply({
       content: `Pong! ${client.ws.ping}ms`, // The content the bot replies with

@@ -1,25 +1,11 @@
-const {
-  Client,
-  Interaction,
-  EmbedBuilder,
-  ApplicationCommandOptionType,
-  PermissionFlagsBits,
-} = require("discord.js");
+const { Client, Interaction, EmbedBuilder, ApplicationCommandOptionType, PermissionFlagsBits } = require("discord.js");
 const path = require("path");
 
 // Logging tool
 const winston = require("winston");
 const logger = winston.createLogger({
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: `logs/log.log` }),
-  ],
-  format: winston.format.printf(
-    (log) =>
-      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${
-        log.message
-      } ${new Date(Date.now()).toUTCString()}`
-  ),
+  transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
+  format: winston.format.printf((log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`),
 });
 
 module.exports = {
@@ -31,8 +17,7 @@ module.exports = {
 
   callback: async (client, interaction) => {
     const targetUserId = interaction.options.get("target-user").value;
-    const reason =
-      interaction.options.get("reason")?.value || "No reason provided";
+    const reason = interaction.options.get("reason")?.value || "No reason provided";
 
     await interaction.deferReply();
 
@@ -60,16 +45,12 @@ module.exports = {
     const botRolePosition = interaction.guild.members.me.roles.highest.position; // Highest role of the bot
 
     if (targetuserRolePosition >= requestUserRolePosition) {
-      await interaction.editReply(
-        `You can't kick that user bacause they have the same or higher role than you`
-      );
+      await interaction.editReply(`You can't kick that user bacause they have the same or higher role than you`);
       return;
     }
 
     if (targetuserRolePosition >= botRolePosition) {
-      await interaction.editReply(
-        `I can't kick that user because they have the same or higher role that me`
-      );
+      await interaction.editReply(`I can't kick that user because they have the same or higher role that me`);
       return;
     }
 
@@ -139,8 +120,5 @@ module.exports = {
   ], // Input options
   // deleted: true, // If the command is no longer in use
   permissionsRequired: [PermissionFlagsBits.KickMembers], // What permissions are needed to run the command
-  botPermissions: [
-    PermissionFlagsBits.KickMembers,
-    PermissionFlagsBits.EmbedLinks,
-  ], // What permissions the bot needs to run the command
+  botPermissions: [PermissionFlagsBits.KickMembers, PermissionFlagsBits.EmbedLinks], // What permissions the bot needs to run the command
 };

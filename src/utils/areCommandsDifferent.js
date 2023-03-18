@@ -3,9 +3,7 @@ const path = require("path");
 module.exports = (existingCommand, localCommand) => {
   const areChoicesDifferent = (existingChoices, localChoices) => {
     for (const localChoice of localChoices) {
-      const existingChoice = existingChoices?.find(
-        (choice) => choice.name === localChoice.name
-      );
+      const existingChoice = existingChoices?.find((choice) => choice.name === localChoice.name);
       if (!existingChoice) {
         return true;
       }
@@ -19,9 +17,7 @@ module.exports = (existingCommand, localCommand) => {
 
   const areOptionsDifferent = (existingOptions, localOptions) => {
     for (const localOption of localOptions) {
-      const existingOption = existingOptions?.find(
-        (option) => option.name === localOption.name
-      );
+      const existingOption = existingOptions?.find((option) => option.name === localOption.name);
 
       if (!existingOption) {
         return true;
@@ -31,12 +27,8 @@ module.exports = (existingCommand, localCommand) => {
         localOption.description !== existingOption.description ||
         localOption.type !== existingOption.type ||
         (localOption.required || false) !== existingOption.required ||
-        (localOption.choices?.length || 0) !==
-          (existingOption.choices?.length || 0) ||
-        areChoicesDifferent(
-          localOption.choices || [],
-          existingOption.choices || []
-        )
+        (localOption.choices?.length || 0) !== (existingOption.choices?.length || 0) ||
+        areChoicesDifferent(localOption.choices || [], existingOption.choices || [])
       ) {
         return true;
       }

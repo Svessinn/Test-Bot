@@ -1,4 +1,5 @@
 const { Client, Interaction, EmbedBuilder, ApplicationCommandOptionType, PermissionFlagsBits } = require("discord.js");
+const { type } = require("express/lib/response");
 const path = require("path");
 
 // Logging tool
@@ -28,7 +29,7 @@ module.exports = {
     }
 
     if (targetUserId === interaction.guild.ownerId) {
-      await interaction.editReply(`You can't ban the server owner`);
+      await interaction.editReply(`You can't soft ban the server owner`);
       return;
     }
 
@@ -39,21 +40,26 @@ module.exports = {
       logger.log("error", err);
     }
 
+    if (interaction.member === targetUser) {
+      await interaction.editReply(`You can't soft ban yourself`);
+      return;
+    }
+
     const targetuserRolePosition = targetUser?.roles?.highest?.position || 0; // Highest role of the targeted user
     const requestUserRolePosition = interaction.member.roles.highest.position; // Highest role of the user running the command
     const botRolePosition = interaction.guild.members.me.roles.highest.position; // Highest role of the bot
 
     if (targetuserRolePosition >= requestUserRolePosition) {
-      await interaction.editReply(`You can't ban that user bacause they have the same or higher role than you`);
+      await interaction.editReply(`You can't soft ban that user bacause they have the same or higher role than you`);
       return;
     }
 
     if (targetuserRolePosition >= botRolePosition) {
-      await interaction.editReply(`I can't ban that user because they have the same or higher role that me`);
+      await interaction.editReply(`I can't soft ban that user because they have the same or higher role that me`);
       return;
     }
 
-    // Ban the target-user
+    // Soft ban the target-user
     try {
       await interaction.guild.bans
         .create(targetUserId, {
@@ -64,9 +70,13 @@ module.exports = {
           logger.log("error", err);
         });
 
-      let banEmbed = new EmbedBuilder()
+      await interaction.guild.members.unban(targetUserId).catch((err) => {
+        logger.log("error", err);
+      });
+
+      let softbanEmbed = new EmbedBuilder()
         .setAuthor({
-          name: `Member Banned | ${targetUser?.user?.tag || targetUserId}`,
+          name: `Member Soft Banned | ${targetUser?.user?.tag || targetUserId}`,
         })
         .addFields(
           {
@@ -92,34 +102,33 @@ module.exports = {
         .setColor("Blurple");
 
       await interaction.editReply({
-        // content: `User <@${targetUserId}> was banned\nReason: ${reason}`,
-        embeds: [banEmbed],
+        embeds: [softbanEmbed],
       });
     } catch (error) {
       await interaction.editReply({
         content: `Bot Error, Try again later`,
       });
-      logger.log("error", `There was an error when banning:\n${error}`);
+      logger.log("error", `There was an error when soft banning:\n${error}`);
       console.log(error);
     }
   }, // What the bot replies with
 
-  name: "ban", // Name of the command
-  description: "Bans a member from the server", // Description of the command
+  name: "softban", // Name of the command
+  description: "Bans a member from the server and immediately unbans then (to delete their messages)", // Description of the command
   // devOnly: true, // Is a dev only command
-  // testOnly: true, // Is a test command
-  usage: "/ban [user | userID] (reason, message delete limit)",
-  example: "/ban 130462164640202754 bannable offense 7 days",
+  testOnly: true, // Is a test command
+  usage: "/softban [user | userID] (reason, message delete limit)",
+  example: "/softban 130462164640202754 weird messages 7 days",
   options: [
     {
       name: "target-user",
-      description: "The user that you want to ban from the server",
+      description: "The user that you want to soft ban from the server",
       required: true,
       type: ApplicationCommandOptionType.Mentionable,
     },
     {
       name: "reason",
-      description: "The reason for the ban",
+      description: "The reason for the soft ban",
       type: ApplicationCommandOptionType.String,
     },
     {

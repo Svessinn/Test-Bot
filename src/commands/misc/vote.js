@@ -1,25 +1,11 @@
-const {
-  Client,
-  Interaction,
-  ApplicationCommandOptionType,
-  PermissionFlagsBits,
-  EmbedBuilder,
-} = require("discord.js");
+const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits, EmbedBuilder } = require("discord.js");
 const path = require("path");
 
 // Logging tool
 const winston = require("winston");
 const logger = winston.createLogger({
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: `logs/log.log` }),
-  ],
-  format: winston.format.printf(
-    (log) =>
-      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${
-        log.message
-      } ${new Date(Date.now()).toUTCString()}`
-  ),
+  transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
+  format: winston.format.printf((log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`),
 });
 
 module.exports = {
@@ -40,10 +26,7 @@ module.exports = {
       await interaction.editReply({
         content: `Bot Error, Try again later`,
       });
-      logger.log(
-        "error",
-        `There was an error when getting user info:\n${error}`
-      );
+      logger.log("error", `There was an error when getting user info:\n${error}`);
       console.log(error);
     }
   }, // What the bot replies with

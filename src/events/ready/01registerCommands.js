@@ -6,16 +6,8 @@ const { Client } = require("discord.js");
 // Logging tool
 const winston = require("winston");
 const logger = winston.createLogger({
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: `logs/log.log` }),
-  ],
-  format: winston.format.printf(
-    (log) =>
-      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${
-        log.message
-      } ${new Date(Date.now()).toUTCString()}`
-  ),
+  transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
+  format: winston.format.printf((log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`),
 });
 
 /**
@@ -33,9 +25,7 @@ module.exports = async (client) => {
     for (localCommand of localCommands) {
       const { name, description, options } = localCommand;
 
-      const existingCommand = await applicationCommands.cache.find(
-        (cmd) => cmd.name === name
-      );
+      const existingCommand = await applicationCommands.cache.find((cmd) => cmd.name === name);
 
       if (existingCommand) {
         if (localCommand.deleted) {
@@ -54,10 +44,7 @@ module.exports = async (client) => {
         }
       } else {
         if (localCommand.deleted) {
-          logger.log(
-            "info",
-            `Skipping command registration for "${name}" as it is set to deleted`
-          );
+          logger.log("info", `Skipping command registration for "${name}" as it is set to deleted`);
           continue;
         }
 
@@ -71,10 +58,7 @@ module.exports = async (client) => {
       }
     }
   } catch (error) {
-    logger.log(
-      "error",
-      `There was an error in registering ${localCommand.name}\n${error}\n`
-    );
+    logger.log("error", `There was an error in registering ${localCommand.name}\n${error}\n`);
     console.log(error);
   }
 };

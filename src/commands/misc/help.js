@@ -1,25 +1,11 @@
-const {
-  Client,
-  Interaction,
-  ApplicationCommandOptionType,
-  PermissionFlagsBits,
-  EmbedBuilder,
-} = require("discord.js");
+const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits, EmbedBuilder } = require("discord.js");
 const path = require("path");
 
 // Logging tool
 const winston = require("winston");
 const logger = winston.createLogger({
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: `logs/log.log` }),
-  ],
-  format: winston.format.printf(
-    (log) =>
-      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${
-        log.message
-      } ${new Date(Date.now()).toUTCString()}`
-  ),
+  transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
+  format: winston.format.printf((log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`),
 });
 
 module.exports = {
@@ -39,20 +25,14 @@ module.exports = {
 
       if (interaction.options.get("command")?.value || false) {
         const commandName = interaction.options.get("command").value;
-        const localCommand = await localCommands.find(
-          (x) => x.name === commandName
-        );
+        const localCommand = await localCommands.find((x) => x.name === commandName);
 
         helpEmbed = new EmbedBuilder()
           .setTitle(`Command: /${commandName}`)
-          .setDescription(
-            `**Description:** ${localCommand.description}\n**Usage:**\n${localCommand.usage}\n**Example:**\n${localCommand.example}`
-          )
+          .setDescription(`**Description:** ${localCommand.description}\n**Usage:**\n${localCommand.usage}\n**Example:**\n${localCommand.example}`)
           .setColor("Blurple");
       } else {
-        helpEmbed = new EmbedBuilder()
-          .setTitle("Under Development")
-          .setColor("Blurple");
+        helpEmbed = new EmbedBuilder().setTitle("Under Development").setColor("Blurple");
       }
 
       interaction.editReply({
