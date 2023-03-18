@@ -114,7 +114,7 @@ module.exports = {
   }, // What the bot replies with
 
   name: "softban", // Name of the command
-  description: "Bans a member from the server and immediately unbans then (to delete their messages)", // Description of the command
+  description: "Bans and immediately unbans a member", // Description of the command
   // devOnly: true, // Is a dev only command
   testOnly: true, // Is a test command
   usage: "/softban [user | userID] (reason, message delete limit)",
