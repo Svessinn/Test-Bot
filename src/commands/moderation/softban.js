@@ -115,7 +115,7 @@ module.exports = {
   name: "softban", // Name of the command
   description: "Bans and immediately unbans a member", // Description of the command
   // devOnly: true, // Is a dev only command
-  testOnly: true, // Is a test command
+  // testOnly: true, // Is a test command
   usage: "/softban [user | userID] (reason, message delete limit)",
   example: "/softban 130462164640202754 weird messages 7 days",
   options: [
