@@ -1,4 +1,4 @@
-const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits } = require("discord.js");
+const { Client, Interaction, ApplicationCommandOptionType, ChannelType, PermissionFlagsBits } = require("discord.js");
 const { loadavg } = require("os");
 const path = require("path");
 
@@ -48,6 +48,7 @@ module.exports = {
       description: "The channel that you want to lock",
       required: true,
       type: ApplicationCommandOptionType.Channel,
+      channelTypes: [ChannelType.GuildText],
     },
   ], // Input options
   // deleted: true, // If the command is no longer in use

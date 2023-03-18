@@ -1,4 +1,4 @@
-const { Client, Interaction, EmbedBuilder, ApplicationCommandOptionType, PermissionFlagsBits } = require("discord.js");
+const { Client, Interaction, ApplicationCommandOptionType, ChannelType, PermissionFlagsBits } = require("discord.js");
 const path = require("path");
 const ms = require("ms");
 
@@ -65,6 +65,7 @@ module.exports = {
       description: "The channel that you want to put into slowmode",
       required: true,
       type: ApplicationCommandOptionType.Channel,
+      channelTypes: [ChannelType.GuildText],
     },
     {
       name: "time",
