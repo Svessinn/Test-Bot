@@ -110,7 +110,7 @@ module.exports = {
     {
       name: "target-user",
       description: "The user you want info on",
-      type: ApplicationCommandOptionType.Mentionable,
+      type: ApplicationCommandOptionType.User,
       required: false,
     },
   ], // Input options

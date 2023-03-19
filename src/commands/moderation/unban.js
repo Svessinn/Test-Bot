@@ -85,7 +85,7 @@ module.exports = {
       name: "target-user",
       description: "The user that you want to ban from the server",
       required: true,
-      type: ApplicationCommandOptionType.Mentionable,
+      type: ApplicationCommandOptionType.User,
     },
   ], // Input options
   // deleted: true, // If the command is no longer in use

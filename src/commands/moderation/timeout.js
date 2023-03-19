@@ -134,7 +134,7 @@ module.exports = {
       name: "target-user",
       description: "The user that you want to timeout",
       required: true,
-      type: ApplicationCommandOptionType.Mentionable,
+      type: ApplicationCommandOptionType.User,
     },
     {
       name: "duration",

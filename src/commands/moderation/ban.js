@@ -115,7 +115,7 @@ module.exports = {
       name: "target-user",
       description: "The user that you want to ban from the server",
       required: true,
-      type: ApplicationCommandOptionType.Mentionable,
+      type: ApplicationCommandOptionType.User,
     },
     {
       name: "reason",
