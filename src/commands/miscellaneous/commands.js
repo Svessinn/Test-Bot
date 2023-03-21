@@ -34,6 +34,15 @@ module.exports = {
    */
 
   callback: async (client, interaction) => {
+    if (!interaction.inGuild()) {
+      interaction.reply("This command can only be ran in a guild");
+      return;
+    }
+    if (interaction.member.user.bot) {
+      interaction.reply("Bots can't user this command");
+      return;
+    }
+
     await interaction.deferReply();
     try {
       const subCategory = interaction.options.get("category")?.value || undefined;
@@ -78,7 +87,7 @@ module.exports = {
   description: "Get a list of commands",
   // devOnly: true, // Is a dev only command
   // testOnly: true, // Is a test command
-  usage: "/commands",
+  usage: "/commands (category)",
   example: `/commands`,
   options: [
     {

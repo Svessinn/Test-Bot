@@ -17,7 +17,16 @@ module.exports = {
    */
 
   callback: async (client, interaction) => {
-    const targetUserId = interaction.options.get("target-user").value;
+    if (!interaction.inGuild()) {
+      interaction.reply("This command can only be ran in a guild");
+      return;
+    }
+    if (interaction.member.user.bot) {
+      interaction.reply("Bots can't user this command");
+      return;
+    }
+
+    const targetUserId = interaction.options.get("user").value;
     const duration = interaction.options.get("duration").value;
     const reason = interaction.options.get("reason")?.value || "No reason provided";
 
@@ -131,7 +140,7 @@ module.exports = {
   example: "/timeout 130462164640202754 6h",
   options: [
     {
-      name: "target-user",
+      name: "user",
       description: "The user that you want to timeout",
       required: true,
       type: ApplicationCommandOptionType.User,

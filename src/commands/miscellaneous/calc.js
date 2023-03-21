@@ -16,6 +16,15 @@ module.exports = {
    */
 
   callback: (bot, interaction) => {
+    if (!interaction.inGuild()) {
+      interaction.reply("This command can only be ran in a guild");
+      return;
+    }
+    if (interaction.member.user.bot) {
+      interaction.reply("Bots can't user this command");
+      return;
+    }
+
     const eq = interaction.options.get("expression").value;
     try {
       interaction.reply({

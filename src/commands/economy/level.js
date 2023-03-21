@@ -1,7 +1,12 @@
-const { Client, Interaction, ApplicationCommandOptionType } = require("discord.js");
+const { Client, Interaction, ApplicationCommandOptionType, AttachmentBuilder } = require("discord.js");
 const path = require("path");
 const winston = require("winston");
+const canvacord = require("canvacord");
 const getLevel = require("../../queries/getUserLevelData");
+const calcLevelExp = require("../../utils/calculateLevelExp");
+const getGuildLeaderboard = require("../../queries/getGuildLeaderboard");
+// Images https://imgur.com/a/J4W4szg
+const background = "https://i.imgur.com/vjkPoYb.png"; //"https://i.imgur.com/EbX0YND.jpg"; //"https://i.imgur.com/6APJYwe.jpg"; //"https://i.imgur.com/vjkPoYb.png"; //"https://i.imgur.com/Ibr56d0.jpeg"; // "https://i.imgur.com/p6IQXM1.jpeg";
 
 // Logging tool
 const logger = winston.createLogger({
@@ -17,13 +22,22 @@ module.exports = {
    */
 
   callback: async (client, interaction) => {
+    if (!interaction.inGuild()) {
+      interaction.reply("This command can only be ran in a guild");
+      return;
+    }
+    if (interaction.member.user.bot) {
+      interaction.reply("Bots can't user this command");
+      return;
+    }
+
     await interaction.deferReply({
       ephemeral: false,
     });
 
     const member = interaction.options.get("user")?.value || interaction.member.id;
 
-    const level = await getLevel(member, interaction.guild.id);
+    const level = (await getLevel(member, interaction.guild.id)) || { userId: member, guildId: interaction.guild.id, level: 0, exp: 0 };
 
     let targetUser;
     try {
@@ -34,15 +48,36 @@ module.exports = {
 
     if (targetUser.user.bot) {
       await interaction.editReply({
-        content: `${targetUser.user.tag} is a bot, and therefore doesn't have a level`,
+        content: `${targetUser?.displayName || targetUser.user.username} is a bot, and therefore doesn't have a level`,
       });
       return;
     }
 
     try {
+      const lb = await getGuildLeaderboard(interaction.guild.id);
+      let userRank = lb.findIndex((j) => j.userId === targetUser.user.id) + 1;
+
+      const rank = new canvacord.Rank()
+        .setAvatar(targetUser.user.displayAvatarURL())
+        .setRank(userRank)
+        .setLevel(level.level)
+        .setCurrentXP(level.exp)
+        .setRequiredXP(calcLevelExp(level.level))
+        .setProgressBar("#FB4699", "COLOR", true)
+        .setUsername(targetUser.user.username)
+        .setDiscriminator(targetUser.user.discriminator)
+        .setCustomStatusColor("#5539CC")
+        .setProgressBarTrack("#5539CC")
+        .setBackground("IMAGE", background)
+        .setOverlay("#000000", 0);
+
+      const data = await rank.build();
+      const attatchment = new AttachmentBuilder(data);
+
       if (level) {
         await interaction.editReply({
-          content: `${targetUser.user.tag} is level ${level.level}`,
+          //content: `${targetUser?.displayName || targetUser.user.username} is level ${level.level}`,
+          files: [attatchment],
         });
         return;
       }

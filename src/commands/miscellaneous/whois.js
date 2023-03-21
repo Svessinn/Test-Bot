@@ -16,9 +16,18 @@ module.exports = {
    */
 
   callback: async (client, interaction) => {
+    if (!interaction.inGuild()) {
+      interaction.reply("This command can only be ran in a guild");
+      return;
+    }
+    if (interaction.member.user.bot) {
+      interaction.reply("Bots can't user this command");
+      return;
+    }
+
     await interaction.deferReply();
 
-    const targetUserId = interaction.options.get("target-user")?.value || interaction.user.id;
+    const targetUserId = interaction.options.get("user")?.value || interaction.user.id;
     // console.log(interaction.options.get('target-user'))
 
     let targetUser;
@@ -108,7 +117,7 @@ module.exports = {
   example: "/whois 130462164640202754",
   options: [
     {
-      name: "target-user",
+      name: "user",
       description: "The user you want info on",
       type: ApplicationCommandOptionType.User,
       required: false,

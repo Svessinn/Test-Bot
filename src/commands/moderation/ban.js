@@ -16,7 +16,16 @@ module.exports = {
    */
 
   callback: async (client, interaction) => {
-    const targetUserId = interaction.options.get("target-user").value;
+    if (!interaction.inGuild()) {
+      interaction.reply("This command can only be ran in a guild");
+      return;
+    }
+    if (interaction.member.user.bot) {
+      interaction.reply("Bots can't user this command");
+      return;
+    }
+
+    const targetUserId = interaction.options.get("user").value;
     const reason = interaction.options.get("reason")?.value || "No reason provided";
     const delMessages = interaction.options.get("delete-messages")?.value || 0;
 
@@ -112,7 +121,7 @@ module.exports = {
   example: "/ban 130462164640202754 bannable offense 7 days",
   options: [
     {
-      name: "target-user",
+      name: "user",
       description: "The user that you want to ban from the server",
       required: true,
       type: ApplicationCommandOptionType.User,

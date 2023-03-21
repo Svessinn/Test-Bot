@@ -17,6 +17,15 @@ module.exports = {
    */
 
   callback: async (client, interaction) => {
+    if (!interaction.inGuild()) {
+      interaction.reply("This command can only be ran in a guild");
+      return;
+    }
+    if (interaction.member.user.bot) {
+      interaction.reply("Bots can't user this command");
+      return;
+    }
+
     await interaction.deferReply({
       ephemeral: false,
     });
@@ -114,7 +123,7 @@ module.exports = {
       options: [
         {
           type: ApplicationCommandOptionType.User,
-          name: "target-user",
+          name: "user",
           description: "The user who's avatar you want",
         },
       ],
@@ -126,7 +135,7 @@ module.exports = {
       options: [
         {
           type: ApplicationCommandOptionType.User,
-          name: "target-user",
+          name: "user",
           description: "The user who's avatar you want",
         },
       ],

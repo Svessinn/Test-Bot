@@ -17,6 +17,15 @@ module.exports = {
    */
 
   callback: async (client, interaction) => {
+    if (!interaction.inGuild()) {
+      interaction.reply("This command can only be ran in a guild");
+      return;
+    }
+    if (interaction.member.user.bot) {
+      interaction.reply("Bots can't user this command");
+      return;
+    }
+
     const targetChannelId = interaction.options.get("target-channel").value;
     const duration = interaction.options.get("time")?.value || "5s";
 
