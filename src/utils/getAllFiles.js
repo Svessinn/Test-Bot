@@ -1,3 +1,7 @@
+/*
+Gets all files/folders
+*/
+
 const fs = require("fs");
 const path = require("path");
 

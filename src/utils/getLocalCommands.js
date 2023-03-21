@@ -1,3 +1,7 @@
+/*
+Gets all local commands
+*/
+
 const path = require("path");
 const getAllFiles = require("./getAllFiles");
 

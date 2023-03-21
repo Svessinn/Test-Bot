@@ -27,10 +27,9 @@ module.exports = {
       });
     } catch (error) {
       await interaction.editReply({
-        content: "",
-        embeds: [],
+        content: `Bot Error, Try again later`,
       });
-      logger.log("error", `There was an error:\n${error}`);
+      logger.log("error", `There was an error :\n${error}`);
       console.log(error);
     }
   }, // What the bot replies with

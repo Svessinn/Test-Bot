@@ -101,7 +101,7 @@ module.exports = {
   }, // What the bot replies with
 
   name: "avatar", // Name of the command
-  description: "Get the avatar of another user", // Description of the command
+  description: "Get an avatar/icon", // Description of the command
   // devOnly: true, // Is a dev only command
   // testOnly: true, // Is a test command
   usage: "/avatar [user | userID]", // How to use this command. [required], (optional)
