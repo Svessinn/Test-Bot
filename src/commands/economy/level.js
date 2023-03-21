@@ -6,7 +6,7 @@ const getLevel = require("../../queries/getUserLevelData");
 const calcLevelExp = require("../../utils/calculateLevelExp");
 const getGuildLeaderboard = require("../../queries/getGuildLeaderboard");
 // Images https://imgur.com/a/J4W4szg
-const background = "https://i.imgur.com/vjkPoYb.png"; //"https://i.imgur.com/EbX0YND.jpg"; //"https://i.imgur.com/6APJYwe.jpg"; //"https://i.imgur.com/vjkPoYb.png"; //"https://i.imgur.com/Ibr56d0.jpeg"; // "https://i.imgur.com/p6IQXM1.jpeg";
+const background = "https://i.imgur.com/vjkPoYb.png";
 
 // Logging tool
 const logger = winston.createLogger({
