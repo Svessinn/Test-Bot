@@ -53,7 +53,8 @@ module.exports = {
   description: "Creates an embed", // Description of the command
   // devOnly: true, // Is a dev only command
   // testOnly: true, // Is a test command
-  usage: "/create-embed [description] (colour, title, title-url, author-name, author-icon-url, thumbnail-url, image-url, timestamp, footer-text, footer-icon-url)",
+  usage:
+    "/create-embed [description] (colour, title, title-url, author-name, author-icon-url, thumbnail-url, image-url, timestamp, footer-text, footer-icon-url)",
   example: "/create-embed description:this is an embed colour:#5539cc timestamp:True",
   nameLocalizations: {},
   options: [

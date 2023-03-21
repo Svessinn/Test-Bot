@@ -16,8 +16,6 @@ const SUPABASE_KEY = process.env.SUPABASE_KEY;
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 module.exports = async (guildID, channelID) => {
-  const currChannel = await getGuildLevelChannel(guildID);
-
   let { data, error } = await supabase
     .from("LevelChannels")
     .upsert({
