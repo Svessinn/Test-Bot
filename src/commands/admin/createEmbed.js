@@ -81,7 +81,7 @@ module.exports = {
     },
     {
       name: "colour",
-      description: "Set embed colour (HEX)",
+      description: "Set embed colour",
       type: ApplicationCommandOptionType.String,
       required: false,
     },
