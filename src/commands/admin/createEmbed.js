@@ -1,5 +1,6 @@
 const { Client, Interaction, EmbedBuilder, ApplicationCommandOptionType, PermissionFlagsBits } = require("discord.js");
 const path = require("path");
+const colourNameToHex = require("../../utils/colourToHex");
 
 // Logging tool
 const winston = require("winston");
@@ -30,8 +31,13 @@ module.exports = {
       ephemeral: true,
     });
 
+    let colour = interaction.options.get("colour")?.value || null;
+    if (colour && !/^#[0-9A-F]{6}$/i.test(colour)) {
+      colour = await colourNameToHex(colour);
+    }
+
     let embed = new EmbedBuilder()
-      .setColor(interaction.options.get("color") ? interaction.options.get("color").value : null)
+      .setColor(colour || null)
       .setTitle(interaction.options.get("title") ? interaction.options.get("title").value : null)
       .setURL(interaction.options.get("title-url") ? interaction.options.get("title-url").value : null)
       .setAuthor({
@@ -78,39 +84,6 @@ module.exports = {
       description: "Set embed colour (HEX)",
       type: ApplicationCommandOptionType.String,
       required: false,
-      nameLocalizations: {
-        bg: "цвят",
-        cs: "barva",
-        da: "farve",
-        de: "farbe",
-        el: "χρώμα",
-        "en-GB": "colour",
-        "en-US": "color",
-        "es-ES": "color",
-        fi: "väri",
-        fr: "couleur",
-        hr: "boja",
-        hi: "रंग",
-        hu: "szín",
-        id: "warna",
-        it: "colore",
-        ja: "色",
-        ko: "색상",
-        lt: "spalva",
-        nl: "kleur",
-        no: "farge",
-        pl: "kolor",
-        "pt-BR": "cor",
-        ro: "culoare",
-        ru: "цвет",
-        "sv-SE": "färg",
-        th: "สี",
-        tr: "renk",
-        uk: "колір",
-        vi: "màu-sắc",
-        "zh-CN": "顏色",
-        "zh-TW": "颜色",
-      },
     },
     {
       name: "title",
