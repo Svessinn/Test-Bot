@@ -5,8 +5,8 @@ const canvacord = require("canvacord");
 const getLevel = require("../../queries/getUserLevelData");
 const calcLevelExp = require("../../utils/calculateLevelExp");
 const getGuildLeaderboard = require("../../queries/getGuildLeaderboard");
-// Images https://imgur.com/a/J4W4szg
-const background = "https://i.imgur.com/vjkPoYb.png";
+// Images: https://imgur.com/a/J4W4szg
+const background = "https://i.imgur.com/A5TU7qV.jpg"; //"https://i.imgur.com/vjkPoYb.png";
 
 // Logging tool
 const logger = winston.createLogger({
@@ -69,7 +69,7 @@ module.exports = {
         .setCustomStatusColor("#5539CC")
         .setProgressBarTrack("#5539CC")
         .setBackground("IMAGE", background)
-        .setOverlay("#000000", 0);
+        .setOverlay("#000000", 0.67);
 
       const data = await rank.build();
       const attatchment = new AttachmentBuilder(data);

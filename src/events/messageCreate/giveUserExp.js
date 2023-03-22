@@ -4,7 +4,7 @@ const getLevel = require("../../queries/getUserLevelData");
 const createLevel = require("../../queries/createNewUserLevelData");
 const updateExp = require("../../queries/updateUserExp");
 const guildChannel = require("../../queries/getGuildLevelChannel");
-const { testServer } = require("../../../config.json");
+const getLevelupRoles = require("../../queries/getGuildLevelRoles");
 const { DefaultDict } = require("pycollections");
 const winston = require("winston");
 
@@ -49,14 +49,32 @@ module.exports = async (client, message) => {
       logger.log("error", err);
     }
 
-    if (targetChannel) {
-      await targetChannel.send({
-        content: `Congratulations ${message.member.user}\nYou've leveled up to level ${updated.level}`,
-      });
+    const levelupRoles = await getLevelupRoles(message.guild.id);
+    let levelup = levelupRoles.findIndex((u) => u.level === updated.level);
+
+    if (levelup === -1) {
+      if (targetChannel) {
+        await targetChannel.send({
+          content: `Congratulations ${message.member.user}\nYou've leveled up to level ${updated.level}`,
+        });
+      } else {
+        await message.channel.send({
+          content: `Congratulations ${message.member.user}\nYou've leveled up to level ${updated.level}`,
+        });
+      }
     } else {
-      await message.channel.send({
-        content: `Congratulations ${message.member.user}\nYou've leveled up to level ${updated.level}`,
-      });
+      let role = message.guild.roles.cache.get(levelupRoles[levelup].roleId);
+      await message.member.roles.add(role);
+
+      if (targetChannel) {
+        await targetChannel.send({
+          content: `Congratulations ${message.member.user}\nYou've leveled up to level ${updated.level}\nAnd been given the role \`${role.name}\``,
+        });
+      } else {
+        await message.channel.send({
+          content: `Congratulations ${message.member.user}\nYou've leveled up to level ${updated.level}\nAnd been given the role \`${role.name}\``,
+        });
+      }
     }
   }
 
