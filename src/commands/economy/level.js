@@ -1,12 +1,12 @@
-const { Client, Interaction, ApplicationCommandOptionType, AttachmentBuilder } = require("discord.js");
+const { Client, Interaction, ApplicationCommandOptionType, AttachmentBuilder, PermissionFlagsBits } = require("discord.js");
 const path = require("path");
 const winston = require("winston");
 const canvacord = require("canvacord");
 const getLevel = require("../../queries/getUserLevelData");
 const calcLevelExp = require("../../utils/calculateLevelExp");
 const getGuildLeaderboard = require("../../queries/getGuildLeaderboard");
-// Images: https://imgur.com/a/J4W4szg
-const background = "https://i.imgur.com/A5TU7qV.jpg"; //"https://i.imgur.com/vjkPoYb.png";
+
+const background = "media/images/rankBackground.jpg";
 
 // Logging tool
 const logger = winston.createLogger({
@@ -109,5 +109,5 @@ module.exports = {
   ], // Input options
   // deleted: true, // If the command is no longer in use
   // permissionsRequired: [], // What permissions are needed to run the command
-  // botPermissions: [], // What permissions the bot needs to run the command
+  botPermissions: [PermissionFlagsBits.EmbedLinks, PermissionFlagsBits.AttachFiles], // What permissions the bot needs to run the command
 };

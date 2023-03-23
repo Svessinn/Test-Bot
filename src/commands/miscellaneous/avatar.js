@@ -1,4 +1,4 @@
-const { Client, Interaction, ApplicationCommandOptionType, EmbedBuilder } = require("discord.js");
+const { Client, Interaction, ApplicationCommandOptionType, EmbedBuilder, PermissionFlagsBits } = require("discord.js");
 const path = require("path");
 const fetch = require("axios");
 
@@ -149,5 +149,5 @@ module.exports = {
   ], // Input options
   // deleted: true, // If the command is no longer in use
   // permissionsRequired: [], // What permissions are needed to run the command
-  // botPermissions: [], // What permissions the bot needs to run the command
+  botPermissions: [PermissionFlagsBits.EmbedLinks], // What permissions the bot needs to run the command
 };

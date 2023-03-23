@@ -163,5 +163,5 @@ module.exports = {
   ], // Input options
   // deleted: true, // If the command is no longer in use
   permissionsRequired: [PermissionFlagsBits.Administrator], // What permissions are needed to run the command
-  // botPermissions: [], // What permissions the bot needs to run the command
+  botPermissions: [PermissionFlagsBits.EmbedLinks], // What permissions the bot needs to run the command
 };
