@@ -53,6 +53,8 @@ module.exports = {
         content: "Unknown command",
         ephemeral: true,
       });
+      logger.log("error", `There was an error getting help with a command:\n${error}`);
+      console.log(error);
     }
   },
 

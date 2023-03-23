@@ -87,7 +87,7 @@ module.exports = {
         await interaction.editReply({
           content: `Bot Error, Try again later`,
         });
-        logger.log("error", `There was an error getting levelup roles:\n${error}`);
+        logger.log("error", `There was an error adding a levelup role:\n${error}`);
         console.log(error);
       }
     }
@@ -110,7 +110,7 @@ module.exports = {
         await interaction.editReply({
           content: `Bot Error, Try again later`,
         });
-        logger.log("error", `There was an error getting levelup roles:\n${error}`);
+        logger.log("error", `There was an error removing a levelup role:\n${error}`);
         console.log(error);
       }
     }
@@ -120,8 +120,8 @@ module.exports = {
   description: "Get/Add/Delete levelup roles", // Description of the command
   // devOnly: true, // Is a dev only command
   // testOnly: true, // Is a test command
-  // usage: "", // How to use this command. [required], (optional)
-  // example: "", // Example of how to run this command
+  usage: "/level-roles get\n/level-roles add [role] [level]\n/level-roles delete [role]", // How to use this command. [required], (optional)
+  example: '/level-roles get\n/level-roles add "@Level 10" 10\n/level-roles delete "@Level 10"', // Example of how to run this command
   options: [
     {
       name: "get",

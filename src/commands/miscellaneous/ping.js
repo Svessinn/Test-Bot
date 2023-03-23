@@ -32,12 +32,6 @@ module.exports = {
     const ping = reply.createdTimestamp - interaction.createdTimestamp;
 
     interaction.editReply(`Pong! Client ${ping}ms | Websocket: ${client.ws.ping}ms`);
-    /*
-    interaction.reply({
-      content: `Pong! ${client.ws.ping}ms`, // The content the bot replies with
-      //ephemeral: true, // If only the user that send the command should see the reply
-    })
-    */
   }, // What the bot replies with
 
   name: "ping", // Name of the command

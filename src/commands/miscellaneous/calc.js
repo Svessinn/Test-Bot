@@ -15,7 +15,7 @@ module.exports = {
    * @param {Interaction} interaction
    */
 
-  callback: (bot, interaction) => {
+  callback: async (bot, interaction) => {
     if (!interaction.inGuild()) {
       interaction.reply("This command can only be ran in a guild");
       return;
@@ -25,18 +25,23 @@ module.exports = {
       return;
     }
 
-    const eq = interaction.options.get("expression").value;
+    await interaction.deferReply();
+
+    const eq = await interaction.options.get("expression").value;
+
     try {
-      interaction.reply({
+      await interaction.editReply({
         content: String(Number(eval(eq))), // The content the bot replies with
         //ephemeral: true, // If only the user that send the command should see the reply
       });
     } catch (error) {
-      interaction.reply({
+      await interaction.editReply({
         content: "Invalid input", // The content the bot replies with
         //embeds: [embed] // The embeds the bot replies with
         //ephemeral: true, // If only the user that send the command should see the reply
       });
+      logger.log("error", `There was an error calculating:\n${error}`);
+      console.log(error);
     }
   }, // What the bot replies with
 

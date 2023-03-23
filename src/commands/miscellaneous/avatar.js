@@ -104,7 +104,7 @@ module.exports = {
       await interaction.editReply({
         content: `Bot Error, Try again later`,
       });
-      logger.log("error", `There was an error locking a channel:\n${error}`);
+      logger.log("error", `There was an error getting an avatar:\n${error}`);
       console.log(error);
     }
   }, // What the bot replies with
@@ -113,8 +113,8 @@ module.exports = {
   description: "Get an avatar/icon", // Description of the command
   // devOnly: true, // Is a dev only command
   // testOnly: true, // Is a test command
-  usage: "/avatar [user | userID]", // How to use this command. [required], (optional)
-  example: "/avatar 130462164640202754", // Example of how to run this command
+  usage: "/avatar user [user | userID]\n/avatar server [user | userID]\n/avatar guild", // How to use this command. [required], (optional)
+  example: "/avatar user 130462164640202754\n/avatar server 130462164640202754\n/avatar guild", // Example of how to run this command
   options: [
     {
       type: ApplicationCommandOptionType.Subcommand,

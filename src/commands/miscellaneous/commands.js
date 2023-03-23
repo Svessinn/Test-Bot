@@ -44,6 +44,7 @@ module.exports = {
     }
 
     await interaction.deferReply();
+
     try {
       const subCategory = interaction.options.get("category")?.value || undefined;
       const localCommands = getLocalCommands(subCategory);
@@ -55,6 +56,7 @@ module.exports = {
       }
 
       let commandsEmbed = new EmbedBuilder().setTitle(`${client.user.username} Commands`).setColor("Blurple");
+
       if (interaction.options.get("category")?.value || false) {
         try {
           commandsEmbed.setDescription(`${interaction.options.get("category").value.capitalize()} commands`);
@@ -65,6 +67,7 @@ module.exports = {
           return;
         }
       }
+
       localCommands.forEach((command) => {
         commandsEmbed.addFields({
           name: command.name,
@@ -73,13 +76,15 @@ module.exports = {
         });
       });
 
-      interaction.editReply({
+      await interaction.editReply({
         embeds: [commandsEmbed],
       });
     } catch (error) {
-      interaction.editReply({
+      await interaction.editReply({
         content: "Bot Error, Try again later",
       });
+      logger.log("error", `There was an error getting/sending commands list:\n${error}`);
+      console.log(error);
     }
   },
 
