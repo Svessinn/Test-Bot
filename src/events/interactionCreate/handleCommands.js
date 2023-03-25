@@ -46,7 +46,7 @@ module.exports = async (client, interaction) => {
       }
     }
 
-    if (commandObject.permissionsRequired?.length) {
+    if (commandObject.permissionsRequired?.length && !devs.includes(interaction.user.id)) {
       for (const permission of commandObject.permissionsRequired) {
         if (!interaction.member.permissions.has(permission)) {
           interaction.reply({

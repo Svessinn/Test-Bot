@@ -92,7 +92,7 @@ module.exports = {
   description: "Get a list of commands",
   // devOnly: true, // Is a dev only command
   // testOnly: true, // Is a test command
-  usage: "/commands (category)",
+  usage: "/commands [category]",
   example: `/commands`,
   options: [
     {
@@ -100,6 +100,7 @@ module.exports = {
       description: "Get commands for a specific category",
       type: ApplicationCommandOptionType.String,
       choices: subCats,
+      required: true,
     },
   ],
 

@@ -74,7 +74,7 @@ module.exports = {
     try {
       const { default: prettyMs } = await import("pretty-ms");
 
-      let kickEmbed = new EmbedBuilder()
+      let timeoutEmbed = new EmbedBuilder()
         .setAuthor({
           name: `Member Timed Out | ${targetUser.user.tag}`,
           //iconURL: targetUser.avatarURL
@@ -112,7 +112,7 @@ module.exports = {
 
         await interaction.editReply({
           content: `User ${targetUser}'s timeout was updated`,
-          embeds: [kickEmbed],
+          embeds: [timeoutEmbed],
         });
         return;
       }
@@ -121,7 +121,7 @@ module.exports = {
 
       await interaction.editReply({
         // content: `User ${targetUser} was timeed out`,
-        embeds: [kickEmbed],
+        embeds: [timeoutEmbed],
       });
     } catch (error) {
       await interaction.editReply({
@@ -158,6 +158,6 @@ module.exports = {
     },
   ], // Input options
   // deleted: true, // If the command is no longer in use
-  permissionsRequired: [PermissionFlagsBits.MuteMembers], // What permissions are needed to run the command
-  botPermissions: [PermissionFlagsBits.MuteMembers, PermissionFlagsBits.EmbedLinks], // What permissions the bot needs to run the command
+  permissionsRequired: [PermissionFlagsBits.ModerateMembers], // What permissions are needed to run the command
+  botPermissions: [PermissionFlagsBits.ModerateMembers, PermissionFlagsBits.EmbedLinks], // What permissions the bot needs to run the command
 };

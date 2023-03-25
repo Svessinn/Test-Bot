@@ -1,5 +1,4 @@
 const { Client, Interaction, ApplicationCommandOptionType, ChannelType, PermissionFlagsBits } = require("discord.js");
-const { loadavg } = require("os");
 const path = require("path");
 
 // Logging tool

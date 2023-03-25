@@ -65,7 +65,7 @@ module.exports = {
 
     // Kick the targetUser
     try {
-      await targetUser.kick({ reason });
+      await targetUser.kick({ reason: reason });
 
       let kickEmbed = new EmbedBuilder()
         .setAuthor({
