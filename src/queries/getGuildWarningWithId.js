@@ -2,7 +2,6 @@ require("dotenv").config();
 const { createClient } = require("@supabase/supabase-js");
 const path = require("path");
 const winston = require("winston");
-const levels = require("../queries/getGuildLevelRoles");
 
 // Logging tool
 const logger = winston.createLogger({
@@ -15,26 +14,22 @@ const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_KEY;
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-module.exports = async (guildID, roleID, lvl) => {
-  const roles = await levels(guildID);
+module.exports = async (guildID, ID) => {
+  let { data, error } = await supabase
+    .from("Warnings")
+    .select()
+    .match({
+      guildId: guildID,
+      id: ID,
+    })
+    .order("id");
 
-  if (roles.length <= 25) {
-    let { data, error } = await supabase
-      .from("LevelupRoles")
-      .insert({
-        guildId: guildID,
-        roleId: roleID,
-        level: lvl,
-      })
-      .select();
+  if (data) {
+    return data[0];
+  }
 
-    if (data) {
-      return data;
-    }
-
-    if (error) {
-      logger.log("error", error);
-    }
+  if (error) {
+    logger.log("error", error);
   }
   return;
 };

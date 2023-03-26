@@ -55,7 +55,7 @@ module.exports = {
   description: "Set channel to send the levelup messages to", // Description of the command
   // devOnly: true, // Is a dev only command
   // testOnly: true, // Is a test command
-  usage: "/level-channel ", // How to use this command. [required], (optional)
+  usage: "/level-channel [channel]", // How to use this command. [required], (optional)
   example: "/level-channel 1016853745809756242", // Example of how to run this command
   options: [
     {

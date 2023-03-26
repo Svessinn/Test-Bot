@@ -93,7 +93,7 @@ module.exports = {
   // devOnly: true, // Is a dev only command
   // testOnly: true, // Is a test command
   usage: "/commands [category]",
-  example: `/commands`,
+  example: `/commands Economy`,
   options: [
     {
       name: "category",

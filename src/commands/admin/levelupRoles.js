@@ -37,6 +37,7 @@ module.exports = {
     let outEmbed = new EmbedBuilder().setColor("Blurple");
 
     if (subcommand === "get") {
+      let out = "";
       const levelupRoles = await getLevelupRoles(interaction.guild.id);
       outEmbed
         .setTitle(`Levelup roles for ${interaction.guild.name}`)
@@ -44,16 +45,11 @@ module.exports = {
         .setTimestamp();
       levelupRoles.forEach((r) => {
         let role = interaction.guild.roles.cache.get(r.roleId);
-        outEmbed.addFields({
-          name: role.name,
-          value: String(r.level),
-          inline: true,
-        });
+        out += `**${role.name}** given at level ${r.level}\n`;
       });
-
+      outEmbed.setDescription(out);
       try {
         await interaction.editReply({
-          //content: "",
           embeds: [outEmbed],
         });
       } catch (error) {
@@ -80,7 +76,6 @@ module.exports = {
 
       try {
         await interaction.editReply({
-          //content: "",
           embeds: [outEmbed],
         });
       } catch (error) {
@@ -103,7 +98,6 @@ module.exports = {
 
       try {
         await interaction.editReply({
-          //content: "",
           embeds: [outEmbed],
         });
       } catch (error) {
@@ -130,7 +124,7 @@ module.exports = {
     },
     {
       name: "add",
-      description: "Add a levelup role",
+      description: "Add a levelup role (max 25 per guild)",
       type: ApplicationCommandOptionType.Subcommand,
       options: [
         {
