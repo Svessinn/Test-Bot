@@ -41,8 +41,8 @@ module.exports = {
 
     let subcommand = interaction.options._subcommand;
 
+    let out = "";
     if (subcommand === "get") {
-      let out = "";
       punishEmbed.setTitle("Warning Punishments");
       try {
         const guildWarnPunishments = await getGuildWarnPunishments(interaction.guild.id);
@@ -76,16 +76,16 @@ module.exports = {
       let msDuration = null;
       punishEmbed.setTitle("Added warning punishment");
       if (type === "ban") {
-        punishEmbed.setDescription(`**Type: Ban**\nPunishment at ${warns} warnings`);
+        punishEmbed.setDescription(`**Type: Ban**\nPunishment at __**${warns}** warnings__`);
       } else if (type === "softban") {
-        punishEmbed.setDescription(`**Type: Softban**\nPunishment at ${warns} warnings`);
+        punishEmbed.setDescription(`**Type: Softban**\nPunishment at __**${warns}** warnings__`);
       } else if (type === "kick") {
-        punishEmbed.setDescription(`**Type: Kick**\nPunishment at ${warns} warnings`);
+        punishEmbed.setDescription(`**Type: Kick**\nPunishment at __**${warns}** warnings__`);
       } else if (type === "timeout") {
         duration = interaction.options.get("timeout-duration")?.value || "300000";
         msDuration = ms(duration);
         let pretty = prettyMs(msDuration, { verbose: true });
-        punishEmbed.setDescription(`**Type: Timeout for ${pretty}**\nPunishment at ${warns} warnings`);
+        punishEmbed.setDescription(`**Type: Timeout for ${pretty}**\nPunishment at __**${warns}** warnings__`);
       }
       try {
         await addGuildWarnPunishment(interaction.guild.id, warns, type, msDuration);
@@ -100,8 +100,10 @@ module.exports = {
         console.log(error);
       }
     } else if (subcommand === "delete") {
-      punishEmbed.setTitle("Deleted warning punishment");
-      const warns = interaction.options.get("warngins").value;
+      const warns = interaction.options.get("warnings").value;
+      const guildWarnPunishments = await getGuildWarnPunishments(interaction.guild.id);
+      const del = guildWarnPunishments.find((w) => (w.warnings = warns));
+      punishEmbed.setTitle("Deleted warning punishment").setDescription(`For __**${del.warnings}** warnings__`);
 
       try {
         await delGuildWarnPunishment(interaction.guild.id, warns);
@@ -181,6 +183,7 @@ module.exports = {
           name: "warnings",
           description: "Delete the punishment for this amount of warnings",
           type: ApplicationCommandOptionType.Integer,
+          required: true,
         },
       ],
     },

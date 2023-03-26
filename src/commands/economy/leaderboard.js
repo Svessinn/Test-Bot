@@ -57,48 +57,48 @@ module.exports = {
         .setTimestamp()
         .setFooter({ text: `Page ${page < maxPage ? page : maxPage}/${maxPage}` });
 
-      let canvas;
-      let context;
-      let background;
+      // let canvas;
+      // let context;
+      // let background;
 
-      if (page >= maxPage) {
-        let ln = (lb.length % 10) - 1;
-        let h = Math.min(375 + 300 * ln, 3072);
+      // if (page >= maxPage) {
+      //   let ln = (lb.length % 10) - 1;
+      //   let h = Math.min(375 + 300 * ln, 3072);
 
-        canvas = Canvas.createCanvas(2048, h);
-        context = canvas.getContext("2d");
-        background = await Canvas.loadImage("media/images/leaderboardBackground.jpeg");
-        context.drawImage(background, 0, 0, 2048, 3072);
+      //   canvas = Canvas.createCanvas(2048, h);
+      //   context = canvas.getContext("2d");
+      //   background = await Canvas.loadImage("media/images/leaderboardBackground.jpeg");
+      //   context.drawImage(background, 0, 0, 2048, 3072);
 
-        for (let i = 0; i <= ln; i++) {
-          let start = (maxPage - 1) * 10;
-          let guildMember = await interaction.guild.members.fetch(lb[i + start].userId);
-          const { body } = await request(guildMember.user.displayAvatarURL({ extension: "png" }));
-          const avatar = await Canvas.loadImage(await body.arrayBuffer());
+      //   for (let i = 0; i <= ln; i++) {
+      //     let start = (maxPage - 1) * 10;
+      //     let guildMember = await interaction.guild.members.fetch(lb[i + start].userId);
+      //     const { body } = await request(guildMember.user.displayAvatarURL({ extension: "png" }));
+      //     const avatar = await Canvas.loadImage(await body.arrayBuffer());
 
-          context.drawImage(avatar, 25, 50 + 300 * i, 275, 275);
-        }
-      } else {
-        canvas = Canvas.createCanvas(2048, 3072);
-        context = canvas.getContext("2d");
-        background = await Canvas.loadImage("media/images/leaderboardBackground.jpeg");
-        context.drawImage(background, 0, 0, 2048, 3072);
+      //     context.drawImage(avatar, 25, 50 + 300 * i, 275, 275);
+      //   }
+      // } else {
+      //   canvas = Canvas.createCanvas(2048, 3072);
+      //   context = canvas.getContext("2d");
+      //   background = await Canvas.loadImage("media/images/leaderboardBackground.jpeg");
+      //   context.drawImage(background, 0, 0, 2048, 3072);
 
-        for (let i = 0; i < 10; i++) {
-          let start = (page - 1) * 10;
-          let guildMember = await interaction.guild.members.fetch(lb[i + start].userId);
-          const { body } = await request(guildMember.user.displayAvatarURL({ extension: "png" }));
-          const avatar = await Canvas.loadImage(await body.arrayBuffer());
+      //   for (let i = 0; i < 10; i++) {
+      //     let start = (page - 1) * 10;
+      //     let guildMember = await interaction.guild.members.fetch(lb[i + start].userId);
+      //     const { body } = await request(guildMember.user.displayAvatarURL({ extension: "png" }));
+      //     const avatar = await Canvas.loadImage(await body.arrayBuffer());
 
-          context.drawImage(avatar, 25, 50 + 300 * i, 275, 275);
+      //     context.drawImage(avatar, 25, 50 + 300 * i, 275, 275);
 
-          context.font = applyText(canvas, `${guildMember.user.tag}`);
-          context.fillStyle = "#ffffff";
-          context.strokeText(`${guildMember.user.tag}`, 350, 675);
-        }
-      }
+      //     context.font = applyText(canvas, `${guildMember.user.tag}`);
+      //     context.fillStyle = "#ffffff";
+      //     context.strokeText(`${guildMember.user.tag}`, 350, 675);
+      //   }
+      // }
 
-      let lbAttachment = new AttachmentBuilder(await canvas.encode("png"), { name: "lbImage.png" });
+      // let lbAttachment = new AttachmentBuilder(await canvas.encode("png"), { name: "lbImage.png" });
 
       let out = "";
 
