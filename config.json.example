@@ -1,6 +1,7 @@
 {
   "testServer": "Your Test Server ID",
   "devs": [
-    "Developer ID"
+    "Developer ID 1",
+    "Developer ID 2"
   ]
 }

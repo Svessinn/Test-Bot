@@ -11,7 +11,9 @@ const winston = require("winston");
 // Logging tool
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
-  format: winston.format.printf((log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`),
+  format: winston.format.printf(
+    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+  ),
 });
 
 function getRandomExp(min, max) {
@@ -78,9 +80,11 @@ module.exports = async (client, message) => {
     }
   }
 
-  cooldowns.get(message.guild.id).push(message.member.id);
+  const memberID = message.guild.id;
+
+  cooldowns.get(message.guild.id).push(memberID);
   setTimeout(() => {
-    let idx = cooldowns.get(message.guild.id).indexOf(message.member.id);
-    cooldowns.get(message.guild.id).splice(idx, 1);
+    let idx = cooldowns.get(memberID).indexOf(memberID);
+    cooldowns.get(memberID).splice(idx, 1);
   }, 60000);
 };
