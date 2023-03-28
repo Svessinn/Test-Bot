@@ -1,5 +1,4 @@
 const { ActivityType, Client } = require("discord.js");
-const path = require("path");
 
 let status = [
   {

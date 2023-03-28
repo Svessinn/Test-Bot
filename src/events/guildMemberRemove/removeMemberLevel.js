@@ -1,6 +1,7 @@
 const path = require("path");
 const { Client, Interaction } = require("discord.js");
 const delGuildUserLevel = require("../../queries/deleteGuildUserLevel");
+
 // Logging tool
 const winston = require("winston");
 const logger = winston.createLogger({
@@ -19,8 +20,6 @@ const logger = winston.createLogger({
 module.exports = async (client, interaction) => {
   try {
     await delGuildUserLevel(interaction.guild.id, interaction.user.id);
-
-    console.log(interaction.user.id);
   } catch (error) {
     logger.log("error", `There was an error running this command: \n${error}`);
     console.log(error);

@@ -6,7 +6,9 @@ const fetch = require("axios");
 const winston = require("winston");
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
-  format: winston.format.printf((log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`),
+  format: winston.format.printf(
+    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+  ),
 });
 
 module.exports = {
@@ -32,17 +34,16 @@ module.exports = {
 
     let subcommand = interaction.options._subcommand;
 
-    let avatarEmbed = new EmbedBuilder();
+    let avatarEmbed = new EmbedBuilder().setColor("Blurple");
 
     if (subcommand === "guild") {
       avatarEmbed
         .setImage(
           interaction.guild.iconURL({
-            size: 512,
+            size: 1024,
             dynamic: true,
           })
         )
-        .setColor("Blurple")
         .setAuthor({
           name: interaction.guild.name,
           iconURL: interaction.guild.iconURL(),
@@ -55,11 +56,10 @@ module.exports = {
       avatarEmbed
         .setImage(
           targetUser.displayAvatarURL({
-            size: 512,
+            size: 1024,
             dynamic: true,
           })
         )
-        .setColor("Blurple")
         .setAuthor({
           name: targetUser.tag,
           iconURL: targetUser.displayAvatarURL(),
@@ -67,33 +67,26 @@ module.exports = {
     }
 
     if (subcommand === "server") {
-      const targetUser = interaction.options._hoistedOptions.length ? interaction.options._hoistedOptions[0].user : interaction.user;
-
-      const res = await fetch.get(`https://discord.com/api/guilds/${interaction.guild.id}/members/${targetUser.id}`, {
-        headers: {
-          Authorization: `Bot ${client.token}`,
-        },
-      });
-
-      let url;
-      if (res.data?.avatar || false) {
-        url = `https://cdn.discordapp.com/guilds/${interaction.guild.id}/users/${targetUser.id}/avatars/${res.data.avatar}?size=512`;
+      let targetUser = interaction.options?.get("user") || null;
+      if (targetUser) {
+        avatarEmbed
+          .setImage(targetUser.member.displayAvatarURL({ size: 1024 }), {
+            dynamic: true,
+          })
+          .setAuthor({
+            name: targetUser.user.tag,
+            iconURL: targetUser.member.displayAvatarURL(),
+          });
       } else {
-        url = targetUser.displayAvatarURL({
-          size: 512,
-          dynamic: true,
-        });
+        avatarEmbed
+          .setImage(interaction.member.displayAvatarURL({ size: 1024 }), {
+            dynamic: true,
+          })
+          .setAuthor({
+            name: interaction.user.tag,
+            iconURL: interaction.member.displayAvatarURL(),
+          });
       }
-
-      avatarEmbed
-        .setImage(url, {
-          dynamic: true,
-        })
-        .setColor("Blurple")
-        .setAuthor({
-          name: targetUser.tag,
-          iconURL: url,
-        });
     }
 
     try {
