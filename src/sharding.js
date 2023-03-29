@@ -1,3 +1,7 @@
+/**
+ * To use sharding.js change your package.json's main to "src/sharding.js"
+ */
+
 require("dotenv").config();
 const { ShardingManager } = require("discord.js");
 const TOKEN = process.env.TOKEN;
