@@ -2,12 +2,15 @@ const { devs, testServer } = require("../../../config.json");
 const getLocalCommands = require("../../utils/getLocalCommands");
 const path = require("path");
 const { Client, Interaction } = require("discord.js");
+const perToName = require("../../utils/permissionToName");
 
 // Logging tool
 const winston = require("winston");
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
-  format: winston.format.printf((log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`),
+  format: winston.format.printf(
+    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+  ),
 });
 
 /**
@@ -61,10 +64,9 @@ module.exports = async (client, interaction) => {
     if (commandObject.botPermissions?.length) {
       for (const permission of commandObject.botPermissions) {
         botPerms = interaction.guild.members.me;
-
         if (!botPerms.permissions.has(permission)) {
           interaction.reply({
-            content: `I don't have enough permissions`,
+            content: `I don't have enough permissions\nMissing: ${perToName(permission)}`,
             ephemeral: true,
           });
           return;
