@@ -19,6 +19,12 @@ const responses = [
   "My sources say no",
   "Outlook not so good",
   "Very doubtful",
+  "Only if you put effort into it",
+  "Not in this timeline",
+  "It's obvious",
+  "I do not think it matters",
+  "Inevitably",
+  "Not at all",
 ];
 
 module.exports = () => {

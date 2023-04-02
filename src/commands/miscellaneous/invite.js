@@ -1,4 +1,4 @@
-const { Client, Interaction } = require("discord.js");
+const { Client, Interaction, PermissionFlagsBits, ApplicationCommandOptionType } = require("discord.js");
 const path = require("path");
 
 // Logging tool
@@ -27,22 +27,30 @@ module.exports = {
       return;
     }
 
-    await interaction.deferReply();
+    await interaction.deferReply({
+      ephemeral: false,
+    });
 
-    const reply = await interaction.fetchReply();
-
-    const ping = reply.createdTimestamp - interaction.createdTimestamp;
-
-    interaction.editReply(`Pong! Client \`${ping}ms\` | Websocket: \`${client.ws.ping}ms\``);
+    try {
+      await interaction.editReply({
+        content: `[https://discord.com/api/oauth2/authorize?client_id=${client.user.id}](https://discord.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot%20applications.commands)`,
+      });
+    } catch (error) {
+      await interaction.editReply({
+        content: `Bot Error, Try again later`,
+      });
+      logger.log("error", `There was an error :\n${error}`);
+      console.log(error);
+    }
   }, // What the bot replies with
 
-  name: "ping", // Name of the command
-  description: "Replies with the bot's ping!", // Description of the command
-  // devOnly: true, // Is a dev only command
+  name: "invite", // Name of the command
+  description: "Get an invite for the bot", // Description of the command
+  devOnly: true, // Is a dev only command
   // testOnly: true, // Is a test command
-  usage: "/ping",
-  example: `/ping`,
-  // options: [{}], // Input options
+  usage: "/invite", // How to use this command. [required], (optional)
+  example: "/invite", // Example of how to run this command
+  // options: [], // Input options
   // deleted: true, // If the command is no longer in use
   // permissionsRequired: [], // What permissions are needed to run the command
   // botPermissions: [], // What permissions the bot needs to run the command

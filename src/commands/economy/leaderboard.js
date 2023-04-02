@@ -1,4 +1,14 @@
-const { Client, Interaction, ApplicationCommandOptionType, EmbedBuilder, AttachmentBuilder, PermissionFlagsBits } = require("discord.js");
+const {
+  Client,
+  Interaction,
+  ApplicationCommandOptionType,
+  EmbedBuilder,
+  AttachmentBuilder,
+  PermissionFlagsBits,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+} = require("discord.js");
 const path = require("path");
 const getGuildLeaberboard = require("../../queries/getGuildLeaderboard");
 const calcLevelExp = require("../../utils/calculateLevelExp");
@@ -116,11 +126,21 @@ module.exports = {
           out += `**#${i + 1} ${guildMember.user.tag}**\nLevel: ${lb[i].level} - Exp: ${lb[i].exp}/${nextLevel}\n`;
         }
       }
+
       lbEmbed.setDescription(out).setImage(`attachment://${lbAttachment.name}`);
+
+      let testButtons = new ActionRowBuilder().addComponents(
+        new ButtonBuilder().setCustomId("LB-0").setEmoji("⏪").setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder().setCustomId("LB-1").setEmoji("◀️").setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder().setCustomId("LB-2").setEmoji("▶️").setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder().setCustomId("LB-3").setEmoji("⏩").setStyle(ButtonStyle.Secondary)
+      );
+
       await interaction.editReply({
         //content: "Under Development",
         embeds: [lbEmbed],
         files: [lbAttachment],
+        components: [testButtons],
       });
     } catch (error) {
       await interaction.editReply({
