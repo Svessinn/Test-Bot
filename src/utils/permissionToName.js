@@ -43,6 +43,5 @@ const bitFields = {
 };
 
 module.exports = (bitField) => {
-  
   return bitFields[bitField.toString(2)]
 }

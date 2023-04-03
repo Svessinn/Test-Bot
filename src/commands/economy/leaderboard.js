@@ -12,9 +12,7 @@ const {
 const path = require("path");
 const getGuildLeaberboard = require("../../queries/getGuildLeaderboard");
 const calcLevelExp = require("../../utils/calculateLevelExp");
-const Canvas = require("@napi-rs/canvas");
-const { request } = require("undici");
-const sharp = require("sharp");
+const Canvas = require("canvas");
 
 // Logging tool
 const winston = require("winston");
@@ -25,14 +23,12 @@ const logger = winston.createLogger({
   ),
 });
 
-const applyText = (canvas, text) => {
+const applyText = (canvas, text, fontSize) => {
   const context = canvas.getContext("2d");
 
-  let fontSize = 1200;
-
   do {
-    context.font = `${(fontSize -= 100)}px sans-serif`;
-  } while (context.measureText(text).width > canvas.width - 300);
+    context.font = `${(fontSize -= 10)}px sans-serif`;
+  } while (context.measureText(text).width > canvas.width - 400);
 
   return context.font;
 };
@@ -73,6 +69,8 @@ module.exports = {
       let context;
       let background;
 
+      const bg = await Canvas.loadImage("media/images/BlackTransparentBackground.png");
+
       if (page >= maxPage) {
         let ln = (lb.length % 10) - 1;
         let h = Math.min(375 + 300 * ln, 3072);
@@ -85,10 +83,20 @@ module.exports = {
         for (let i = 0; i <= ln; i++) {
           let start = (maxPage - 1) * 10;
           let guildMember = await interaction.guild.members.fetch(lb[i + start].userId);
-          const { body } = await request(guildMember.displayAvatarURL({ extension: "png" }));
-          const avatar = await Canvas.loadImage(await body.arrayBuffer());
+
+          context.drawImage(bg, 15, 40 + 300 * i, 2023, 295);
+
+          const avatar = await Canvas.loadImage(guildMember.displayAvatarURL({ extension: "png" }));
 
           context.drawImage(avatar, 25, 50 + 300 * i, 275, 275);
+
+          context.font = applyText(canvas, `#${1 + i + start} ${guildMember.user.tag}`, 200);
+          context.fillStyle = "#ffffff";
+          context.fillText(`#${1 + i + start} ${guildMember.user.tag}`, 350, 200 + 300 * i);
+
+          let nextLevel = calcLevelExp(lb[i + start].level);
+          context.font = applyText(canvas, `Level: ${lb[i + start].level} - Exp: ${lb[i + start].exp}/${nextLevel}`, 100);
+          context.fillText(`Level: ${lb[i + start].level} - Exp: ${lb[i + start].exp}/${nextLevel}`, 350, 310 + 300 * i);
         }
       } else {
         canvas = Canvas.createCanvas(2048, 3072);
@@ -99,18 +107,28 @@ module.exports = {
         for (let i = 0; i < 10; i++) {
           let start = (page - 1) * 10;
           let guildMember = await interaction.guild.members.fetch(lb[i + start].userId);
-          const { body } = await request(guildMember.displayAvatarURL({ extension: "png" }));
-          const avatar = await Canvas.loadImage(await body.arrayBuffer());
+
+          context.drawImage(bg, 15, 40 + 300 * i, 2023, 295);
+
+          const avatar = await Canvas.loadImage(guildMember.displayAvatarURL({ extension: "png" }));
 
           context.drawImage(avatar, 25, 50 + 300 * i, 275, 275);
 
-          context.font = applyText(canvas, `${guildMember.user.tag}`);
+          context.font = applyText(canvas, `#${1 + i + start} ${guildMember.user.tag}`, 200);
           context.fillStyle = "#ffffff";
-          context.strokeText(`${guildMember.user.tag}`, 350, 675);
+          context.fillText(`#${1 + i + start} ${guildMember.user.tag}`, 350, 200 + 300 * i);
+
+          let nextLevel = calcLevelExp(lb[i + start].level);
+          context.font = applyText(canvas, `Level: ${lb[i + start].level} - Exp: ${lb[i + start].exp}/${nextLevel}`, 100);
+          context.fillText(`Level: ${lb[i + start].level} - Exp: ${lb[i + start].exp}/${nextLevel}`, 350, 310 + 300 * i);
         }
       }
 
-      let lbAttachment = new AttachmentBuilder(await canvas.encode("png"), { name: "lbImage.png" });
+      let lbAttachment = new AttachmentBuilder(canvas.toBuffer(), {
+        name: "lbImage.png",
+        description: `Leaderboard Page for ${interaction.guild.name}`,
+      });
+
       let out = "";
 
       if (page >= maxPage) {
@@ -127,7 +145,7 @@ module.exports = {
         }
       }
 
-      lbEmbed.setDescription(out).setImage(`attachment://${lbAttachment.name}`);
+      lbEmbed.setImage(`attachment://${lbAttachment.name}`);
 
       let testButtons = new ActionRowBuilder().addComponents(
         new ButtonBuilder().setCustomId("LB-0").setEmoji("⏪").setStyle(ButtonStyle.Secondary),

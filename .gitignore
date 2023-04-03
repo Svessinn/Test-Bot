@@ -3,6 +3,5 @@ logs
 .env
 config.json
 package-lock.json
-package.json
 test.js
 .prettierignore

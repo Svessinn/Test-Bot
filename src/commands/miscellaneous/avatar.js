@@ -1,6 +1,5 @@
 const { Client, Interaction, ApplicationCommandOptionType, EmbedBuilder, PermissionFlagsBits } = require("discord.js");
 const path = require("path");
-const fetch = require("axios");
 
 // Logging tool
 const winston = require("winston");
