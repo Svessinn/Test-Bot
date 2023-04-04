@@ -11,7 +11,9 @@ const background = "media/images/rankBackground.jpg";
 // Logging tool
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
-  format: winston.format.printf((log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`),
+  format: winston.format.printf(
+    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+  ),
 });
 
 module.exports = {
@@ -58,7 +60,7 @@ module.exports = {
       let userRank = lb.findIndex((j) => j.userId === targetUser.user.id) + 1;
 
       const rank = new canvacord.Rank()
-        .setAvatar(targetUser.user.displayAvatarURL())
+        .setAvatar(targetUser.displayAvatarURL())
         .setRank(userRank)
         .setLevel(level.level)
         .setCurrentXP(level.exp)

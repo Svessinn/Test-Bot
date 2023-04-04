@@ -58,7 +58,8 @@ module.exports = {
       let lb = await getGuildLeaberboard(interaction.guild.id);
 
       let page = (await interaction.options.get("page")?.value) || 1;
-      let maxPage = Math.ceil(lb.length / 10);
+      const maxPage = Math.ceil(lb.length / 10);
+      page = Math.min(page, maxPage);
 
       let lbEmbed = new EmbedBuilder()
         .setTitle(`${interaction.guild.name} Leaderboard`)
@@ -71,79 +72,36 @@ module.exports = {
 
       const bg = await Canvas.loadImage("media/images/BlackTransparentBackground.png");
 
-      if (page >= maxPage) {
-        let ln = (lb.length % 10) - 1;
-        let h = Math.min(375 + 300 * ln, 3072);
+      let ln = page >= maxPage ? lb.length % 10 : 10;
 
-        canvas = Canvas.createCanvas(2048, h);
-        context = canvas.getContext("2d");
-        background = await Canvas.loadImage("media/images/leaderboardBackground.jpeg");
-        context.drawImage(background, 0, 0, 2048, 3072);
+      canvas = Canvas.createCanvas(2048, 372 + 300 * (ln - 1));
+      context = canvas.getContext("2d");
+      background = await Canvas.loadImage("media/images/leaderboardBackground.jpeg");
+      context.drawImage(background, 0, 0, 2048, 3072);
 
-        for (let i = 0; i <= ln; i++) {
-          let start = (maxPage - 1) * 10;
-          let guildMember = await interaction.guild.members.fetch(lb[i + start].userId);
+      for (let i = 0; i < ln; i++) {
+        let start = (page - 1) * 10;
+        let guildMember = await interaction.guild.members.fetch(lb[i + start].userId);
 
-          context.drawImage(bg, 15, 40 + 300 * i, 2023, 295);
+        context.drawImage(bg, 15, 40 + 300 * i, 2023, 295);
 
-          const avatar = await Canvas.loadImage(guildMember.displayAvatarURL({ extension: "png" }));
+        const avatar = await Canvas.loadImage(guildMember.displayAvatarURL({ extension: "png" }));
 
-          context.drawImage(avatar, 25, 50 + 300 * i, 275, 275);
+        context.drawImage(avatar, 25, 50 + 300 * i, 275, 275);
 
-          context.font = applyText(canvas, `#${1 + i + start} ${guildMember.user.tag}`, 200);
-          context.fillStyle = "#ffffff";
-          context.fillText(`#${1 + i + start} ${guildMember.user.tag}`, 350, 200 + 300 * i);
+        context.font = applyText(canvas, `#${1 + i + start} ${guildMember.user.tag}`, 200);
+        context.fillStyle = "#ffffff";
+        context.fillText(`#${1 + i + start} ${guildMember.user.tag}`, 350, 200 + 300 * i);
 
-          let nextLevel = calcLevelExp(lb[i + start].level);
-          context.font = applyText(canvas, `Level: ${lb[i + start].level} - Exp: ${lb[i + start].exp}/${nextLevel}`, 100);
-          context.fillText(`Level: ${lb[i + start].level} - Exp: ${lb[i + start].exp}/${nextLevel}`, 350, 310 + 300 * i);
-        }
-      } else {
-        canvas = Canvas.createCanvas(2048, 3072);
-        context = canvas.getContext("2d");
-        background = await Canvas.loadImage("media/images/leaderboardBackground.jpeg");
-        context.drawImage(background, 0, 0, 2048, 3072);
-
-        for (let i = 0; i < 10; i++) {
-          let start = (page - 1) * 10;
-          let guildMember = await interaction.guild.members.fetch(lb[i + start].userId);
-
-          context.drawImage(bg, 15, 40 + 300 * i, 2023, 295);
-
-          const avatar = await Canvas.loadImage(guildMember.displayAvatarURL({ extension: "png" }));
-
-          context.drawImage(avatar, 25, 50 + 300 * i, 275, 275);
-
-          context.font = applyText(canvas, `#${1 + i + start} ${guildMember.user.tag}`, 200);
-          context.fillStyle = "#ffffff";
-          context.fillText(`#${1 + i + start} ${guildMember.user.tag}`, 350, 200 + 300 * i);
-
-          let nextLevel = calcLevelExp(lb[i + start].level);
-          context.font = applyText(canvas, `Level: ${lb[i + start].level} - Exp: ${lb[i + start].exp}/${nextLevel}`, 100);
-          context.fillText(`Level: ${lb[i + start].level} - Exp: ${lb[i + start].exp}/${nextLevel}`, 350, 310 + 300 * i);
-        }
+        let nextLevel = calcLevelExp(lb[i + start].level);
+        context.font = applyText(canvas, `Level: ${lb[i + start].level} - Exp: ${lb[i + start].exp}/${nextLevel}`, 100);
+        context.fillText(`Level: ${lb[i + start].level} - Exp: ${lb[i + start].exp}/${nextLevel}`, 350, 310 + 300 * i);
       }
 
       let lbAttachment = new AttachmentBuilder(canvas.toBuffer(), {
         name: "lbImage.png",
         description: `Leaderboard Page for ${interaction.guild.name}`,
       });
-
-      let out = "";
-
-      if (page >= maxPage) {
-        for (let i = 0 + 10 * (maxPage - 1); i < lb.length; i++) {
-          let guildMember = await interaction.guild.members.fetch(lb[i].userId);
-          let nextLevel = calcLevelExp(lb[i].level);
-          out += `**#${i + 1} ${guildMember.user.tag}**\nLevel: ${lb[i].level} - Exp: ${lb[i].exp}/${nextLevel}\n`;
-        }
-      } else {
-        for (let i = 0 + 10 * (page - 1); i < 10 * page; i++) {
-          let guildMember = await interaction.guild.members.fetch(lb[i].userId);
-          let nextLevel = calcLevelExp(lb[i].level);
-          out += `**#${i + 1} ${guildMember.user.tag}**\nLevel: ${lb[i].level} - Exp: ${lb[i].exp}/${nextLevel}\n`;
-        }
-      }
 
       lbEmbed.setImage(`attachment://${lbAttachment.name}`);
 
@@ -155,7 +113,6 @@ module.exports = {
       );
 
       await interaction.editReply({
-        //content: "Under Development",
         embeds: [lbEmbed],
         files: [lbAttachment],
         components: [testButtons],
