@@ -5,6 +5,10 @@ Gets all local commands
 const path = require("path");
 const getAllFiles = require("./getAllFiles");
 
+/**
+ * @param {string} subCategory
+ */
+
 module.exports = (subCategory, exceptions = []) => {
   let localCommands = [];
   const folder = path.join(__dirname, "..", "commands");

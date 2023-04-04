@@ -9,7 +9,6 @@ let status = [
 ];
 
 /**
- *
  * @param {Client} client
  */
 

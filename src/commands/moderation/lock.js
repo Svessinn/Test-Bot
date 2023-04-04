@@ -7,14 +7,15 @@ const logger = winston.createLogger({
   // Define the logging tool's transports
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
   // Define the logging format
-  format: winston.format.printf((log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`),
+  format: winston.format.printf(
+    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+  ),
 });
 
 module.exports = {
   /**
-   *
-   * @param {Client} client - The Discord.js client
-   * @param {Interaction} interaction - The interaction data
+   * @param {Client} client
+   * @param {Interaction} interaction
    */
 
   callback: async (client, interaction) => {

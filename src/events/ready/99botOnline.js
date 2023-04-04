@@ -11,7 +11,6 @@ const logger = winston.createLogger({
 });
 
 /**
- *
  * @param {Client} client
  */
 

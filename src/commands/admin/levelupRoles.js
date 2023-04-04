@@ -9,12 +9,13 @@ const winston = require("winston");
 const level = require("../economy/level");
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
-  format: winston.format.printf((log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`),
+  format: winston.format.printf(
+    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+  ),
 });
 
 module.exports = {
   /**
-   *
    * @param {Client} client
    * @param {Interaction} interaction
    */
@@ -91,10 +92,14 @@ module.exports = {
       await delLevelupRole(interaction.guild.id, interaction.options.get("role").value);
       let role = interaction.guild.roles.cache.get(interaction.options.get("role").value);
 
-      outEmbed.setTitle(`Removed a levelup role`).setTimestamp().setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() }).addFields({
-        name: role.name,
-        value: "Has been removed as a levelup role",
-      });
+      outEmbed
+        .setTitle(`Removed a levelup role`)
+        .setTimestamp()
+        .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() })
+        .addFields({
+          name: role.name,
+          value: "Has been removed as a levelup role",
+        });
 
       try {
         await interaction.editReply({

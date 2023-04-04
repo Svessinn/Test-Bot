@@ -23,10 +23,10 @@ function getRandomExp(min, max) {
 let cooldowns = new DefaultDict([].constructor);
 
 /**
- *
  * @param {Client} client
  * @param {Message} message
  */
+
 module.exports = async (client, message) => {
   if (!message.inGuild() || message.author.bot || cooldowns.get(message.guild.id).includes(message.member.id)) return;
 

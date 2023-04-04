@@ -13,10 +13,8 @@ const logger = winston.createLogger({
 });
 
 /**
- *
  * @param {Client} client
  * @param {Interaction} interaction
- * @returns
  */
 
 module.exports = async (client, interaction) => {

@@ -1,5 +1,6 @@
-const { Client, Interaction } = require("discord.js");
+const { Client, Interaction, PermissionFlagsBits, ApplicationCommandOptionType } = require("discord.js");
 const path = require("path");
+const RNG = require("../../utils/generateRandomNumber");
 
 // Logging tool
 const winston = require("winston");
@@ -26,29 +27,33 @@ module.exports = {
       return;
     }
 
-    await interaction.deferReply();
+    await interaction.deferReply({
+      ephemeral: false,
+    });
+
+    let coin = RNG() > 50 ? "`Heads`" : "`Tails`";
 
     try {
       await interaction.editReply({
-        content: `Vote for our bot on top.gg: https://top.gg/bot/${client.user.id}/vote`,
+        content: `Coin landed on ${coin}`,
       });
     } catch (error) {
       await interaction.editReply({
         content: `Bot Error, Try again later`,
       });
-      logger.log("error", `There was an error when getting user info:\n${error}`);
+      logger.log("error", `There was an error :\n${error}`);
       console.log(error);
     }
   }, // What the bot replies with
 
-  name: "vote", // Name of the command
-  description: "Get a link to vote for the bot", // Description of the command
+  name: "coinflip", // Name of the command
+  description: "Flip a coin", // Description of the command
   // devOnly: true, // Is a dev only command
-  testOnly: true, // Is a test command
-  usage: "/vote",
-  example: `/vote`,
+  // testOnly: true, // Is a test command
+  usage: "/coinflip", // How to use this command. [required], (optional)
+  example: "/coinflip", // Example of how to run this command
   // options: [], // Input options
   // deleted: true, // If the command is no longer in use
   // permissionsRequired: [], // What permissions are needed to run the command
-  // botPermissions: [], // What permissions the bot needs to run the command
+  botPermissions: [PermissionFlagsBits.SendMessages], // What permissions the bot needs to run the command
 };

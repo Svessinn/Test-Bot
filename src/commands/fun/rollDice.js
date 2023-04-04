@@ -1,6 +1,6 @@
-const { Client, Interaction, PermissionFlagsBits, ApplicationCommandOptionType, EmbedBuilder } = require("discord.js");
+const { Client, Interaction, PermissionFlagsBits, ApplicationCommandOptionType } = require("discord.js");
 const path = require("path");
-const getslapImage = require("../../utils/commandResponses/slapImages");
+const roll = require("../../utils/rollDice");
 
 // Logging tool
 const winston = require("winston");
@@ -31,20 +31,25 @@ module.exports = {
       ephemeral: false,
     });
 
-    const response = new EmbedBuilder()
-      .setColor("Blurple")
-      .setDescription(`${interaction.user} **slapped** <@${interaction.options.get("user").value}>`)
-      .setImage(getslapImage());
+    const rolled = roll(interaction.options.get("dice-to-roll").value);
+
+    let out = `Rolled ${rolled?.length || 0} dice: `;
+    let tot = 0;
+
+    if (!rolled) {
+      out = "Invalid dice";
+    } else {
+      for (dieRoll of rolled) {
+        tot += dieRoll;
+        out += `${dieRoll} `;
+      }
+      out += `\nTotal: ${tot}`;
+    }
 
     try {
-      if (interaction.options.get("user").value === interaction.user.id) {
-        await interaction.editReply({
-          content: `You can't slap yourself`,
-        });
-        return;
-      }
       await interaction.editReply({
-        embeds: [response],
+        content: out,
+        // embeds: [],
       });
     } catch (error) {
       await interaction.editReply({
@@ -55,21 +60,21 @@ module.exports = {
     }
   }, // What the bot replies with
 
-  name: "slap", // Name of the command
-  description: "Slap a user", // Description of the command
-  // devOnly: true, // Is a dev only command
+  name: "roll-dice", // Name of the command
+  description: "Roll Dice", // Description of the command
+  devOnly: true, // Is a dev only command
   // testOnly: true, // Is a test command
-  usage: "/slap [user | userID]", // How to use this command. [required], (optional)
-  example: "/slap 130462164640202754", // Example of how to run this command
+  usage: "/roll-dice [dice-to-roll]", // How to use this command. [required], (optional)
+  example: "/roll-dice 2d6", // Example of how to run this command
   options: [
     {
-      name: "user",
-      description: "The user you want to slap",
-      type: ApplicationCommandOptionType.User,
+      name: "dice-to-roll",
+      description: "What to roll (1d6) = 1 6 sided die, (2d20) = 2 20 side dice",
+      type: ApplicationCommandOptionType.String,
       required: true,
     },
   ], // Input options
   // deleted: true, // If the command is no longer in use
   // permissionsRequired: [], // What permissions are needed to run the command
-  botPermissions: [PermissionFlagsBits.EmbedLinks], // What permissions the bot needs to run the command
+  botPermissions: [PermissionFlagsBits.SendMessages], // What permissions the bot needs to run the command
 };

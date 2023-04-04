@@ -143,6 +143,10 @@ const colours = {
   yellowgreen: "#9acd32",
 };
 
+/**
+ * @param {string} colour
+ */
+
 module.exports = (colour) => {
   if (typeof colours[colour.toLowerCase()] != "undefined") return colours[colour.toLowerCase()];
 

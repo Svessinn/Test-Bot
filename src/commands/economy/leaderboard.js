@@ -35,7 +35,6 @@ const applyText = (canvas, text, fontSize) => {
 
 module.exports = {
   /**
-   *
    * @param {Client} client
    * @param {Interaction} interaction
    */

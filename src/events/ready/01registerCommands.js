@@ -13,10 +13,9 @@ const logger = winston.createLogger({
 });
 
 /**
- *
  * @param {Client} client
- * @returns
  */
+
 let localCommand;
 module.exports = async (client) => {
   try {

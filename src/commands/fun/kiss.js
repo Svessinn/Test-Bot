@@ -13,7 +13,6 @@ const logger = winston.createLogger({
 
 module.exports = {
   /**
-   *
    * @param {Client} client
    * @param {Interaction} interaction
    */

@@ -28,7 +28,6 @@ const boostLevels = {
 
 module.exports = {
   /**
-   *
    * @param {Client} client
    * @param {Interaction} interaction
    */

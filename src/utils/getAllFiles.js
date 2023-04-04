@@ -5,6 +5,11 @@ Gets all files/folders
 const fs = require("fs");
 const path = require("path");
 
+/**
+ * @param {string} directory
+ * @param {boolean} foldersOnly
+ */
+
 module.exports = (directory, foldersOnly = false) => {
   let fileNames = [];
 
