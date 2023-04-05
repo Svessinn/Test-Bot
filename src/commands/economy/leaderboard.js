@@ -69,13 +69,13 @@ module.exports = {
       let context;
       let background;
 
-      const bg = await Canvas.loadImage("media/images/BlackTransparentBackground.png");
+      const bg = await Canvas.loadImage("media/backgrounds/BlackTransparentBackground.png");
 
       let ln = page >= maxPage ? lb.length % 10 : 10;
 
       canvas = Canvas.createCanvas(2048, 372 + 300 * (ln - 1));
       context = canvas.getContext("2d");
-      background = await Canvas.loadImage("media/images/leaderboardBackground.jpeg");
+      background = await Canvas.loadImage("media/backgrounds/leaderboardBackground.jpeg");
       context.drawImage(background, 0, 0, 2048, 3072);
 
       for (let i = 0; i < ln; i++) {

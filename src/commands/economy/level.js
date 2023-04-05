@@ -6,7 +6,7 @@ const getLevel = require("../../queries/getUserLevelData");
 const calcLevelExp = require("../../utils/calculateLevelExp");
 const getGuildLeaderboard = require("../../queries/getGuildLeaderboard");
 
-const background = "media/images/rankBackground.jpg";
+const background = "media/backgrounds/rankBackground.jpg";
 
 // Logging tool
 const logger = winston.createLogger({
