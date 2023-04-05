@@ -47,8 +47,9 @@ module.exports = {
     await interaction.deferReply();
 
     try {
-      const subCategory = interaction.options.get("category")?.value || undefined;
-      const localCommands = getLocalCommands(subCategory);
+      const category = interaction.options.get("category").value;
+      const localCommands = getLocalCommands(category);
+
       if (!localCommands.length) {
         interaction.editReply({
           content: "Invalid command subcategory",
@@ -56,11 +57,11 @@ module.exports = {
         return;
       }
 
-      let commandsEmbed = new EmbedBuilder().setTitle(`${client.user.username} Commands`).setColor("Blurple");
+      let commandsEmbed = new EmbedBuilder().setTimestamp().setColor("Blurple");
 
-      if (interaction.options.get("category")?.value || false) {
+      if (category) {
         try {
-          commandsEmbed.setDescription(`${interaction.options.get("category").value.capitalize()} commands`);
+          commandsEmbed.setTitle(`${interaction.options.get("category").value.capitalize()} commands`);
         } catch (error) {
           interaction.editReply({
             content: "Invalid command category",
@@ -69,13 +70,13 @@ module.exports = {
         }
       }
 
+      let out = "";
+
       localCommands.forEach((command) => {
-        commandsEmbed.addFields({
-          name: command.name,
-          value: command.description,
-          inline: true,
-        });
+        out += `**${command.name}** - ${command.description}\n`;
       });
+
+      commandsEmbed.setDescription(out);
 
       await interaction.editReply({
         embeds: [commandsEmbed],
