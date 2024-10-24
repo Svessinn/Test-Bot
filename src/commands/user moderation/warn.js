@@ -197,7 +197,7 @@ module.exports = {
   }, // What the bot replies with
 
   name: "warn", // Name of the command
-  description: "Deal with user warnings", // Description of the command
+  description: "Manage user warnings", // Description of the command
   // devOnly: true, // Is a dev only command
   // testOnly: true, // Is a test command
   usage: "/warn add [user | userID] [reason]\n/warn delete [ID]\n/warn get [user | userID]", // How to use this command. [required], (optional)

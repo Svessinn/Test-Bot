@@ -26,16 +26,25 @@ module.exports = {
       return;
     }
 
-    await interaction.deferReply();
+    await interaction.deferReply({
+      ephemeral: true,
+    });
     try {
       const getLocalCommands = require("../../utils/getLocalCommands");
       const localCommands = getLocalCommands();
 
       let helpEmbed;
 
-      if (interaction.options.get("command")?.value || false) {
-        const commandName = interaction.options.get("command").value;
+      const commandName = interaction.options.get("command")?.value || false;
+      if (commandName) {
         const localCommand = await localCommands.find((x) => x.name === commandName);
+
+        if (!localCommand) {
+          interaction.editReply({
+            content: "Invalid command",
+          });
+          return;
+        }
 
         helpEmbed = new EmbedBuilder()
           .setTitle(`Command: /${commandName}`)
@@ -47,12 +56,10 @@ module.exports = {
 
       interaction.editReply({
         embeds: [helpEmbed],
-        ephemeral: true,
       });
     } catch (error) {
       interaction.editReply({
         content: "Unknown command",
-        ephemeral: true,
       });
       logger.log("error", `There was an error getting help with a command:\n${error}`);
       console.log(error);
@@ -75,5 +82,5 @@ module.exports = {
   ],
   // deleted: true, // If the command is no longer in use
   // permissionsRequired: [], // What permissions are needed to run the command
-  botPermissions: [PermissionFlagsBits.EmbedLinks], // What permissions the bot needs to run the command
+  botPermissions: [PermissionFlagsBits.EmbedLinks, PermissionFlagsBits.SendMessages], // What permissions the bot needs to run the command
 };

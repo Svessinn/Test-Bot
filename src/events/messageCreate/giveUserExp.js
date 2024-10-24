@@ -28,63 +28,50 @@ let cooldowns = new DefaultDict([].constructor);
  */
 
 module.exports = async (client, message) => {
-  if (!message.inGuild() || message.author.bot || cooldowns.get(message.guild.id).includes(message.member.id)) return;
+  const memberID = message.author.id;
+  const memberUser = message.member.user;
+  const guildID = message.guild.id;
 
-  let level = await getLevel(message.author.id, message.guild.id);
+  if (!message.inGuild() || message.author.bot || cooldowns.get(guildID).includes(memberID)) return;
+
+  let level = await getLevel(memberID, guildID);
   let updated;
 
   if (level) {
-    updated = await updateExp(message.author.id, message.guild.id, getRandomExp(1, 5));
+    updated = await updateExp(memberID, guildID, getRandomExp(1, 5));
   } else {
-    await createLevel(message.author.id, message.guild.id);
-    level = await getLevel(message.author.id, message.guild.id);
-    updated = await updateExp(message.author.id, message.guild.id, getRandomExp(1, 5));
+    await createLevel(memberID, guildID);
+    level = await getLevel(memberID, guildID);
+    updated = await updateExp(memberID, guildID, getRandomExp(1, 5));
   }
 
   if (updated.level > level.level) {
-    const channel = await guildChannel(message.guild.id);
+    const channel = await guildChannel(guildID);
 
-    let targetChannel;
-    try {
-      targetChannel = await message.guild.channels.cache.get(channel.channelId);
-    } catch (err) {
-      logger.log("error", err);
-    }
+    const targetChannel = message.guild.channels.cache?.get(channel.channelId) || message.channel;
 
-    const levelupRoles = await getLevelupRoles(message.guild.id);
-    let levelup = levelupRoles.findIndex((u) => u.level === updated.level);
+    const levelupRoles = await getLevelupRoles(guildID);
+    const levelupRole = levelupRoles.findIndex((u) => u.level === updated.level);
 
-    if (levelup === -1) {
-      if (targetChannel) {
-        await targetChannel.send({
-          content: `Congratulations ${message.member.user}\nYou've leveled up to level ${updated.level}`,
-        });
-      } else {
-        await message.channel.send({
-          content: `Congratulations ${message.member.user}\nYou've leveled up to level ${updated.level}`,
-        });
-      }
+    if (levelupRole === -1) {
+      await targetChannel.send({
+        content: `Congratulations ${memberUser}\nYou've leveled up to level ${updated.level}`,
+      });
     } else {
-      let role = message.guild.roles.cache.get(levelupRoles[levelup].roleId);
-      await message.member.roles.add(role);
+      const role = message.guild.roles.cache.get(levelupRoles[levelupRole].roleId);
+      await message.member.roles.add(role).catch((err) => {
+        logger.log("error", `Error adding levelup role\n${err}`);
+      });
 
-      if (targetChannel) {
-        await targetChannel.send({
-          content: `Congratulations ${message.member.user}\nYou've leveled up to level ${updated.level}\nAnd been given the role \`${role.name}\``,
-        });
-      } else {
-        await message.channel.send({
-          content: `Congratulations ${message.member.user}\nYou've leveled up to level ${updated.level}\nAnd been given the role \`${role.name}\``,
-        });
-      }
+      await targetChannel.send({
+        content: `Congratulations ${memberUser}\nYou've leveled up to level ${updated.level}\nAnd been given the role \`${role.name}\``,
+      });
     }
   }
 
-  const memberID = message.guild.id;
+  cooldowns.get(guildID).push(memberID);
 
-  cooldowns.get(message.guild.id).push(memberID);
   setTimeout(() => {
-    let idx = cooldowns.get(memberID).indexOf(memberID);
-    cooldowns.get(memberID).splice(idx, 1);
+    cooldowns.get(guildID).shift();
   }, 60000);
 };

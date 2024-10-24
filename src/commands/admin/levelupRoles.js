@@ -116,7 +116,7 @@ module.exports = {
   }, // What the bot replies with
 
   name: "level-roles", // Name of the command
-  description: "Get/Add/Delete levelup roles", // Description of the command
+  description: "Manage levelup roles", // Description of the command
   // devOnly: true, // Is a dev only command
   // testOnly: true, // Is a test command
   usage: "/level-roles get\n/level-roles add [role] [level]\n/level-roles delete [role]", // How to use this command. [required], (optional)

@@ -30,10 +30,11 @@ module.exports = {
       ephemeral: false,
     });
 
+    let out = `Shard ID: \`${interaction.guild.shard.id}\`\nShard WebSocket Ping: \`${interaction.guild.shard.ping}ms\``;
+
     try {
       await interaction.editReply({
-        content: "",
-        embeds: [],
+        content: out,
       });
     } catch (error) {
       await interaction.editReply({
@@ -44,12 +45,12 @@ module.exports = {
     }
   }, // What the bot replies with
 
-  name: "", // Name of the command
-  description: "", // Description of the command
+  name: "shard", // Name of the command
+  description: "Get shard info", // Description of the command
   // devOnly: true, // Is a dev only command
   // testOnly: true, // Is a test command
-  usage: "", // How to use this command. [required], (optional)
-  example: "", // Example of how to run this command
+  usage: "/shard", // How to use this command. [required], (optional)
+  example: "/shard", // Example of how to run this command
   // options: [], // Input options
   // deleted: true, // If the command is no longer in use
   // permissionsRequired: [], // What permissions are needed to run the command
