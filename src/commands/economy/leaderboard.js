@@ -88,9 +88,9 @@ module.exports = {
 
         context.drawImage(avatar, 25, 50 + 300 * i, 275, 275);
 
-        context.font = applyText(canvas, `#${1 + i + start} ${guildMember.user.tag}`, 200);
+        context.font = applyText(canvas, `#${1 + i + start} ${guildMember.user.username}`, 200);
         context.fillStyle = "#ffffff";
-        context.fillText(`#${1 + i + start} ${guildMember.user.tag}`, 350, 200 + 300 * i);
+        context.fillText(`#${1 + i + start} ${guildMember.user.username}`, 350, 200 + 300 * i);
 
         let nextLevel = calcLevelExp(lb[i + start].level);
         context.font = applyText(canvas, `Level: ${lb[i + start].level} - Exp: ${lb[i + start].exp}/${nextLevel}`, 100);

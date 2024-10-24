@@ -44,10 +44,6 @@ module.exports = {
       let rsn = interaction.options.get("reason").value;
       let newWarn = await addGuildWarning(interaction.guild.id, usr, rsn);
       newWarn = newWarn[newWarn.length - 1];
-
-      const userWarns = await getGuildUserPunishments(interaction.guild.id, usr);
-      const usrWarnNbr = userWarns.length;
-
       let targetUser;
       try {
         targetUser = await interaction.guild.members.fetch(usr);
@@ -55,6 +51,17 @@ module.exports = {
         await interaction.editReply(`That user is not a part of this server`);
         return;
       }
+
+      const targetMaxRank = targetUser.roles.highest.rawPosition;
+      const moderatorMaxRank = interaction.member.roles.highest.rawPosition;
+      if (targetMaxRank >= moderatorMaxRank) {
+        await interaction.editReply({
+          content: `You are not able to warn that user`,
+        });
+        return;
+      }
+      const userWarns = await getGuildUserPunishments(interaction.guild.id, usr);
+      const usrWarnNbr = userWarns.length;
 
       const warningPunishments = await getWarnPunishments(interaction.guild.id);
 
@@ -189,7 +196,7 @@ module.exports = {
         await interaction.editReply({
           content: `Bot Error, Try again later`,
         });
-        logger.log("error", `There was an error deleting a warning:\n${error}`);
+        logger.log("error", `There was an error fetching warnings:\n${error}`);
         console.log(error);
         return;
       }

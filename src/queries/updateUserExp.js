@@ -9,7 +9,9 @@ const updateUserLevel = require("./updateUserLevel");
 // Logging tool
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
-  format: winston.format.printf((log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`),
+  format: winston.format.printf(
+    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+  ),
 });
 
 // Connecting to supabase
@@ -34,7 +36,7 @@ module.exports = async (userID, guildID, expToGive) => {
   if (data) {
     const expForNext = calcLevelExp(data[0].level);
     if (data[0].exp >= expForNext) {
-      const newData = await updateUserLevel(data[0].userId, data[0].guildId, expForNext);
+      const newData = await updateUserLevel(data[0].userId, data[0].guildId);
       return newData;
     } else {
       return data[0];
