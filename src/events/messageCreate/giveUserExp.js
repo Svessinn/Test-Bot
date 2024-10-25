@@ -16,7 +16,7 @@ const logger = winston.createLogger({
   ),
 });
 
-function getRandomExp(min, max) {
+function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
@@ -35,17 +35,18 @@ module.exports = async (client, message) => {
   if (!message.inGuild() || message.author.bot || cooldowns.get(guildID).includes(memberID)) return;
 
   let level = await getLevel(memberID, guildID);
-  let updated;
 
-  if (level) {
-    updated = await updateExp(memberID, guildID, getRandomExp(1, 5));
-  } else {
+  if (!level) {
     await createLevel(memberID, guildID);
     level = await getLevel(memberID, guildID);
-    updated = await updateExp(memberID, guildID, getRandomExp(1, 5));
   }
 
-  if (updated.level > level.level) {
+  let L = level.level;
+  let gainedExp = Math.round(((getRandom(36, 240) + L) / 5) * Math.pow((2 * L + 10) / (L + getRandom(1, 100) + 10), 2.5) + 1);
+
+  let updated = await updateExp(memberID, guildID, gainedExp);
+
+  if (updated.level > L) {
     const channel = await guildChannel(guildID);
 
     const targetChannel = message.guild.channels.cache?.get(channel.channelId) || message.channel;
