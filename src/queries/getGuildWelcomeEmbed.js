@@ -17,7 +17,7 @@ const SUPABASE_KEY = process.env.SUPABASE_KEY;
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 module.exports = async (guildID) => {
-  let { data, error } = await supabase.from("WelcomeChannels").select().match({
+  let { data, error } = await supabase.from("WelcomeEmbeds").select().match({
     guildId: guildID,
   });
 

@@ -29,7 +29,6 @@ module.exports = {
     await interaction.deferReply();
 
     const targetUserId = interaction.options.get("user")?.value || interaction.user.id;
-    // console.log(interaction.options.get('target-user'))
 
     let targetUser;
     try {

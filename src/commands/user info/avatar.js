@@ -49,7 +49,7 @@ module.exports = {
     }
 
     if (subcommand === "user") {
-      const targetUser = interaction.options._hoistedOptions.length ? interaction.options._hoistedOptions[0].user : interaction.user;
+      const targetUser = interaction.options.get("user")?.user || interaction.user;
 
       avatarEmbed
         .setImage(

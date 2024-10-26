@@ -1,0 +1,65 @@
+require("dotenv").config();
+const { createClient } = require("@supabase/supabase-js");
+const path = require("path");
+const winston = require("winston");
+
+// Logging tool
+const logger = winston.createLogger({
+  transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
+  format: winston.format.printf(
+    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+  ),
+});
+
+// Connecting to supabase
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_KEY = process.env.SUPABASE_KEY;
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+module.exports = async (
+  GuildId,
+  Colour,
+  Title,
+  TitleURL,
+  AuthorName,
+  AuthorIconURL,
+  AuthorURL,
+  Description,
+  Thumbnail,
+  Image,
+  Timestamp,
+  FooterText,
+  FooterIconURL,
+  Content
+) => {
+  let { data, error } = await supabase
+    .from("WelcomeEmbeds")
+    .upsert([
+      {
+        guildId: GuildId,
+        colour: Colour,
+        title: Title,
+        titleURL: TitleURL,
+        authorName: AuthorName,
+        authorIconURL: AuthorIconURL,
+        authorURL: AuthorURL,
+        description: Description,
+        thumbnail: Thumbnail,
+        image: Image,
+        timestamp: Timestamp,
+        footerText: FooterText,
+        footerIconURL: FooterIconURL,
+        content: Content,
+      },
+    ])
+    .select();
+
+  if (data) {
+    return data[0];
+  }
+
+  if (error) {
+    logger.log("error", error);
+  }
+  return;
+};

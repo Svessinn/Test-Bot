@@ -1,7 +1,7 @@
 const { Client, Message } = require("discord.js");
 const path = require("path");
 const getLevel = require("../../queries/getUserLevelData");
-const createLevel = require("../../queries/createNewUserLevelData");
+const createLevel = require("../../queries/addNewUserLevelData");
 const updateExp = require("../../queries/updateUserExp");
 const guildChannel = require("../../queries/getGuildLevelChannel");
 const getLevelupRoles = require("../../queries/getGuildLevelRoles");

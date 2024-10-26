@@ -178,7 +178,7 @@ module.exports = {
       const userID = interaction.options.get("user").value;
       const member = await interaction.guild.members.fetch(userID);
       const userWarns = await getGuildWarnWithUser(interaction.guild.id, userID);
-      console.log(userWarns);
+
       if (userWarns.length) {
         userWarns.forEach((w) => {
           out += `__**ID**:__ ${w.id} - __**Reason**:__ ${w.reason}\n`;
