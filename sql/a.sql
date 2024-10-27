@@ -1,7 +1,7 @@
 /* 
  *  There are no keys on here rn
  *  I cba to add that all rn
- *  Am tired, it's 00:35 
+ *  Am tired, it's 00:35  
  */
 
 CREATE TABLE LevelChannels (
