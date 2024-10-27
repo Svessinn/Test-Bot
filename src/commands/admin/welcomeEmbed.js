@@ -99,7 +99,7 @@ module.exports = {
         await WelcomeChannelCreate(interaction.guild.id, welcomeChannel);
 
         interaction.editReply({
-          content: `Welcome Channel Successfully Created`,
+          content: `Welcome Channel Successfully Selected`,
           ephemeral: true,
         });
       } catch (error) {
