@@ -1,4 +1,4 @@
-const { Client, EmbedBuilder } = require("discord.js");
+const { Client, Interaction, EmbedBuilder } = require("discord.js");
 const path = require("path");
 const welcomeEmbedFetch = require("../../queries/getGuildWelcomeEmbed");
 const getWelcomeChannel = require("../../queries/getGuildWelcomeChannel");
@@ -14,20 +14,20 @@ const logger = winston.createLogger({
 
 /**
  * @param {Client} client
- * @param {member} member
+ * @param {Interaction} interaction
  */
 
-module.exports = async (client, member) => {
-  if (member.bot) return;
+module.exports = async (client, interaction) => {
+  if (interaction.bot) return;
 
-  let embedInfo = await welcomeEmbedFetch(member.guild.id);
+  let embedInfo = await welcomeEmbedFetch(interaction.guild.id);
   if (!embedInfo) return;
 
-  let embedChannel = await getWelcomeChannel(member.guild.id);
+  let embedChannel = await getWelcomeChannel(interaction.guild.id);
   if (!embedChannel) {
-    embedChannel = member.guild.systemChannel;
+    embedChannel = interaction.guild.systemChannel;
   } else {
-    embedChannel = member.guild.channels.cache.find((i) => i.id === embedChannel);
+    embedChannel = interaction.guild.channels.cache.find((i) => i.id === embedChannel);
   }
 
   try {
@@ -35,34 +35,34 @@ module.exports = async (client, member) => {
     if (!welcomeText) {
       welcomeText = "";
     }
-    welcomeText = welcomeText.replace(/\\/g, "\n").replace("{user}", `<@${member.user.id}>`);
+    welcomeText = welcomeText.replace(/\\/g, "\n").replace("{user}", `<@${interaction.user.id}>`);
 
     let welcomeEmbed = new EmbedBuilder()
       .setColor(embedInfo.colour)
-      .setTitle(embedInfo.title?.replace("{user}", member.user.tag) || embedInfo.title)
+      .setTitle(embedInfo.title?.replace("{user}", interaction.user.tag) || embedInfo.title)
       .setURL(embedInfo.titleURL)
       .setAuthor({
-        name: embedInfo.authorName?.replace("{user}", member.user.tag) || embedInfo.authorName,
+        name: embedInfo.authorName?.replace("{user}", interaction.user.tag) || embedInfo.authorName,
         iconURL:
           embedInfo.authorIconURL?.replace(
             "{user}",
-            member.user.displayAvatarURL({
+            interaction.user.displayAvatarURL({
               size: 1024,
               dynamic: true,
             })
           ) || embedInfo.authorIconURL,
         url: embedInfo.authorURL,
       })
-      .setDescription(embedInfo.description.replace(/\\/g, "\n")?.replace("{user}", `<@${member.user.id}>`) || embedInfo.description)
+      .setDescription(embedInfo.description.replace(/\\/g, "\n")?.replace("{user}", `<@${interaction.user.id}>`) || embedInfo.description)
       .setThumbnail(embedInfo.thumbnail)
       .setImage(embedInfo.image)
       .setTimestamp(embedInfo.timestamp || false ? Date.now() : null)
       .setFooter({
-        text: embedInfo.footerText?.replace("{user}", member.user.tag) || embedInfo.footerText,
+        text: embedInfo.footerText?.replace("{user}", interaction.user.tag) || embedInfo.footerText,
         iconURL:
           embedInfo.footerIconURL?.replace(
             "{user}",
-            member.user.displayAvatarURL({
+            interaction.user.displayAvatarURL({
               size: 1024,
               dynamic: true,
             })

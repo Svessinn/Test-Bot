@@ -1,13 +1,11 @@
-/* 
- *  There are no keys on here rn
- *  I cba to add that all rn
- *  Am tired, it's 00:35  
- */
+/*  SUPABASE IS A POSTGRES DATABASE */
 
 CREATE TABLE LevelChannels (
   guildId VARCHAR(255),
   channelId VARCHAR(255)
 );
+
+ALTER TABLE LevelChannels ADD PRIMARY KEY (guildId);
 
 CREATE TABLE Levels (
   userId VARCHAR(255),
@@ -16,11 +14,15 @@ CREATE TABLE Levels (
   exp INT8
 );
 
+ALTER TABLE Levels ADD PRIMARY KEY (userId, guildId);
+
 CREATE TABLE LevelupRoles (
   guildId VARCHAR(255),
   roleId VARCHAR(255),
   level INT2
 );
+
+ALTER TABLE LevelupRoles ADD PRIMARY KEY (guildId, roleId);
 
 CREATE TABLE WarnPunishments (
   guildId VARCHAR(255),
@@ -29,6 +31,8 @@ CREATE TABLE WarnPunishments (
   time INT8
 );
 
+ALTER TABLE WarnPunishments ADD PRIMARY KEY (guildId, warnings);
+
 CREATE TABLE Warnings (
   id INT8,
   guildId VARCHAR(255),
@@ -36,10 +40,14 @@ CREATE TABLE Warnings (
   reason VARCHAR(255)
 );
 
+ALTER TABLE Warnings ADD PRIMARY KEY (id, guildId);
+
 CREATE TABLE WelcomeChannels (
   guildId VARCHAR(255),
   channelId VARCHAR(255)
 );
+
+ALTER TABLE WelcomeChannels ADD PRIMARY KEY (guildId);
 
 CREATE TABLE WelcomeEmbeds (
   guildId VARCHAR(255),
@@ -57,3 +65,5 @@ CREATE TABLE WelcomeEmbeds (
   footerIconURL TEXT,
   content TEXT
 );
+
+ALTER TABLE WelcomeEmbeds ADD PRIMARY KEY (guildId);
