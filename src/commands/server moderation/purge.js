@@ -55,8 +55,8 @@ module.exports = {
   description: "Purges messages from this channel", // Description of the command
   // devOnly: true, // Is a dev only command
   // testOnly: true, // Is a test command
-  usage: "/purge [amount] (bots || contains || embeds || user)",
-  example: "/purge 100 130462164640202754",
+  usage: "/purge [amount]",
+  example: "/purge 100",
   options: [
     {
       name: "amount",
