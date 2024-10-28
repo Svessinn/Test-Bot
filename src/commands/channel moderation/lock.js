@@ -21,12 +21,12 @@ module.exports = {
   callback: async (client, interaction) => {
     // Check if the interaction is in a guild
     if (!interaction.inGuild()) {
-      interaction.reply("This command can only be ran in a guild");
+      interaction.reply("This command is only for use in a guild");
       return;
     }
     // Check if the member using the command is not a bot
     if (interaction.member.user.bot) {
-      interaction.reply("Bots can't user this command");
+      interaction.reply("Bots can't use this command");
       return;
     }
 

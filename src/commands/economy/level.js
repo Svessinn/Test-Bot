@@ -24,11 +24,11 @@ module.exports = {
 
   callback: async (client, interaction) => {
     if (!interaction.inGuild()) {
-      interaction.reply("This command can only be ran in a guild");
+      interaction.reply("This command is only for use in a guild");
       return;
     }
     if (interaction.member.user.bot) {
-      interaction.reply("Bots can't user this command");
+      interaction.reply("Bots can't use this command");
       return;
     }
 
@@ -66,7 +66,7 @@ module.exports = {
         .setRequiredXP(calcLevelExp(level.level))
         .setProgressBar("#FB4699", "COLOR", true)
         .setUsername(targetUser.user?.globalName || targetUser.user.username)
-        //.setDiscriminator(targetUser.user.discriminator)
+        //.setDiscriminator(targetUser.user.discriminator) // Discord removed discriminators from users
         .setCustomStatusColor("#5539CC")
         .setProgressBarTrack("#5539CC")
         .setBackground("IMAGE", background)

@@ -19,11 +19,11 @@ module.exports = {
 
   callback: async (client, interaction) => {
     if (!interaction.inGuild()) {
-      interaction.reply("This command can only be ran in a guild");
+      interaction.reply("This command is only for use in a guild");
       return;
     }
     if (interaction.member.user.bot) {
-      interaction.reply("Bots can't user this command");
+      interaction.reply("Bots can't use this command");
       return;
     }
 
@@ -33,12 +33,10 @@ module.exports = {
 
     try {
       if (interaction.options.get("channel")?.value || false) {
-        const newChannel = await upsertGuildLevelChannel(interaction.guild.id, interaction.options.get("channel").value);
         await interaction.editReply({
           content: `Levelup channel set to <#${interaction.options.get("channel").value}>`,
         });
       } else {
-        const newChannel = await upsertGuildLevelChannel(interaction.guild.id, null);
         await interaction.editReply({
           content: `Error`,
         });
@@ -68,5 +66,5 @@ module.exports = {
   ], // Input options
   // deleted: true, // If the command is no longer in use
   permissionsRequired: [PermissionFlagsBits.Administrator], // What permissions are needed to run the command
-  // botPermissions: [], // What permissions the bot needs to run the command
+  botPermissions: [PermissionFlagsBits.SendMessages], // What permissions the bot needs to run the command
 };

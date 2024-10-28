@@ -1,4 +1,4 @@
-const { Client, Interaction, ApplicationCommandOptionType } = require("discord.js");
+const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits } = require("discord.js");
 const path = require("path");
 
 // Logging tool
@@ -16,13 +16,13 @@ module.exports = {
    * @param {Interaction} interaction
    */
 
-  callback: async (bot, interaction) => {
+  callback: async (client, interaction) => {
     if (!interaction.inGuild()) {
-      interaction.reply("This command can only be ran in a guild");
+      interaction.reply("This command is only for use in a guild");
       return;
     }
     if (interaction.member.user.bot) {
-      interaction.reply("Bots can't user this command");
+      interaction.reply("Bots can't use this command");
       return;
     }
 
@@ -33,13 +33,10 @@ module.exports = {
     try {
       await interaction.editReply({
         content: String(Number(eval(eq))), // The content the bot replies with
-        //ephemeral: true, // If only the user that send the command should see the reply
       });
     } catch (error) {
       await interaction.editReply({
         content: "Invalid input", // The content the bot replies with
-        //embeds: [embed] // The embeds the bot replies with
-        //ephemeral: true, // If only the user that send the command should see the reply
       });
       logger.log("error", `There was an error calculating:\n${error}`);
       console.log(error);
@@ -62,5 +59,5 @@ module.exports = {
   ], // Input options
   // deleted: true, // If the command is no longer in use
   // permissionsRequired: [], // What permissions are needed to run the command
-  // botPermissions: [], // What permissions the bot needs to run the command
+  botPermissions: [PermissionFlagsBits.SendMessages], // What permissions the bot needs to run the command
 };

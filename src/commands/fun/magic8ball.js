@@ -19,11 +19,11 @@ module.exports = {
 
   callback: async (client, interaction) => {
     if (!interaction.inGuild()) {
-      interaction.reply("This command can only be ran in a guild");
+      interaction.reply("This command is only for use in a guild");
       return;
     }
     if (interaction.member.user.bot) {
-      interaction.reply("Bots can't user this command");
+      interaction.reply("Bots can't use this command");
       return;
     }
 
@@ -60,5 +60,5 @@ module.exports = {
   ], // Input options
   // deleted: true, // If the command is no longer in use
   // permissionsRequired: [], // What permissions are needed to run the command
-  // botPermissions: [], // What permissions the bot needs to run the command
+  botPermissions: [PermissionFlagsBits.SendMessages], // What permissions the bot needs to run the command
 };
