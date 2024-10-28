@@ -3,10 +3,12 @@ const { createClient } = require("@supabase/supabase-js");
 const path = require("path");
 const winston = require("winston");
 const delLevelChannel = require("./deleteGuildLevelChannel");
-const delLevels = require("./deleteGuildLevels");
 const delLevelRoles = require("./deleteGuildLevelRoles");
-const delWarnings = require("./deleteGuildWarnings");
+const delLevels = require("./deleteGuildLevels");
 const delWarnPunishments = require("./deleteGuildWarnPunishments");
+const delWarnings = require("./deleteGuildWarnings");
+const delWelcomeChannel = require("./deleteGuildWelcomeChannel");
+const delWelcomeEmbed = require("./deleteGuildWelcomeEmbed");
 
 // Logging tool
 const logger = winston.createLogger({
@@ -16,18 +18,15 @@ const logger = winston.createLogger({
   ),
 });
 
-// Connecting to supabase
-const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_KEY = process.env.SUPABASE_KEY;
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-
 module.exports = async (guildID) => {
   try {
     await delLevelChannel(guildID);
     await delLevels(guildID);
     await delLevelRoles(guildID);
-    await delWarnings(guildID);
     await delWarnPunishments(guildID);
+    await delWarnings(guildID);
+    await delWelcomeChannel(guildID);
+    await delWelcomeEmbed(guildID);
 
     logger.log("info", `Deleted all data associated with ${guildID}`);
   } catch (error) {
