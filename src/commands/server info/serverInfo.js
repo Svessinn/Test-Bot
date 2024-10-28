@@ -54,9 +54,9 @@ module.exports = {
       "Text Channels": guild.channels.cache.filter((channel) => channel.type === ChannelType.GuildText).size,
       "Voice Channels": guild.channels.cache.filter((channel) => channel.type === ChannelType.GuildVoice).size,
       "Stage Channels": guild.channels.cache.filter((channel) => channel.type === ChannelType.GuildStageVoice).size,
-      // "Total members": guild.memberCount,
+      "Total members": guild.memberCount,
       "Human mebers": guild.members.cache.filter((member) => !member.user.bot).size,
-      // "Bot members": guild.members.cache.filter((member) => member.user.bot).size,
+      "Bot members": guild.members.cache.filter((member) => member.user.bot).size,
       "Role Count": guild.roles.cache.size,
       "Verification Level": verificationLevels[guild.verificationLevel],
       "Boost Level": boostLevels[guild.premiumTier],
@@ -78,7 +78,7 @@ module.exports = {
       }
 
       await interaction.editReply({
-        content: "Under Development",
+        // content: "Under Development",
         embeds: [embed],
       });
     } catch (error) {

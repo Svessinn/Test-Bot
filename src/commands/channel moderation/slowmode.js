@@ -52,7 +52,7 @@ module.exports = {
       await targetChannel.setRateLimitPerUser(sDuration);
 
       await interaction.editReply({
-        content: `<#${targetChannelId}>'s slowmode has been set to ${sDuration} seconds`,
+        content: sDuration ? `<#${targetChannelId}>'s slowmode has been set to ${sDuration} seconds` : `<#${targetChannelId}>'s slowmode has been removed`,
       });
     } catch (error) {
       await interaction.editReply({
@@ -64,7 +64,7 @@ module.exports = {
   }, // What the bot replies with
 
   name: "slowmode", // Name of the command
-  description: "Set a channel into slowmode", // Description of the command
+  description: "Set slowmode for a channel", // Description of the command
   // devOnly: true, // Is a dev only command
   // testOnly: true, // Is a test command
   usage: "/slowmode [channel | channelID] (time {default: 5s})",
@@ -79,12 +79,12 @@ module.exports = {
     },
     {
       name: "time",
-      description: "Time to set slowmode (30s, 30m, 1h, 1d)",
+      description: "Time to set slowmode (30s, 30m, 1h, 1d) Default: 5s",
       required: false,
       type: ApplicationCommandOptionType.String,
     },
   ], // Input options
   // deleted: true, // If the command is no longer in use
   permissionsRequired: [PermissionFlagsBits.ManageChannels], // What permissions are needed to run the command
-  botPermissions: [PermissionFlagsBits.ManageChannels, PermissionFlagsBits.EmbedLinks], // What permissions the bot needs to run the command
+  botPermissions: [PermissionFlagsBits.ManageChannels, PermissionFlagsBits.SendMessages], // What permissions the bot needs to run the command
 };

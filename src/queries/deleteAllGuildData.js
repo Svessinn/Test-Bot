@@ -1,5 +1,4 @@
 require("dotenv").config();
-const { createClient } = require("@supabase/supabase-js");
 const path = require("path");
 const winston = require("winston");
 const delLevelChannel = require("./deleteGuildLevelChannel");
