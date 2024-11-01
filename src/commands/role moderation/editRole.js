@@ -31,7 +31,7 @@ module.exports = {
       ephemeral: false,
     });
 
-    let subcommand = interaction.options._subcommand;
+    let subcommand = interaction.options.getSubcommand();
     let role = interaction.guild.roles.cache.get(interaction.options.get("role").value);
 
     let outEmbed = new EmbedBuilder()

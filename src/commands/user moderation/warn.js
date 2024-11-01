@@ -36,7 +36,7 @@ module.exports = {
       ephemeral: false,
     });
 
-    let subcommand = interaction.options._subcommand;
+    let subcommand = interaction.options.getSubcommand();
 
     if (subcommand === "add") {
       let punishmentEmbed;

@@ -1,9 +1,11 @@
 require("dotenv").config();
 const path = require("path");
 const winston = require("winston");
+const delEventLoggers = require("./deleteGuildEventLoggers");
 const delLevelChannel = require("./deleteGuildLevelChannel");
 const delLevelRoles = require("./deleteGuildLevelRoles");
 const delLevels = require("./deleteGuildLevels");
+const delLogChannel = require("./deleteGuildLogChannel");
 const delWarnPunishments = require("./deleteGuildWarnPunishments");
 const delWarnings = require("./deleteGuildWarnings");
 const delWelcomeChannel = require("./deleteGuildWelcomeChannel");
@@ -19,9 +21,11 @@ const logger = winston.createLogger({
 
 module.exports = async (guildID) => {
   try {
+    await delEventLoggers(guildID);
     await delLevelChannel(guildID);
     await delLevels(guildID);
     await delLevelRoles(guildID);
+    await delLogChannel(guildID);
     await delWarnPunishments(guildID);
     await delWarnings(guildID);
     await delWelcomeChannel(guildID);

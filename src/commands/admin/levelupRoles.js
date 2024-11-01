@@ -34,7 +34,7 @@ module.exports = {
       ephemeral: false,
     });
 
-    let subcommand = interaction.options._subcommand;
+    let subcommand = interaction.options.getSubcommand();
     let outEmbed = new EmbedBuilder().setColor("Blurple");
 
     if (subcommand === "get") {

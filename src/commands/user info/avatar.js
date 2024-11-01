@@ -30,7 +30,7 @@ module.exports = {
       ephemeral: false,
     });
 
-    let subcommand = interaction.options._subcommand;
+    let subcommand = interaction.options.getSubcommand();
 
     let avatarEmbed = new EmbedBuilder().setColor("Blurple");
 

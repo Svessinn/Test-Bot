@@ -1,6 +1,6 @@
 const path = require("path");
-const { Client, Guild } = require("discord.js");
-const delAllGuildData = require("../../queries/deleteAllGuildData");
+const { Client } = require("discord.js");
+
 // Logging tool
 const winston = require("winston");
 const logger = winston.createLogger({
@@ -12,14 +12,11 @@ const logger = winston.createLogger({
 
 /**
  * @param {Client} client
- * @param {Guild} guild
  */
 
-module.exports = async (client, guild) => {
-  try {
-    await delAllGuildData(guild.id);
-  } catch (error) {
-    logger.log("error", `There was an error deleting guild data for ${guild.id} \n${error}`);
-    console.log(error);
-  }
+module.exports = async (client, ...args) => {
+  const event = path.basename(__dirname);
+  logger.log('error', `${event}.js - ${args}`)
+  console.log(args)
+  return;
 };

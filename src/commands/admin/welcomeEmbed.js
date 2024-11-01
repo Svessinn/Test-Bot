@@ -37,7 +37,7 @@ module.exports = {
       ephemeral: true,
     });
 
-    let subcommand = interaction.options._subcommand;
+    let subcommand = interaction.options.getSubcommand();
 
     if (subcommand === "manage") {
       let colour = interaction.options.get("colour")?.value || null;

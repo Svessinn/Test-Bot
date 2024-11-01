@@ -40,7 +40,7 @@ module.exports = {
       iconURL: interaction.guild.iconURL(),
     });
 
-    let subcommand = interaction.options._subcommand;
+    let subcommand = interaction.options.getSubcommand();
 
     let out = "";
     if (subcommand === "get") {

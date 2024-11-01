@@ -47,6 +47,7 @@ module.exports = {
       targetUser = await interaction.guild.members.fetch(targetUserId);
     } catch (err) {
       logger.log("error", err);
+      return;
     }
 
     const targetuserRolePosition = targetUser?.roles?.highest?.position || 0; // Highest role of the targeted user
@@ -140,7 +141,6 @@ module.exports = {
         {
           name: "Don't delete any messages",
           value: 0,
-          nameLocalizations: {},
         },
         {
           name: "1 hour",

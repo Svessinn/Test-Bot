@@ -29,7 +29,6 @@ let cooldowns = new DefaultDict([].constructor);
 
 module.exports = async (client, message) => {
   const memberID = message.author.id;
-  const memberUser = message.member.user;
   const guildID = message.guild.id;
 
   if (!message.inGuild() || message.author.bot || cooldowns.get(guildID).includes(memberID)) return;
@@ -56,7 +55,7 @@ module.exports = async (client, message) => {
 
     if (levelupRole === -1) {
       await targetChannel.send({
-        content: `Congratulations ${memberUser}\nYou've leveled up to level ${updated.level}`,
+        content: `Congratulations <@${memberID}>\nYou've leveled up to level ${updated.level}`,
       });
     } else {
       const role = message.guild.roles.cache.get(levelupRoles[levelupRole].roleId);
@@ -65,7 +64,7 @@ module.exports = async (client, message) => {
       });
 
       await targetChannel.send({
-        content: `Congratulations ${memberUser}\nYou've leveled up to level ${updated.level}\nAnd been given the role \`${role.name}\``,
+        content: `Congratulations <@${memberID}>\nYou've leveled up to level ${updated.level}\nAnd been given the role \`${role.name}\``,
       });
     }
   }
