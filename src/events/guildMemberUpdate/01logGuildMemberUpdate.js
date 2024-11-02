@@ -39,8 +39,8 @@ function compareObjects(oldObj, newObj) {
  */
 
 module.exports = async (client, ...args) => {
-  let oldUser = args[0];
-  let newUser = args[1];
+  const oldUser = args[0];
+  const newUser = args[1];
   
   const changes = compareObjects(oldUser, newUser)
   if (!changes.length) return;
@@ -79,20 +79,22 @@ module.exports = async (client, ...args) => {
       }
 
       if (changes.includes("_roles")) {
-        let removedRoles = oldUser._roles.filter(r => !newUser._roles.includes(r));
-        let addedRoles = newUser._roles.filter(r => !oldUser._roles.includes(r));
-        
+        const removedRoles = oldUser._roles.filter(r => !newUser._roles.includes(r));
+        const addedRoles = newUser._roles.filter(r => !oldUser._roles.includes(r));
+
         if (removedRoles.length) {
           embedDescription += `\n**Removed from role(s):** `
           for(let role of removedRoles) {
-            embedDescription += `<@&${role}>`
+            const roleName = await oldUser.guild.roles.cache.get(role).name;
+            embedDescription += `\`${roleName}\``
           }
         }
 
         if (addedRoles.length) {
           embedDescription += `\n**Added to role(s):** `
           for(let role of addedRoles) {
-            embedDescription += `<@&${role}>`
+            const roleName = await newUser.guild.roles.cache.get(role).name;
+            embedDescription += `\`${roleName}\``
           }
         }
       } 
