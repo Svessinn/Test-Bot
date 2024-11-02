@@ -13,6 +13,9 @@ let status = [
  */
 
 module.exports = (client) => {
+  /* 
+   * if there are multiple activities in the status it'll cycle through them at random
+   */
   setInterval(() => {
     let random = Math.floor(Math.random() * status.length);
     client.user.setActivity(status[random]);

@@ -1,7 +1,7 @@
 const path = require("path");
 const { Client, Interaction, EmbedBuilder } = require("discord.js");
 const getEventLogger = require("../../queries/getGuildEventLogger");
-const getLogChannel = require("../../queries/getGuildLogChannel")
+const getLogChannel = require("../../queries/getGuildLogChannel");
 
 // Logging tool
 const winston = require("winston");
@@ -14,27 +14,27 @@ const logger = winston.createLogger({
 
 /**
  * @param {Client} client
- * @param {Interaction} createdChannel
+ * @param {Interaction} createdInvite
  */
 
-module.exports = async (client, createdChannel) => {
+module.exports = async (client, createdInvite) => {
   const event = path.basename(__dirname);
-  const log = await getEventLogger(createdChannel.guild.id, event);
+  const log = await getEventLogger(createdInvite.guild.id, event);
 
   if (log) {
     try {
-      const channel = await getLogChannel(createdChannel.guild.id);
-      const logChannel = createdChannel.guild.channels.cache.get(channel.channelId);
+      const channel = await getLogChannel(createdInvite.guild.id);
+      const logChannel = createdInvite.guild.channels.cache.get(channel.channelId);
 
       let embed = new EmbedBuilder()
-        .setAuthor({ name: createdChannel.guild.name, iconURL: createdChannel.guild.iconURL() })
-        .setDescription(`**Channel Created: #${createdChannel.name} (<#${createdChannel.id}>)**`)
-        .setFooter({text: `Channel ID: ${createdChannel.id}`})
+        .setAuthor({ name: createdInvite.guild.name, iconURL: createdInvite.guild.iconURL() })
+        .setDescription(`**Invite Created by <@${createdInvite.inviterId}>: \n\`https://discord.gg/${createdInvite.code}\` (to <#${createdInvite.channel.id}>)**`)
+        .setFooter({text: `Invite code: ${createdInvite.code}`})
         .setTimestamp();
 
       await logChannel.send({ embeds: [embed] });
     } catch (error) {
-      logger.log("error", `There was an error logging ${event} for ${createdChannel.guild.id}: \n${error}`);
+      logger.log("error", `There was an error logging ${event} for ${createdInvite.guild.id}: \n${error}`);
       console.log(error);
     }
   }

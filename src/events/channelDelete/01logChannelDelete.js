@@ -14,27 +14,27 @@ const logger = winston.createLogger({
 
 /**
  * @param {Client} client
- * @param {Interaction} interaction
+ * @param {Interaction} deletedChannel
  */
 
-module.exports = async (client, interaction) => {
+module.exports = async (client, deletedChannel) => {
   const event = path.basename(__dirname);
-  const log = await getEventLogger(interaction.guild.id, event);
+  const log = await getEventLogger(deletedChannel.guild.id, event);
 
   if (log) {
     try {
-      const channel = await getLogChannel(interaction.guild.id);
-      const logChannel = interaction.guild.channels.cache.get(channel.channelId);
+      const channel = await getLogChannel(deletedChannel.guild.id);
+      const logChannel = deletedChannel.guild.channels.cache.get(channel.channelId);
 
       let embed = new EmbedBuilder()
-        .setAuthor({ name: interaction.guild.name, iconURL: interaction.guild.iconURL() })
-        .setDescription(`**Channel Deleted: #${interaction.name}**`)
-        .setFooter({text: `Channel ID: ${interaction.id}`})
+        .setAuthor({ name: deletedChannel.guild.name, iconURL: deletedChannel.guild.iconURL() })
+        .setDescription(`**Channel Deleted: #${deletedChannel.name}**`)
+        .setFooter({text: `Channel ID: ${deletedChannel.id}`})
         .setTimestamp();
 
       await logChannel.send({ embeds: [embed] });
     } catch (error) {
-      logger.log("error", `There was an error logging ${event} for ${interaction.guild.id}: \n${error}`);
+      logger.log("error", `There was an error logging ${event} for ${deletedChannel.guild.id}: \n${error}`);
       console.log(error);
     }
   }

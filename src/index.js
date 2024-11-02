@@ -17,6 +17,8 @@ const client = new Client({
     IntentsBitField.Flags.GuildPresences,
     IntentsBitField.Flags.GuildMessages,
     IntentsBitField.Flags.MessageContent,
+    IntentsBitField.Flags.GuildInvites,
+    IntentsBitField.Flags.GuildModeration,
   ],
 });
 

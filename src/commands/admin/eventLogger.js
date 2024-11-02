@@ -14,6 +14,35 @@ const logger = winston.createLogger({
   ),
 });
 
+// If it's commented out it means that the logger for it isn't ready
+// Only 25 options are allowed for each choice
+const logEvents = [
+	{ name: 'Channel Create', value: 'channelCreate' },
+	{ name: 'Channel Delete', value: 'channelDelete' },
+	{ name: 'Channel Update', value: 'channelUpdate' },
+	// { name: 'Emoji Create', value: 'emojiCreate' },
+	// { name: 'Emoji Delete', value: 'emojiDelete' },
+	// { name: 'Event Create',value: 'guildScheduledEventCreate' },
+	// { name: 'Event Delete',value: 'guildScheduledEventDelete' },
+	// { name: 'Event Update',value: 'guildScheduledEventUpdate' },
+	{ name: 'Invite Create', value: 'inviteCreate' },
+	// { name: 'Message Delete', value: 'messageDelete' },
+	// { name: 'Message Delete Bulk', value: 'messageDeleteBulk' },
+	// { name: 'Message Edit', value: 'messageUpdate' },
+	{ name: 'Role Create', value: 'roleCreate' },
+	{ name: 'Role Delete', value: 'roleDelete' },
+	// { name: 'Role Update', value: 'roleUpdate' },
+	// { name: 'Sticker Create', value: 'stickerCreate' },
+	// { name: 'Sticker Delete', value: 'stickerDelete' },
+	// { name: 'Thread Create', value: 'threadCreate' },
+	// { name: 'Thread Delete', value: 'threadDelete' },
+	// { name: 'User Ban', value: 'guildBanAdd' },
+	// { name: 'User Join', value: 'guildMemberAdd' },
+	// { name: 'User Leave', value: 'guildMemberRemove' },
+	// { name: 'User Unban', value: 'guildBanRemove' },
+	{ name: 'User Update', value: 'guildMemberUpdate' },
+];
+
 module.exports = {
   /**
    * @param {Client} client
@@ -129,35 +158,7 @@ module.exports = {
 					description: "Select an event to enable logging",
 					type: ApplicationCommandOptionType.String,
 					required: true,
-					choices: [
-						// If it's commented out it means that the logger for it isn't ready
-						// Only 25 choices are allowed for each option
-						// If you want to log any more events, you can make another subcommand (Example "enable2") with more choices
-						{ name: 'Channel Create', value: 'channelCreate' },
-						{ name: 'Channel Delete', value: 'channelDelete' },
-						{ name: 'Channel Update', value: 'channelUpdate' },
-						// { name: 'Emoji Create', value: 'emojiCreate' },
-						// { name: 'Emoji Delete', value: 'emojiDelete' },
-						// { name: 'Event Create',value: 'guildScheduledEventCreate' },
-						// { name: 'Event Delete',value: 'guildScheduledEventDelete' },
-						// { name: 'Event Update',value: 'guildScheduledEventUpdate' },
-						// { name: 'Invite Create', value: 'inviteCreate' },
-						// { name: 'Message Delete', value: 'messageDelete' },
-						// { name: 'Message Delete Bulk', value: 'messageDeleteBulk' },
-						// { name: 'Message Edit', value: 'messageUpdate' },
-						// { name: 'Role Create', value: 'roleCreate' },
-						// { name: 'Role Delete', value: 'roleDelete' },
-						// { name: 'Role Update', value: 'roleUpdate' },
-						// { name: 'Sticker Create', value: 'stickerCreate' },
-						// { name: 'Sticker Delete', value: 'stickerDelete' },
-						// { name: 'Thread Create', value: 'threadCreate' },
-						// { name: 'Thread Delete', value: 'threadDelete' },
-						// { name: 'User Ban', value: 'guildBanAdd' },
-						// { name: 'User Join', value: 'guildMemberAdd' },
-						// { name: 'User Leave', value: 'guildMemberRemove' },
-						// { name: 'User Unban', value: 'guildBanRemove' },
-						{ name: 'User Update', value: 'guildMemberUpdate' },
-					],
+					choices: logEvents,
 				}
 			]
 		},
@@ -171,33 +172,7 @@ module.exports = {
 					description: "Select an event to disable logging",
 					type: ApplicationCommandOptionType.String,
 					required: true,
-					choices: [
-						{ name: 'Channel Create', value: 'channelCreate' },
-						{ name: 'Channel Delete', value: 'channelDelete' },
-						{ name: 'Channel Update', value: 'channelUpdate' },
-						// { name: 'Emoji Create', value: 'emojiCreate' },
-						// { name: 'Emoji Delete', value: 'emojiDelete' },
-						// { name: 'Event Create',value: 'guildScheduledEventCreate' },
-						// { name: 'Event Delete',value: 'guildScheduledEventDelete' },
-						// { name: 'Event Update',value: 'guildScheduledEventUpdate' },
-						// { name: 'Invite Create', value: 'inviteCreate' },
-						// { name: 'Invite Delete', value: 'inviteDelete' },
-						// { name: 'Message Delete', value: 'messageDelete' },
-						// { name: 'Message Delete Bulk', value: 'messageDeleteBulk' },
-						// { name: 'Message Edit', value: 'messageUpdate' },
-						// { name: 'Role Create', value: 'roleCreate' },
-						// { name: 'Role Delete', value: 'roleDelete' },
-						// { name: 'Role Update', value: 'roleUpdate' },
-						// { name: 'Sticker Create', value: 'stickerCreate' },
-						// { name: 'Sticker Delete', value: 'stickerDelete' },
-						// { name: 'Thread Create', value: 'threadCreate' },
-						// { name: 'Thread Delete', value: 'threadDelete' },
-						// { name: 'User Ban', value: 'guildBanAdd' },
-						// { name: 'User Join', value: 'guildMemberAdd' },
-						// { name: 'User Leave', value: 'guildMemberRemove' },
-						// { name: 'User Unban', value: 'guildBanRemove' },
-						{ name: 'User Update', value: 'guildMemberUpdate' },
-					],
+					choices: logEvents,
 				}
 			]
 		},
