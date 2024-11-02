@@ -6,7 +6,9 @@ const path = require("path");
 const getAllFiles = require("./getAllFiles");
 
 /**
- * @param {string} subCategory
+ * @param {String} subCategory
+ * @param {Array} exceptions
+ * @return {Array} Array of Local Commands.
  */
 
 module.exports = (subCategory, exceptions = []) => {

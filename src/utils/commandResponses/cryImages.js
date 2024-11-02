@@ -20,6 +20,10 @@ const responses = [
   "https://media1.tenor.com/m/AEiv3Qk2ZhgAAAAC/kawaii-sad.gif", // Umaru Doma crying
 ];
 
+/**
+ * @return {String}
+ */
+
 module.exports = () => {
   return responses[Math.floor(Math.random() * responses.length)];
 };

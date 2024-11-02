@@ -106,7 +106,7 @@ module.exports = {
   usage: "/event-logger channel [channel]\n/event-logger enable [event]\n/event-logger disable [event]", // How to use this command. [required], (optional)
   example: `/event-logger channel 1137315708406091776\n/event-logger enable Role Create\n/event-logger disable User Join`, // Example of how to run this command
   options: [
-    {
+		{
 			name: "channel",
 			description: "Select a log channel",
 			type: ApplicationCommandOptionType.Subcommand,
@@ -142,7 +142,6 @@ module.exports = {
 						// { name: 'Event Delete',value: 'guildScheduledEventDelete' },
 						// { name: 'Event Update',value: 'guildScheduledEventUpdate' },
 						// { name: 'Invite Create', value: 'inviteCreate' },
-						// { name: 'Invite Delete', value: 'inviteDelete' },
 						// { name: 'Message Delete', value: 'messageDelete' },
 						// { name: 'Message Delete Bulk', value: 'messageDeleteBulk' },
 						// { name: 'Message Edit', value: 'messageUpdate' },
@@ -157,7 +156,7 @@ module.exports = {
 						// { name: 'User Join', value: 'guildMemberAdd' },
 						// { name: 'User Leave', value: 'guildMemberRemove' },
 						// { name: 'User Unban', value: 'guildBanRemove' },
-						// { name: 'User Update', value: 'userUpdate' },
+						{ name: 'User Update', value: 'guildMemberUpdate' },
 					],
 				}
 			]
@@ -197,7 +196,7 @@ module.exports = {
 						// { name: 'User Join', value: 'guildMemberAdd' },
 						// { name: 'User Leave', value: 'guildMemberRemove' },
 						// { name: 'User Unban', value: 'guildBanRemove' },
-						// { name: 'User Update', value: 'userUpdate' },
+						{ name: 'User Update', value: 'guildMemberUpdate' },
 					],
 				}
 			]

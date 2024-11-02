@@ -13,6 +13,10 @@ const responses = [
   "https://media1.tenor.com/m/2ruC-b5vX68AAAAC/anime-pat.gif",
 ];
 
+/**
+ * @return {String}
+ */
+
 https: module.exports = () => {
   return responses[Math.floor(Math.random() * responses.length)];
 };

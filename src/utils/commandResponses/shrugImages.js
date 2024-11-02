@@ -11,6 +11,10 @@ const responses = [
   "https://media1.tenor.com/m/SxvUPdLQfrgAAAAC/uzaki-chan-uzaki.gif",
 ];
 
+/**
+ * @return {String}
+ */
+
 module.exports = () => {
   return responses[Math.floor(Math.random() * responses.length)];
 };

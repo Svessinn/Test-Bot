@@ -1,7 +1,8 @@
 const path = require("path");
 const { Client, EmbedBuilder, ChannelFlagsBitField, PermissionsBitField } = require("discord.js");
 const getEventLogger = require("../../queries/getGuildEventLogger");
-const getLogChannel = require("../../queries/getGuildLogChannel")
+const getLogChannel = require("../../queries/getGuildLogChannel");
+const msToTime = require("../../utils/msToTime");
 
 // Logging tool
 const winston = require("winston");
@@ -16,7 +17,7 @@ function compareObjects(oldObj, newObj) {
   let diffs = [];
   for(i in oldObj) {
     if(oldObj[i] !== newObj[i]) {
-      // Normal compatisons fon't work for the flags and permissionOverwrites feilds
+      // Normal compatisons don't work for the flags and permissionOverwrites feilds
       // Their bitFeilds need to be resolved for comparisons
       if (i === 'flags') {
         if (ChannelFlagsBitField.resolve(oldObj.flags) !== ChannelFlagsBitField.resolve(newObj.flags)) {
@@ -75,7 +76,7 @@ module.exports = async (client, ...args) => {
 
       let embed = new EmbedBuilder()
         .setAuthor({ name: oldChannel.guild.name, iconURL: oldChannel.guild.iconURL() })
-        .setTitle(`#${newChannel.name} was updated:`)
+        .setTitle(`Channel #${newChannel.name} was updated:`)
         .setDescription(`Something changed for <#${oldChannel.id}>`)
         .setFooter({text: `Channel ID: ${oldChannel.id}`})
         .setTimestamp();
@@ -99,7 +100,7 @@ module.exports = async (client, ...args) => {
       } 
 
       if (changes.includes("rateLimitPerUser")) {
-        embedDescription += `\nSlowmode: **${oldChannel.rateLimitPerUser}** -> **${newChannel.rateLimitPerUser}**`
+        embedDescription += `\nSlowmode: **${msToTime(oldChannel.rateLimitPerUser*1000,false)}** -> **${msToTime(newChannel.rateLimitPerUser*1000,false)}**`
       }
 
       if (changes.includes("topic")) {

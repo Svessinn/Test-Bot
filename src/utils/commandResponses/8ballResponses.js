@@ -27,6 +27,10 @@ const responses = [
   "Not at all",
 ];
 
+/**
+ * @return {String}
+ */
+
 module.exports = () => {
   return responses[Math.floor(Math.random() * responses.length)];
 };

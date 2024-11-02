@@ -144,11 +144,12 @@ const colours = {
 };
 
 /**
- * @param {string} colour
+ * @param {String} colour
+ * @return {String} Colour as HEX if it's known. Else #000000 (black).
  */
 
 module.exports = (colour) => {
   if (typeof colours[colour.toLowerCase()] != "undefined") return colours[colour.toLowerCase()];
 
-  return false;
+  return '#000000';
 };

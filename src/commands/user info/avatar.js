@@ -66,6 +66,7 @@ module.exports = {
 
     if (subcommand === "server") {
       let targetUser = interaction.options?.get("user") || null;
+      console.log(targetUser)
       if (targetUser) {
         avatarEmbed
           .setImage(targetUser.member.displayAvatarURL({ size: 1024 }), {

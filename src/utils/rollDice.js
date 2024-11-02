@@ -1,5 +1,6 @@
 /**
  * @param {string} dice
+ * @return {Array} Array of rolled dice.
  */
 
 module.exports = (dice) => {

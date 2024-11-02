@@ -3,7 +3,8 @@ Calculates the amount of Exp needed to go up a level
 */
 
 /**
- * @param {number} level
+ * @param {Number} level
+ * @return {Number} EXP neede to level up to input level.
  */
 
 module.exports = (level) => {

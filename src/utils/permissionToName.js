@@ -42,6 +42,10 @@ const bitFields = {
   "10000000000000000000000000000000000000000": "ModerateMembers",
 };
 
+/**
+ * @return {String} Name of the BitFeild.
+ */
+
 module.exports = (bitField) => {
   return bitFields[bitField.toString(2)]
 }

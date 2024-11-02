@@ -2,6 +2,13 @@
 Checks to see if commands are different
 */
 
+/**
+ * 
+ * @param {Object} existingCommand 
+ * @param {Object} localCommand 
+ * @return {Boolean}
+ */
+
 module.exports = (existingCommand, localCommand) => {
   const areChoicesDifferent = (existingChoices, localChoices) => {
     for (const localChoice of localChoices) {

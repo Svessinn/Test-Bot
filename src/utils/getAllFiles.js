@@ -6,8 +6,9 @@ const fs = require("fs");
 const path = require("path");
 
 /**
- * @param {string} directory
- * @param {boolean} foldersOnly
+ * @param {String} directory
+ * @param {Boolean} foldersOnly
+ * @return {Array} Array of files.
  */
 
 module.exports = (directory, foldersOnly = false) => {

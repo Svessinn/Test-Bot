@@ -9,6 +9,10 @@ const responses = [
   "https://media.tenor.com/images/a6c2f17d9209f8f536b6b4bfbfb84686/tenor.gif",
 ];
 
+/**
+ * @return {String}
+ */
+
 module.exports = () => {
   return responses[Math.floor(Math.random() * responses.length)];
 };

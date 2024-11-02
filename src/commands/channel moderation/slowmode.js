@@ -42,7 +42,7 @@ module.exports = {
       return;
     }
 
-    let sDuration = ms(duration) / 1000;
+    let sDuration = Math.floor(ms(duration) / 1000);
 
     // Timeout the user
     try {

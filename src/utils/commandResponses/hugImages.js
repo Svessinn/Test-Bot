@@ -10,6 +10,10 @@ const responses = [
   "https://media.giphy.com/media/wnsgren9NtITS/giphy.gif",
 ];
 
+/**
+ * @return {String}
+ */
+
 module.exports = () => {
   return responses[Math.floor(Math.random() * responses.length)];
 };
