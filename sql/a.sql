@@ -1,5 +1,12 @@
 /*  SUPABASE IS A POSTGRES DATABASE */
 
+CREATE TABLE EventLoggers (
+  guildId VARCHAR(255),
+  event  VARCHAR(255)
+);
+
+ALTER TABLE EventLoggers ADD PRIMARY KEY (guildId, event);
+
 CREATE TABLE LevelChannels (
   guildId VARCHAR(255),
   channelId VARCHAR(255)
@@ -23,6 +30,13 @@ CREATE TABLE LevelupRoles (
 );
 
 ALTER TABLE LevelupRoles ADD PRIMARY KEY (guildId, roleId);
+
+CREATE TABLE LogChannels (
+  guildId VARCHAR(255),
+  channelId VARCHAR(255)
+);
+
+ALTER TABLE LogChannels ADD PRIMARY KEY (guildId);
 
 CREATE TABLE WarnPunishments (
   guildId VARCHAR(255),
