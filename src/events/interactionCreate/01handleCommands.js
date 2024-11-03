@@ -27,6 +27,11 @@ module.exports = async (client, interaction) => {
     const commandObject = localCommands.find((cmd) => cmd.name === interaction.commandName);
     if (!commandObject) return;
 
+    if (!interaction.inGuild()) {
+      interaction.reply("This command is only for use in a guild");
+      return;
+    }
+
     if (commandObject.devOnly) {
       if (!devs.includes(interaction.member.id)) {
         interaction.reply({

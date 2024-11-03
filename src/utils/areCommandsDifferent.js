@@ -45,7 +45,8 @@ function areOptionsDifferent (existingOptions, localOptions) {
           areChoicesDifferent((existingSubOption.choices || []), (localSubOption.choices || []))
         ) return true;
       }
-      areOptionsDifferent((existingOption?.options || []), (localOption?.options || []));
+      
+      if (areOptionsDifferent((existingOption?.options || []), (localOption?.options || []))) return true;
     }
   }
   return false;
@@ -63,8 +64,6 @@ module.exports = (existingCommand, localCommand) => {
     existingCommand.description !== localCommand.description ||
     (existingCommand.options?.length || 0) !== (localCommand.options?.length || 0) ||
     areOptionsDifferent(existingCommand.options || [], localCommand.options || [])
-  ) {
-    return true;
-  }
+  ) return true;
   return false;
 };

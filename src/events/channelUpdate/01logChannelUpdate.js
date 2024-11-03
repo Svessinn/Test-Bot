@@ -60,14 +60,12 @@ module.exports = async (client, ...args) => {
   let oldChannel = args[0];
   let newChannel = args[1];
 
+  const event = path.basename(__dirname);
+  const log = await getEventLogger(oldChannel.guild.id, event);
+
   const changes = compareObjects(oldChannel, newChannel)
 
   if (!changes.length) return;
-
-  // console.log(changes);
-
-  const event = path.basename(__dirname);
-  const log = await getEventLogger(oldChannel.guild.id, event);
 
   if (log) {
     try {

@@ -16,6 +16,7 @@ const logger = winston.createLogger({
 
 // If it's commented out it means that the logger for it isn't ready
 // Only 25 options are allowed for each choice
+// Create a new command and a new Array if you need more logs
 const logEvents = [
 	{ name: 'Channel Create', value: 'channelCreate' },
 	{ name: 'Channel Delete', value: 'channelDelete' },
@@ -28,7 +29,7 @@ const logEvents = [
 	{ name: 'Invite Create', value: 'inviteCreate' },
 	// { name: 'Message Delete', value: 'messageDelete' },
 	// { name: 'Message Delete Bulk', value: 'messageDeleteBulk' },
-	// { name: 'Message Edit', value: 'messageUpdate' },
+	{ name: 'Message Edit', value: 'messageUpdate' },
 	{ name: 'Role Create', value: 'roleCreate' },
 	{ name: 'Role Delete', value: 'roleDelete' },
 	// { name: 'Role Update', value: 'roleUpdate' },

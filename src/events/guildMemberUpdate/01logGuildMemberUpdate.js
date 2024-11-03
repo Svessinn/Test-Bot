@@ -104,7 +104,7 @@ module.exports = async (client, ...args) => {
         if (newUser.avatar) {
           embed.setThumbnail(`https://cdn.discordapp.com/guilds/${newUser.guild.id}/users/${newUser.user.id}/avatars/${newUser.avatar}.webp?size=1024`);
         } else {
-          embed.setThumbnail(`https://cdn.discordapp.com/avatars/${newUser.user.id}/${newUser.user.avatar}.webp?size=1024`)
+          embed.setThumbnail(`https://cdn.discordapp.com/avatars/${newUser.user.id}/${newUser.user.avatar}.webp?size=1024`);
         }
       }
       // If something noteworthy was changed, update the embed
