@@ -83,15 +83,15 @@ module.exports = async (client, ...args) => {
         .setThumbnail(`https://cdn.discordapp.com/avatars/${oldMessage.author.id}/${oldMessage.author.avatar}.webp?size=1024`)
         .setTimestamp();
 
-      let embedDescription = `<t:${Math.floor(newMessage.editedTimestamp/1000)}:R>`
+      let embedDescription = ``
 
       if (changes.includes('content')) {
-        embedDescription += `\n**Was:**\n${oldMessage.content}\n**Now:**\n${newMessage.content}`
+        embedDescription += `\n**Was:** ${oldMessage.content}\n**Now:** ${newMessage.content}`
       }
 
       // If something noteworthy was changed, update the embed
       if (embedDescription.length > 0) {
-        embed.setDescription(embedDescription)
+        embed.setDescription(embedDescription+`\n**Edited by:** <@${oldMessage.author.id}> <t:${Math.floor(newMessage.editedTimestamp/1000)}:R>`)
       } else {
         return;
       }

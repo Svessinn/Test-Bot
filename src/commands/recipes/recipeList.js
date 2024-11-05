@@ -1,3 +1,8 @@
+/*
+ * If this command isn't working for you or you just don't understnad it
+ * Look at the `recipe.js` file and read the header
+ * Once followed this command will work
+*/
 const { Client, Interaction, PermissionFlagsBits, ApplicationCommandOptionType, EmbedBuilder } = require("discord.js");
 const path = require("path");
 const getAllFiles = require("../../utils/getAllFiles");

@@ -55,7 +55,6 @@ module.exports = async (client, ...args) => {
 
       let embed = new EmbedBuilder()
         .setAuthor({ name: oldUser.guild.name, iconURL: oldUser.guild.iconURL() })
-        // .setTitle(`User @${newUser.user.username} was updated:`)
         .setDescription(`Something changed for <@${oldUser.id}>`)
         .setFooter({text: `User ID: ${oldUser.id}`})
         .setTimestamp();
@@ -91,11 +90,14 @@ module.exports = async (client, ...args) => {
         }
 
         if (addedRoles.length) {
-          embedDescription += `\n**Added to role(s):** `
+          embedDescription += `\n**Added to role(s):** \``
+          
           for(let role of addedRoles) {
             const roleName = await newUser.guild.roles.cache.get(role).name;
-            embedDescription += `\`${roleName}\``
+            embedDescription += `${roleName}, `
           }
+          
+          embedDescription = embedDescription.substring(0, embedDescription.length - 2) + `\``;
         }
       } 
 
@@ -107,9 +109,9 @@ module.exports = async (client, ...args) => {
           embed.setThumbnail(`https://cdn.discordapp.com/avatars/${newUser.user.id}/${newUser.user.avatar}.webp?size=1024`);
         }
       }
-      // If something noteworthy was changed, update the embed
+
       if (embedDescription.length > 0) {
-        embed.setDescription(`<@${oldUser.id}>`+embedDescription);
+        embed.setDescription(`<@${oldUser.id}>` + embedDescription);
       } else {
         return;
       }

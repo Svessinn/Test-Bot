@@ -4,4 +4,5 @@ logs
 config.json
 test.js
 .prettierignore
-src/recipes/*
+src/recipes
+media/recipes

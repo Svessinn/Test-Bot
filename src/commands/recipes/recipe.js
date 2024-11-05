@@ -1,4 +1,29 @@
-const { Client, Interaction, PermissionFlagsBits, ApplicationCommandOptionType, EmbedBuilder } = require("discord.js");
+/*
+ * This command is for displaying recipes
+ * There are a few things that you NEED to do to be able to use this
+ * 
+ * 1. Create a recipes floder in the src folder 
+ * 2. In that folder you should make folders for each of your cuisines, example: indian, chinese, french
+ * 3. In each of those folders you should ONLY have .json files with your recipes
+ *    The .json skeleton is:
+ *    { 
+ *      "name":"", 
+ *      "ingredients":[""], 
+ *      "directions":[""], 
+ *      "serving_suggestions": [""], 
+ *      "equipment": [""], 
+ *      "serves":"" 
+ *    }
+ * 4. In the media folder you NEED to create a similar tree, except using .png instead of .json
+ *    Just use a transparent png if you don't have an image
+ *    Because there needs to be an image corresponding to the recipe, otherwise, an ERROR will be thrown
+ * 
+ * I am not sharing my recipes or images
+ * If you don't intend on using this feature, just remove it at your leisure
+ * Or toggle the `deleted` option at the botton of the command
+ */
+
+const { Client, Interaction, PermissionFlagsBits, ApplicationCommandOptionType, EmbedBuilder, AttachmentBuilder } = require("discord.js");
 const path = require("path");
 const getAllFiles = require("../../utils/getAllFiles");
 
@@ -86,31 +111,40 @@ module.exports = {
           const recipe = interaction.options.get("recipe").value
           const Recipe = require(`../../recipes/${cuisine}/${recipe}`);
 
-          let ingredients = ``
+          let ingredients = `\u200b`
           for (const ingredient of Recipe.ingredients) {
-            ingredients += `• ${ingredient}\n`
+            ingredients += ingredient.length ? `• ${ingredient}\n` : '';
           }
 
-          let equipment = ``
+          let equipment = `\u200b`
           for (const equip of Recipe.equipment) {
-            equipment += `• ${equip}\n`
+            equipment += equip.length ? `• ${equip}\n` : '';
           }
 
-          let servingSuggestions = ``
-          for (const suggestion of Recipe.serving_suggestions) {
-            servingSuggestions += `• ${suggestion}\n`
+          let servingSuggestions = `\u200b`
+          for (const suggestion of Recipe?.serving_suggestions||[]) {
+            servingSuggestions += suggestion.length ? `• ${suggestion}\n` : '';
+          }
+
+          let recipeImage;
+          try {
+            recipeImage = new AttachmentBuilder(path.join(__dirname, `../../../media/recipes/${cuisine}/${recipe}.png`), { name: `${recipe}.png` });
+          } catch (error) {
+            recipeImage = null
+            console.log(`No image for ${cuisine}/${recipe}`)
           }
 
           outEmbed
             .setTitle(Recipe.name)
             .addFields(
               { name: "Ingredients:", value: ingredients },
-              { name: "Serves", value: Recipe.serves, inline: true },
+              { name: "Serves", value: Recipe?.serves || '\u200b', inline: true },
               { name: "Equipment Needed:", value: equipment, inline: true },
               { name: "Serving Suggestions", value: servingSuggestions, inline: true }
-            );
+            )
+            .setThumbnail(`attachment://${recipeImage.name}`);
 
-          let directions = ``
+          let directions = `\u200b`
           let idx = 1
           let first = true;
           for (const direction of Recipe.directions) {
@@ -129,7 +163,8 @@ module.exports = {
           )
           
           await interaction.editReply({
-            embeds: [outEmbed]
+            embeds: [outEmbed],
+            files: [recipeImage]
           });
           return;
         };
