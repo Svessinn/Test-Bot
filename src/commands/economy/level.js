@@ -27,6 +27,7 @@ module.exports = {
       interaction.reply("This command is only for use in a guild");
       return;
     }
+
     if (interaction.member.user.bot) {
       interaction.reply("Bots can't use this command");
       return;

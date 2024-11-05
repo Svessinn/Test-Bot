@@ -15,31 +15,31 @@ const logger = winston.createLogger({
 
 function compareObjects(oldObj, newObj) {
   let diffs = [];
-  for(i in oldObj) {
-    if(oldObj[i] !== newObj[i]) {
-      if (i === 'flags') {
+  for (i in oldObj) {
+    if (oldObj[i] !== newObj[i]) {
+      if (i === "flags") {
         if (MessageFlagsBitField.resolve(oldObj.flags) !== MessageFlagsBitField.resolve(newObj.flags)) {
-          diffs.push(i)
+          diffs.push(i);
         }
-      } else if (i === 'embeds') {
+      } else if (i === "embeds") {
         // Don't care about this
         /* if (oldObj.embeds.length !== newObj.embeds.length) diffs.push(i);
         for (j in oldObj.embeds) {
           if (oldObj.embeds[j] !== oldObj.embeds[j]) diffs.push(i);
         } */
-      } else if (i === 'components') {
+      } else if (i === "components") {
         // Don't care about this
         /* if (oldObj.components.length !== newObj.components.length) diffs.push(i);
         for (j in oldObj.components) {
           if (oldObj.components[j] !== oldObj.components[j]) diffs.push(i);
         } */
-      } else if (i === 'attachments') {
+      } else if (i === "attachments") {
         // Don't care about this
         // attachments are stored in a Collection() [Map]
-      } else if (i === 'stickers') {
+      } else if (i === "stickers") {
         // Don't care about this
         // stickers are stored in a Collection() [Map]
-      } else if (i === 'mentions') {
+      } else if (i === "mentions") {
         // Don't care about this
         // mentions are their own Object
       } else {
@@ -48,22 +48,21 @@ function compareObjects(oldObj, newObj) {
     }
   }
   // Removing duplicates if there are any
-  diffs = Array.from(new Set(diffs))
+  diffs = Array.from(new Set(diffs));
   return diffs;
-};
+}
 
 /**
  * @param {Client} client
  */
 
 module.exports = async (client, ...args) => {
-  
   let oldMessage = args[0];
   let newMessage = args[1];
 
   if (oldMessage.author.bot) return;
-  
-  const changes = compareObjects(oldMessage, newMessage)
+
+  const changes = compareObjects(oldMessage, newMessage);
 
   if (!changes.length) return;
 
@@ -79,19 +78,19 @@ module.exports = async (client, ...args) => {
         .setAuthor({ name: oldMessage.guild.name, iconURL: oldMessage.guild.iconURL() })
         .setTitle(`Message Edited https://discord.com/channels/${oldMessage.guild.id}/${oldMessage.channel.id}/${oldMessage.id}`)
         .setDescription(`Something changed for <#${oldMessage.id}>`)
-        .setFooter({text: `Message ID: ${oldMessage.id}`})
+        .setFooter({ text: `Message ID: ${oldMessage.id}` })
         .setThumbnail(`https://cdn.discordapp.com/avatars/${oldMessage.author.id}/${oldMessage.author.avatar}.webp?size=1024`)
         .setTimestamp();
 
-      let embedDescription = ``
+      let embedDescription = ``;
 
-      if (changes.includes('content')) {
-        embedDescription += `\n**Was:** ${oldMessage.content}\n**Now:** ${newMessage.content}`
+      if (changes.includes("content")) {
+        embedDescription += `\n**Was:** ${oldMessage.content}\n**Now:** ${newMessage.content}`;
       }
 
       // If something noteworthy was changed, update the embed
       if (embedDescription.length > 0) {
-        embed.setDescription(embedDescription+`\n**Edited by:** <@${oldMessage.author.id}> <t:${Math.floor(newMessage.editedTimestamp/1000)}:R>`)
+        embed.setDescription(embedDescription + `\n**Edited by:** <@${oldMessage.author.id}> <t:${Math.floor(newMessage.editedTimestamp / 1000)}:R>`);
       } else {
         return;
       }

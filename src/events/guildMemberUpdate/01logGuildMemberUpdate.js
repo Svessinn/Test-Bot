@@ -15,13 +15,13 @@ const logger = winston.createLogger({
 
 function compareObjects(oldObj, newObj) {
   let diffs = [];
-  for(i in oldObj) {
-    if(oldObj[i] !== newObj[i]) {
+  for (i in oldObj) {
+    if (oldObj[i] !== newObj[i]) {
       // Normal compatisons don't work for the flags feild
       // Their bitFeilds need to be resolved for comparisons
-      if (i === 'flags') {
+      if (i === "flags") {
         if (PermissionsBitField.resolve(oldObj.flags) !== PermissionsBitField.resolve(newObj.flags)) {
-          diffs.push(i)
+          diffs.push(i);
         }
       } else {
         diffs.push(i);
@@ -30,9 +30,9 @@ function compareObjects(oldObj, newObj) {
   }
   // Removing duplicates if there are any
   // This isn't necessary, at least not now
-  diffs = Array.from(new Set(diffs))
+  diffs = Array.from(new Set(diffs));
   return diffs;
-};
+}
 
 /**
  * @param {Client} client
@@ -41,8 +41,8 @@ function compareObjects(oldObj, newObj) {
 module.exports = async (client, ...args) => {
   const oldUser = args[0];
   const newUser = args[1];
-  
-  const changes = compareObjects(oldUser, newUser)
+
+  const changes = compareObjects(oldUser, newUser);
   if (!changes.length) return;
 
   const event = path.basename(__dirname);
@@ -56,55 +56,57 @@ module.exports = async (client, ...args) => {
       let embed = new EmbedBuilder()
         .setAuthor({ name: oldUser.guild.name, iconURL: oldUser.guild.iconURL() })
         .setDescription(`Something changed for <@${oldUser.id}>`)
-        .setFooter({text: `User ID: ${oldUser.id}`})
+        .setFooter({ text: `User ID: ${oldUser.id}` })
         .setTimestamp();
 
-      let embedDescription = ``
+      let embedDescription = ``;
 
       if (changes.includes("communicationDisabledUntilTimestamp")) {
         if (newUser.communicationDisabledUntilTimestamp === null) {
-          embedDescription += `\n**Timeout Removed**`
+          embedDescription += `\n**Timeout Removed**`;
         } else {
-          embedDescription += `\n**Timed out for:** ${msToTime(Math.ceil((newUser.communicationDisabledUntilTimestamp-Date.now())/1000)*1000)}`
+          embedDescription += `\n**Timed out for:** ${msToTime(Math.ceil((newUser.communicationDisabledUntilTimestamp - Date.now()) / 1000) * 1000)}`;
         }
       }
 
       if (changes.includes("flags")) {
-        embedDescription += `\n**Flags were updated**`
+        embedDescription += `\n**Flags were updated**`;
       }
 
       if (changes.includes("nickname")) {
-        embedDescription += `\n**Nickname ${newUser?.nickname ? 'updated:** ' + newUser.nickname : 'removed**'}`
+        embedDescription += `\n**Nickname ${newUser?.nickname ? "updated:** " + newUser.nickname : "removed**"}`;
       }
 
       if (changes.includes("_roles")) {
-        const removedRoles = oldUser._roles.filter(r => !newUser._roles.includes(r));
-        const addedRoles = newUser._roles.filter(r => !oldUser._roles.includes(r));
+        const removedRoles = oldUser._roles.filter((r) => !newUser._roles.includes(r));
+        const addedRoles = newUser._roles.filter((r) => !oldUser._roles.includes(r));
 
         if (removedRoles.length) {
-          embedDescription += `\n**Removed from role(s):** `
-          for(let role of removedRoles) {
+          embedDescription += `\n**Removed from role(s):** `;
+          for (let role of removedRoles) {
             const roleName = await oldUser.guild.roles.cache.get(role).name;
-            embedDescription += `\`${roleName}\``
+            embedDescription += `\`${roleName}\``;
           }
         }
 
         if (addedRoles.length) {
-          embedDescription += `\n**Added to role(s):** \``
-          
-          for(let role of addedRoles) {
+          embedDescription += `\n**Added to role(s):** \``;
+
+          for (let role of addedRoles) {
             const roleName = await newUser.guild.roles.cache.get(role).name;
-            embedDescription += `${roleName}, `
+            embedDescription += `${roleName}, `;
           }
-          
+
           embedDescription = embedDescription.substring(0, embedDescription.length - 2) + `\``;
         }
-      } 
+      }
 
       if (changes.includes("avatar")) {
-        embedDescription += `\n**Server Avatar updated**`
+        embedDescription += `\n**Server Avatar updated**`;
         if (newUser.avatar) {
-          embed.setThumbnail(`https://cdn.discordapp.com/guilds/${newUser.guild.id}/users/${newUser.user.id}/avatars/${newUser.avatar}.webp?size=1024`);
+          embed.setThumbnail(
+            `https://cdn.discordapp.com/guilds/${newUser.guild.id}/users/${newUser.user.id}/avatars/${newUser.avatar}.webp?size=1024`
+          );
         } else {
           embed.setThumbnail(`https://cdn.discordapp.com/avatars/${newUser.user.id}/${newUser.user.avatar}.webp?size=1024`);
         }

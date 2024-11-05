@@ -28,8 +28,10 @@ module.exports = async (client, createdInvite) => {
 
       let embed = new EmbedBuilder()
         .setAuthor({ name: createdInvite.guild.name, iconURL: createdInvite.guild.iconURL() })
-        .setDescription(`**Invite Created by <@${createdInvite.inviterId}>: \n\`https://discord.gg/${createdInvite.code}\` (to <#${createdInvite.channel.id}>)**`)
-        .setFooter({text: `Invite code: ${createdInvite.code}`})
+        .setDescription(
+          `**Invite Created by <@${createdInvite.inviterId}>: \n\`https://discord.gg/${createdInvite.code}\` (to <#${createdInvite.channel.id}>)**`
+        )
+        .setFooter({ text: `Invite code: ${createdInvite.code}` })
         .setTimestamp();
 
       await logChannel.send({ embeds: [embed] });

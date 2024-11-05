@@ -15,30 +15,32 @@ const logger = winston.createLogger({
 
 function compareObjects(oldObj, newObj) {
   let diffs = [];
-  for(i in oldObj) {
-    if(oldObj[i] !== newObj[i]) {
+  for (i in oldObj) {
+    if (oldObj[i] !== newObj[i]) {
       // Normal compatisons don't work for the flags and permissionOverwrites feilds
       // Their bitFeilds need to be resolved for comparisons
-      if (i === 'flags') {
+      if (i === "flags") {
         if (ChannelFlagsBitField.resolve(oldObj.flags) !== ChannelFlagsBitField.resolve(newObj.flags)) {
-          diffs.push(i)
+          diffs.push(i);
         }
-      } else if (i === 'permissionOverwrites') {
+      } else if (i === "permissionOverwrites") {
         let oldCache = {};
         let newCache = {};
 
         for (let j of oldObj.permissionOverwrites.cache) {
-          oldCache[j[0]] = j[1]
+          oldCache[j[0]] = j[1];
         }
-        
+
         for (let j of newObj.permissionOverwrites.cache) {
-          newCache[j[0]] = j[1]
+          newCache[j[0]] = j[1];
         }
 
         for (let j in oldCache) {
-          if (PermissionsBitField.resolve(oldCache[j].deny) !== PermissionsBitField.resolve(newCache[j].deny) ||
-              PermissionsBitField.resolve(oldCache[j].allow) !== PermissionsBitField.resolve(newCache[j].allow)) {
-            diffs.push(i)
+          if (
+            PermissionsBitField.resolve(oldCache[j].deny) !== PermissionsBitField.resolve(newCache[j].deny) ||
+            PermissionsBitField.resolve(oldCache[j].allow) !== PermissionsBitField.resolve(newCache[j].allow)
+          ) {
+            diffs.push(i);
           }
         }
       } else {
@@ -48,9 +50,9 @@ function compareObjects(oldObj, newObj) {
   }
   // Removing duplicates if there are any
   // This isn't necessary, at least not now
-  diffs = Array.from(new Set(diffs))
+  diffs = Array.from(new Set(diffs));
   return diffs;
-};
+}
 
 /**
  * @param {Client} client
@@ -63,7 +65,7 @@ module.exports = async (client, ...args) => {
   const event = path.basename(__dirname);
   const log = await getEventLogger(oldChannel.guild.id, event);
 
-  const changes = compareObjects(oldChannel, newChannel)
+  const changes = compareObjects(oldChannel, newChannel);
 
   if (!changes.length) return;
 
@@ -76,38 +78,38 @@ module.exports = async (client, ...args) => {
         .setAuthor({ name: oldChannel.guild.name, iconURL: oldChannel.guild.iconURL() })
         .setTitle(`Channel #${newChannel.name} was updated:`)
         .setDescription(`Something changed for <#${oldChannel.id}>`)
-        .setFooter({text: `Channel ID: ${oldChannel.id}`})
+        .setFooter({ text: `Channel ID: ${oldChannel.id}` })
         .setTimestamp();
 
-      let embedDescription = ``
+      let embedDescription = ``;
 
       if (changes.includes("flags")) {
-        embedDescription += `\nChannel Flags were updated`
+        embedDescription += `\nChannel Flags were updated`;
       }
 
       if (changes.includes("name")) {
-        embedDescription += `\nName: **#${oldChannel.name}** -> **#${newChannel.name}**`
+        embedDescription += `\nName: **#${oldChannel.name}** -> **#${newChannel.name}**`;
       }
 
       if (changes.includes("nsfw")) {
-        embedDescription += `\nNSFW: **${oldChannel.nsfw}** -> **${newChannel.nsfw}**`
+        embedDescription += `\nNSFW: **${oldChannel.nsfw}** -> **${newChannel.nsfw}**`;
       }
 
       if (changes.includes("permissionOverwrites")) {
-        embedDescription += `\nPermission Overwrites were updated`
-      } 
+        embedDescription += `\nPermission Overwrites were updated`;
+      }
 
       if (changes.includes("rateLimitPerUser")) {
-        embedDescription += `\nSlowmode: **${msToTime(oldChannel.rateLimitPerUser*1000,false)}** -> **${msToTime(newChannel.rateLimitPerUser*1000,false)}**`
+        embedDescription += `\nSlowmode: **${msToTime(oldChannel.rateLimitPerUser * 1000, false)}** -> **${msToTime(newChannel.rateLimitPerUser * 1000, false)}**`;
       }
 
       if (changes.includes("topic")) {
-        embedDescription += `\nTopic: **${oldChannel.topic?.length ? oldChannel.topic : '*~~null~~*'}** -> **${newChannel.topic?.length ? newChannel.topic : '*~~null~~*'}**`
+        embedDescription += `\nTopic: **${oldChannel.topic?.length ? oldChannel.topic : "*~~null~~*"}** -> **${newChannel.topic?.length ? newChannel.topic : "*~~null~~*"}**`;
       }
 
       // If something noteworthy was changed, update the embed
       if (embedDescription.length > 0) {
-        embed.setDescription(embedDescription)
+        embed.setDescription(embedDescription);
       } else {
         return;
       }

@@ -1,7 +1,7 @@
 const path = require("path");
 const { Client, Interaction, EmbedBuilder } = require("discord.js");
 const getEventLogger = require("../../queries/getGuildEventLogger");
-const getLogChannel = require("../../queries/getGuildLogChannel")
+const getLogChannel = require("../../queries/getGuildLogChannel");
 
 // Logging tool
 const winston = require("winston");
@@ -29,7 +29,7 @@ module.exports = async (client, deletedChannel) => {
       let embed = new EmbedBuilder()
         .setAuthor({ name: deletedChannel.guild.name, iconURL: deletedChannel.guild.iconURL() })
         .setDescription(`**Role Deleted: \`${deletedChannel.name}\`**`)
-        .setFooter({text: `Role ID: ${deletedChannel.id}`})
+        .setFooter({ text: `Role ID: ${deletedChannel.id}` })
         .setTimestamp();
 
       await logChannel.send({ embeds: [embed] });
@@ -38,6 +38,6 @@ module.exports = async (client, deletedChannel) => {
       console.log(error);
     }
   }
-  
+
   return;
 };

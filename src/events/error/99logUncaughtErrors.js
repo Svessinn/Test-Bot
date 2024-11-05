@@ -16,7 +16,7 @@ const logger = winston.createLogger({
 
 module.exports = async (client, ...args) => {
   const event = path.basename(__dirname);
-  logger.log('error', `${event}.js - ${args}`)
-  console.log(args)
+  logger.log("error", `${event}.js - ${args}`);
+  console.log(args);
   return;
 };

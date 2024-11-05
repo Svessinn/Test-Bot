@@ -52,7 +52,9 @@ module.exports = {
       await targetChannel.setRateLimitPerUser(sDuration);
 
       await interaction.editReply({
-        content: sDuration ? `<#${targetChannelId}>'s slowmode has been set to ${sDuration} seconds` : `<#${targetChannelId}>'s slowmode has been removed`,
+        content: sDuration
+          ? `<#${targetChannelId}>'s slowmode has been set to ${sDuration} seconds`
+          : `<#${targetChannelId}>'s slowmode has been removed`,
       });
     } catch (error) {
       await interaction.editReply({

@@ -151,5 +151,5 @@ const colours = {
 module.exports = (colour) => {
   if (typeof colours[colour.toLowerCase()] != "undefined") return colours[colour.toLowerCase()];
 
-  return '#000000';
+  return "#000000";
 };

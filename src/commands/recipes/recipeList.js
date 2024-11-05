@@ -2,7 +2,7 @@
  * If this command isn't working for you or you just don't understnad it
  * Look at the `recipe.js` file and read the header
  * Once followed this command will work
-*/
+ */
 const { Client, Interaction, PermissionFlagsBits, ApplicationCommandOptionType, EmbedBuilder } = require("discord.js");
 const path = require("path");
 const getAllFiles = require("../../utils/getAllFiles");
@@ -16,27 +16,27 @@ const logger = winston.createLogger({
   ),
 });
 
-const allCuisines = getAllFiles(path.join(__dirname, "../../recipes"),true);
+const allCuisines = getAllFiles(path.join(__dirname, "../../recipes"), true);
 let recipes = {};
-let availableCuisines = []
-let cuisines = []
+let availableCuisines = [];
+let cuisines = [];
 
 for (const cuisine of allCuisines) {
   let recipeList = [];
-  
+
   for (const recipe of getAllFiles(cuisine)) {
-    recipeList.push(recipe.split('\\').splice(-1).join().split('.')[0])
+    recipeList.push(recipe.split("\\").splice(-1).join().split(".")[0]);
   }
 
   if (recipeList.length) {
-    const Cuisine = cuisine.split('\\').splice(-1).join()
+    const Cuisine = cuisine.split("\\").splice(-1).join();
     availableCuisines.push({
       name: Cuisine,
-      description: `View a list of ${Cuisine.charAt(0).toUpperCase()+Cuisine.slice(1)} recipes`,
-      type: ApplicationCommandOptionType.Subcommand
-    })
-    cuisines.push(Cuisine)
-    recipes[Cuisine] = recipeList
+      description: `View a list of ${Cuisine.charAt(0).toUpperCase() + Cuisine.slice(1)} recipes`,
+      type: ApplicationCommandOptionType.Subcommand,
+    });
+    cuisines.push(Cuisine);
+    recipes[Cuisine] = recipeList;
   }
 }
 
@@ -55,7 +55,7 @@ module.exports = {
     if (interaction.member.user.bot) {
       interaction.reply("Bots can't use this command");
       return;
-    };
+    }
 
     await interaction.deferReply({
       ephemeral: false,
@@ -67,22 +67,22 @@ module.exports = {
 
       for (const cuisine of cuisines) {
         if (subcommand === cuisine) {
-          outEmbed.setTitle(`${cuisine.charAt(0).toUpperCase()+cuisine.slice(1)} Recipes`);
+          outEmbed.setTitle(`${cuisine.charAt(0).toUpperCase() + cuisine.slice(1)} Recipes`);
           let outDescription = ``;
 
           for (const recipe of recipes[cuisine]) {
             const Recipe = require(`../../recipes/${cuisine}/${recipe}`);
             outDescription += `\n${Recipe.name}`;
-          };
-          
+          }
+
           outEmbed.setDescription(outDescription);
-          
+
           await interaction.editReply({
-            embeds: [outEmbed]
+            embeds: [outEmbed],
           });
           return;
-        };
-      };
+        }
+      }
 
       await interaction.editReply({
         content: `WIP\nNo recipes yet`,
@@ -95,7 +95,7 @@ module.exports = {
       logger.log("error", `There was an error getting recipes:\n${error}`);
       console.log(error);
       return;
-    };
+    }
   }, // What the bot replies with
 
   name: "recipe-list", // Name of the command

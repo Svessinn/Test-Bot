@@ -20,7 +20,7 @@ const logger = winston.createLogger({
 module.exports = async (client, createdRole) => {
   const event = path.basename(__dirname);
   const log = await getEventLogger(createdRole.guild.id, event);
-  
+
   if (log) {
     try {
       const channel = await getLogChannel(createdRole.guild.id);
@@ -29,7 +29,7 @@ module.exports = async (client, createdRole) => {
       let embed = new EmbedBuilder()
         .setAuthor({ name: createdRole.guild.name, iconURL: createdRole.guild.iconURL() })
         .setDescription(`**Role Created: \n\`${createdRole.name}\` (<@&${createdRole.id}>)**`)
-        .setFooter({text: `Role ID: ${createdRole.id}`})
+        .setFooter({ text: `Role ID: ${createdRole.id}` })
         .setTimestamp();
 
       await logChannel.send({ embeds: [embed] });
