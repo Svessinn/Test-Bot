@@ -59,12 +59,17 @@ module.exports = {
       const lb = await getGuildLeaderboard(interaction.guild.id);
       let userRank = lb.findIndex((j) => j.userId === targetUser.user.id) + 1;
 
+      const totalExpNeeded = await calcLevelExp(level.level);
+      const previousExpNeeded = await calcLevelExp(level.level - 1);
+      const levelExpNeeded = totalExpNeeded - previousExpNeeded;
+      const expCurrentLevel = level.exp - previousExpNeeded;
+
       const rank = new canvacord.Rank()
         .setAvatar(targetUser.displayAvatarURL())
         .setRank(userRank)
         .setLevel(level.level)
-        .setCurrentXP(level.exp)
-        .setRequiredXP(calcLevelExp(level.level))
+        .setCurrentXP(expCurrentLevel)
+        .setRequiredXP(levelExpNeeded)
         .setProgressBar("#FB4699", "COLOR", true)
         .setUsername(targetUser.user?.globalName || targetUser.user.username)
         //.setDiscriminator(targetUser.user.discriminator) // Discord removed discriminators from users

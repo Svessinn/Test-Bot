@@ -4,5 +4,8 @@ logs
 config.json
 test.js
 .prettierignore
-src/recipes
-media/recipes
+src/recipes/*
+media/recipes/*
+!recipeSkeleton.json
+!randomResponseSkeleton.js
+!commandSkeleton.js

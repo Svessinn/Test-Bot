@@ -1,7 +1,7 @@
 /**
  * @param {Number} min
  * @param {Number} max
- * @return {Number} Random number min to max (both inclusive).
+ * @return {Number} Random number between min to max (both inclusive).
  */
 
 module.exports = (min = 0, max = 100) => {

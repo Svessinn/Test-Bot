@@ -13,6 +13,7 @@ const path = require("path");
 const getGuildLeaberboard = require("../../queries/getGuildLeaderboard");
 const calcLevelExp = require("../../utils/calculateLevelExp");
 const Canvas = require("canvas");
+const deleteGuildUserLevel = require("../../queries/deleteGuildUserLevel");
 
 // Logging tool
 const winston = require("winston");
@@ -80,7 +81,28 @@ module.exports = {
 
       for (let i = 0; i < ln; i++) {
         let start = (page - 1) * 10;
-        let guildMember = await interaction.guild.members.fetch(lb[i + start].userId);
+        let guildMember = 0;
+        let tries = 3;
+
+        while (!guildMember && tries) {
+          try {
+            guildMember = await interaction.guild.members.fetch(lb[i + start].userId);
+          } catch (error) {
+            await deleteGuildUserLevel(interaction.guild.id, lb[i + start].userId);
+            logger.log(
+              "error",
+              `User (${lb[i + start].userId}) no longer in Guild (${interaction.guild.id}). Removing them from the database.\n${error}`
+            );
+            console.log(error);
+            lb = await getGuildLeaberboard(interaction.guild.id);
+          }
+          tries -= 1;
+        }
+
+        if (!guildMember) {
+          interaction.editReply(`Failed to get members.\nToo many members not in cache.`);
+          return;
+        }
 
         context.drawImage(bg, 15, 40 + 300 * i, 2023, 295);
 
@@ -92,9 +114,13 @@ module.exports = {
         context.fillStyle = "#ffffff";
         context.fillText(`#${1 + i + start} ${guildMember.user.username}`, 350, 200 + 300 * i);
 
-        let nextLevel = calcLevelExp(lb[i + start].level);
-        context.font = applyText(canvas, `Level: ${lb[i + start].level} - Exp: ${lb[i + start].exp}/${nextLevel}`, 100);
-        context.fillText(`Level: ${lb[i + start].level} - Exp: ${lb[i + start].exp}/${nextLevel}`, 350, 310 + 300 * i);
+        const totalExpNeeded = await calcLevelExp(lb[i + start].level);
+        const previousExpNeeded = await calcLevelExp(lb[i + start].level - 1);
+        const levelExpNeeded = Math.floor(totalExpNeeded - previousExpNeeded);
+        const expCurrentLevel = Math.floor(lb[i + start].exp - previousExpNeeded);
+
+        context.font = applyText(canvas, `Level: ${lb[i + start].level} - Exp: ${expCurrentLevel}/${levelExpNeeded}`, 100);
+        context.fillText(`Level: ${lb[i + start].level} - Exp: ${expCurrentLevel}/${levelExpNeeded}`, 350, 310 + 300 * i);
       }
 
       let lbAttachment = new AttachmentBuilder(canvas.toBuffer(), {

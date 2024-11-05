@@ -69,10 +69,6 @@ module.exports = async (client, ...args) => {
         }
       }
 
-      if (changes.includes("flags")) {
-        embedDescription += `\n**Flags were updated**`;
-      }
-
       if (changes.includes("nickname")) {
         embedDescription += `\n**Nickname ${newUser?.nickname ? "updated:** " + newUser.nickname : "removed**"}`;
       }

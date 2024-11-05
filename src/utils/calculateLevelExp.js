@@ -8,14 +8,11 @@ Calculates the amount of Exp needed to go up a level
  */
 
 module.exports = (level) => {
-  let expNeeded = 0;
-
   if (level < 15) {
-    expNeeded = (Math.pow(level, 3) * (Math.floor((level + 1) / 3) + 24)) / 50;
+    return Math.floor((Math.pow(level, 3) * (Math.floor((level + 1) / 3) + 24)) / 40);
   } else if (level >= 15 && level < 36) {
-    expNeeded = (Math.pow(level, 3) * (level + 14)) / 50;
+    return Math.floor((Math.pow(level, 3) * (level + 14)) / 40);
   } else {
-    expNeeded = (Math.pow(level, 3) * Math.floor(level / 2 + 32)) / 50;
+    return Math.floor((Math.pow(level, 3) * (Math.floor(level / 2) + 32)) / 40);
   }
-  return expNeeded;
 };
