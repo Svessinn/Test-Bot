@@ -77,7 +77,7 @@ module.exports = {
 
       let timeoutEmbed = new EmbedBuilder()
         .setAuthor({
-          name: `Member Timed Out | ${targetUser.user.tag}`,
+          name: `User Timed Out | ${targetUser.user.tag}`,
           //iconURL: targetUser.avatarURL
         })
         .addFields(
@@ -106,7 +106,7 @@ module.exports = {
           text: `ID: ${targetUser.user.id}`,
         })
         .setTimestamp()
-        .setColor("Blurple");
+        .setColor("#7289DA");
 
       if (targetUser.isCommunicationDisabled()) {
         await targetUser.timeout(msDuration, reason);

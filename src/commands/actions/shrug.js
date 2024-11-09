@@ -31,7 +31,7 @@ module.exports = {
       ephemeral: false,
     });
 
-    const response = new EmbedBuilder().setColor("Blurple").setDescription(`${interaction.user} **shrugged**`).setImage(getShrugImage());
+    const response = new EmbedBuilder().setColor("#7289DA").setDescription(`${interaction.user} **shrugged**`).setImage(getShrugImage());
 
     try {
       await interaction.editReply({

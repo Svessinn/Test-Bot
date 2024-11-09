@@ -32,7 +32,7 @@ module.exports = {
 
     let subcommand = interaction.options.getSubcommand();
 
-    let avatarEmbed = new EmbedBuilder().setColor("Blurple");
+    let avatarEmbed = new EmbedBuilder().setColor("#7289DA");
 
     if (subcommand === "guild") {
       avatarEmbed

@@ -14,30 +14,28 @@ const logger = winston.createLogger({
 
 /**
  * @param {Client} client
- * @param {Interaction} createdInvite
+ * @param {Interaction} interaction
  */
 
-module.exports = async (client, createdInvite) => {
+module.exports = async (client, interaction) => {
   const event = path.basename(__dirname);
-  const log = await getEventLogger(createdInvite.guild.id, event);
+  const log = await getEventLogger(interaction.guild.id, event);
 
   if (log) {
     try {
-      const channel = await getLogChannel(createdInvite.guild.id);
-      const logChannel = createdInvite.guild.channels.cache.get(channel.channelId);
+      const channel = await getLogChannel(interaction.guild.id);
+      const logChannel = interaction.guild.channels.cache.get(channel.channelId);
 
       let embed = new EmbedBuilder()
-        .setAuthor({ name: `Invite Created`, iconURL: createdInvite.guild.iconURL() })
-        .setDescription(
-          `**Created by <@${createdInvite.inviterId}>: \n\`https://discord.gg/${createdInvite.code}\` (to <#${createdInvite.channel.id}>)**`
-        )
-        .setFooter({ text: `Invite code: ${createdInvite.code}` })
+        .setAuthor({ name: `User Banned`, iconURL: interaction.guild.iconURL() })
+        .setDescription(`**${interaction.user.username} (<@${interaction.user.id}>)**`)
+        .setFooter({ text: `User ID: ${interaction.user.id}` })
         .setTimestamp()
         .setColor("#7289DA");
 
       await logChannel.send({ embeds: [embed] });
     } catch (error) {
-      logger.log("error", `There was an error logging ${event} for ${createdInvite.guild.id}: \n${error}`);
+      logger.log("error", `There was an error logging ${event} for ${interaction.guild.id}: \n${error}`);
       console.log(error);
     }
   }

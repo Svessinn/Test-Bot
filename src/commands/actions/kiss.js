@@ -32,7 +32,7 @@ module.exports = {
     });
 
     const response = new EmbedBuilder()
-      .setColor("Blurple")
+      .setColor("#7289DA")
       .setDescription(`${interaction.user} **kissed** <@${interaction.options.get("user").value}>`)
       .setImage(getKissImage());
 

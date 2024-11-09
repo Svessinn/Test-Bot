@@ -75,12 +75,13 @@ module.exports = async (client, ...args) => {
       const logChannel = oldMessage.guild.channels.cache.get(channel.channelId);
 
       let embed = new EmbedBuilder()
-        .setAuthor({ name: oldMessage.guild.name, iconURL: oldMessage.guild.iconURL() })
-        .setTitle(`Message Edited https://discord.com/channels/${oldMessage.guild.id}/${oldMessage.channel.id}/${oldMessage.id}`)
+        .setAuthor({ name: `Message Edited`, iconURL: oldMessage.guild.iconURL() })
+        .setTitle(`https://discord.com/channels/${oldMessage.guild.id}/${oldMessage.channel.id}/${oldMessage.id}`)
         .setDescription(`Something changed for <#${oldMessage.id}>`)
         .setFooter({ text: `Message ID: ${oldMessage.id}` })
         .setThumbnail(`https://cdn.discordapp.com/avatars/${oldMessage.author.id}/${oldMessage.author.avatar}.webp?size=1024`)
-        .setTimestamp();
+        .setTimestamp()
+        .setColor("#7289DA");
 
       let embedDescription = ``;
 

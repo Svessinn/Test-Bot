@@ -49,9 +49,9 @@ module.exports = {
         helpEmbed = new EmbedBuilder()
           .setTitle(`Command: /${commandName}`)
           .setDescription(`**Description:** ${localCommand.description}\n**Usage:**\n${localCommand.usage}\n**Example:**\n${localCommand.example}`)
-          .setColor("Blurple");
+          .setColor("#7289DA");
       } else {
-        helpEmbed = new EmbedBuilder().setTitle("Under Development").setColor("Blurple");
+        helpEmbed = new EmbedBuilder().setTitle("Under Development").setColor("#7289DA");
       }
 
       interaction.editReply({

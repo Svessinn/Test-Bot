@@ -76,7 +76,7 @@ module.exports = {
           iconURL: targetUser.user.avatarURL(),
         })
         .setThumbnail(targetUser.user.avatarURL())
-        .setColor("Blurple")
+        .setColor("#7289DA")
         .addFields(
           {
             name: `Joined`,

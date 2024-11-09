@@ -54,10 +54,11 @@ module.exports = async (client, ...args) => {
       const logChannel = oldUser.guild.channels.cache.get(channel.channelId);
 
       let embed = new EmbedBuilder()
-        .setAuthor({ name: oldUser.guild.name, iconURL: oldUser.guild.iconURL() })
+        .setAuthor({ name: `User Updated`, iconURL: oldUser.guild.iconURL() })
         .setDescription(`Something changed for <@${oldUser.id}>`)
         .setFooter({ text: `User ID: ${oldUser.id}` })
-        .setTimestamp();
+        .setTimestamp()
+        .setColor("#7289DA");
 
       let embedDescription = ``;
 

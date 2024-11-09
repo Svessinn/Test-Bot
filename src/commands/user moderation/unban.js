@@ -50,7 +50,7 @@ module.exports = {
 
       let unbanEmbed = new EmbedBuilder()
         .setAuthor({
-          name: `Member Unbanned`,
+          name: `User Unbanned`,
           //iconURL: targetUser.avatarURL
         })
         .addFields(
@@ -69,7 +69,7 @@ module.exports = {
           text: `ID: ${targetUserId}`,
         })
         .setTimestamp()
-        .setColor("Blurple");
+        .setColor("#7289DA");
 
       await interaction.editReply({
         // content: `User ${targetUser} was banned\nReason: ${reason}`,

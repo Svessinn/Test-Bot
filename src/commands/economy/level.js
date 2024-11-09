@@ -73,8 +73,8 @@ module.exports = {
         .setProgressBar("#FB4699", "COLOR", true)
         .setUsername(targetUser.user?.globalName || targetUser.user.username)
         //.setDiscriminator(targetUser.user.discriminator) // Discord removed discriminators from users
-        .setCustomStatusColor("#5539CC")
-        .setProgressBarTrack("#5539CC")
+        .setCustomStatusColor("#7289DA")
+        .setProgressBarTrack("#7289DA")
         .setBackground("IMAGE", background)
         .setOverlay("#000000", 0.67);
 

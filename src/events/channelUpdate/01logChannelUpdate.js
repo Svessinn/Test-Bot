@@ -75,11 +75,12 @@ module.exports = async (client, ...args) => {
       const logChannel = oldChannel.guild.channels.cache.get(channel.channelId);
 
       let embed = new EmbedBuilder()
-        .setAuthor({ name: oldChannel.guild.name, iconURL: oldChannel.guild.iconURL() })
-        .setTitle(`Channel #${newChannel.name} was updated:`)
+        .setAuthor({ name: `Channel Updated`, iconURL: oldChannel.guild.iconURL() })
+        .setTitle(`#${newChannel.name} was updated:`)
         .setDescription(`Something changed for <#${oldChannel.id}>`)
         .setFooter({ text: `Channel ID: ${oldChannel.id}` })
-        .setTimestamp();
+        .setTimestamp()
+        .setColor("#7289DA");
 
       let embedDescription = ``;
 

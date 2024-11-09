@@ -104,7 +104,7 @@ module.exports = {
 
     try {
       let subcommand = interaction.options.getSubcommand();
-      let outEmbed = new EmbedBuilder();
+      let outEmbed = new EmbedBuilder().setColor("#7289DA");
 
       for (const cuisine of cuisines) {
         if (subcommand === cuisine) {

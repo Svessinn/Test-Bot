@@ -85,7 +85,7 @@ module.exports = {
 
       let softbanEmbed = new EmbedBuilder()
         .setAuthor({
-          name: `Member Soft Banned | ${targetUser?.user?.tag || targetUserId}`,
+          name: `User Soft Banned | ${targetUser?.user?.tag || targetUserId}`,
         })
         .addFields(
           {
@@ -108,7 +108,7 @@ module.exports = {
           text: `ID: ${targetUserId}`,
         })
         .setTimestamp()
-        .setColor("Blurple");
+        .setColor("#7289DA");
 
       await interaction.editReply({
         embeds: [softbanEmbed],

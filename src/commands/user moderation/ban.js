@@ -77,7 +77,7 @@ module.exports = {
 
       let banEmbed = new EmbedBuilder()
         .setAuthor({
-          name: `Member Banned | ${targetUser?.user?.tag || targetUserId}`,
+          name: `User Banned | ${targetUser?.user?.tag || targetUserId}`,
         })
         .addFields(
           {
@@ -100,7 +100,7 @@ module.exports = {
           text: `ID: ${targetUserId}`,
         })
         .setTimestamp()
-        .setColor("Blurple");
+        .setColor("#7289DA");
 
       await interaction.editReply({
         // content: `User <@${targetUserId}> was banned\nReason: ${reason}`,

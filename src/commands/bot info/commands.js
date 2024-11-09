@@ -57,7 +57,7 @@ module.exports = {
         return;
       }
 
-      let commandsEmbed = new EmbedBuilder().setTimestamp().setColor("Blurple");
+      let commandsEmbed = new EmbedBuilder().setTimestamp().setColor("#7289DA");
 
       if (category) {
         try {

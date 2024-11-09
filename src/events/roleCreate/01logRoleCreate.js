@@ -27,10 +27,11 @@ module.exports = async (client, createdRole) => {
       const logChannel = createdRole.guild.channels.cache.get(channel.channelId);
 
       let embed = new EmbedBuilder()
-        .setAuthor({ name: createdRole.guild.name, iconURL: createdRole.guild.iconURL() })
-        .setDescription(`**Role Created: \n\`${createdRole.name}\` (<@&${createdRole.id}>)**`)
+        .setAuthor({ name: `Role Created`, iconURL: createdRole.guild.iconURL() })
+        .setDescription(`**\`${createdRole.name}\` (<@&${createdRole.id}>)**`)
         .setFooter({ text: `Role ID: ${createdRole.id}` })
-        .setTimestamp();
+        .setTimestamp()
+        .setColor("#7289DA");
 
       await logChannel.send({ embeds: [embed] });
     } catch (error) {

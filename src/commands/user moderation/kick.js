@@ -70,7 +70,7 @@ module.exports = {
 
       let kickEmbed = new EmbedBuilder()
         .setAuthor({
-          name: `Member Kicked | ${targetUser.user.tag}`,
+          name: `User Kicked | ${targetUser.user.tag}`,
           //iconURL: targetUser.avatarURL
         })
         .addFields(
@@ -94,7 +94,7 @@ module.exports = {
           text: `ID: ${targetUser.user.id}`,
         })
         .setTimestamp()
-        .setColor("Blurple");
+        .setColor("#7289DA");
 
       await interaction.editReply({
         // content: `User ${targetUser} was kicked\nReason: ${reason}`,

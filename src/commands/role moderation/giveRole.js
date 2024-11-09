@@ -34,7 +34,7 @@ module.exports = {
     let role = interaction.guild.roles.cache.get(interaction.options.get("role").value);
 
     let outEmbed = new EmbedBuilder()
-      .setColor("Blurple")
+      .setColor("#7289DA")
       .setTimestamp()
       .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() })
       .setTitle(`Gave role: ${role.name}`);

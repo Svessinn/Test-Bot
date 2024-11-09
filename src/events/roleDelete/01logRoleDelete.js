@@ -27,10 +27,11 @@ module.exports = async (client, deletedChannel) => {
       const logChannel = deletedChannel.guild.channels.cache.get(channel.channelId);
 
       let embed = new EmbedBuilder()
-        .setAuthor({ name: deletedChannel.guild.name, iconURL: deletedChannel.guild.iconURL() })
-        .setDescription(`**Role Deleted: \`${deletedChannel.name}\`**`)
+        .setAuthor({ name: `Role Deleted`, iconURL: deletedChannel.guild.iconURL() })
+        .setDescription(`**\`${deletedChannel.name}\`**`)
         .setFooter({ text: `Role ID: ${deletedChannel.id}` })
-        .setTimestamp();
+        .setTimestamp()
+        .setColor("#7289DA");
 
       await logChannel.send({ embeds: [embed] });
     } catch (error) {

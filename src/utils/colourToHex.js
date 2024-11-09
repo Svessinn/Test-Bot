@@ -10,7 +10,7 @@ const colours = {
   blanchedalmond: "#ffebcd",
   blue: "#0000ff",
   blueviolet: "#8a2be2",
-  blurple: "#5539CC",
+  blurple: "#7289DA",
   brown: "#a52a2a",
   burlywood: "#deb887",
   cadetblue: "#5f9ea0",

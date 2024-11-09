@@ -35,7 +35,7 @@ module.exports = {
       ephemeral: false,
     });
 
-    let punishEmbed = new EmbedBuilder().setTimestamp().setColor("Blurple").setFooter({
+    let punishEmbed = new EmbedBuilder().setTimestamp().setColor("#7289DA").setFooter({
       text: interaction.guild.name,
       iconURL: interaction.guild.iconURL(),
     });
@@ -59,7 +59,7 @@ module.exports = {
             out += `${gwp.punishment === "kick" ? "kick" : gwp.punishment + "n"}ed from the server\n`;
           }
         });
-        punishEmbed.setDescription(out);
+        punishEmbed.setDescription(out.length ? out : "No Warning Punishments set up fot this guild.");
         await interaction.editReply({
           embeds: [punishEmbed],
         });

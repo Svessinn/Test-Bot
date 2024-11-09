@@ -14,30 +14,31 @@ const logger = winston.createLogger({
 
 /**
  * @param {Client} client
- * @param {Interaction} createdInvite
  */
 
-module.exports = async (client, createdInvite) => {
+module.exports = async (client, ...args) => {
+  const deletedMessages = args[0];
+  const interactionChannel = args[1];
+
   const event = path.basename(__dirname);
-  const log = await getEventLogger(createdInvite.guild.id, event);
+  const log = await getEventLogger(interactionChannel.guild.id, event);
 
   if (log) {
     try {
-      const channel = await getLogChannel(createdInvite.guild.id);
-      const logChannel = createdInvite.guild.channels.cache.get(channel.channelId);
+      const channel = await getLogChannel(interactionChannel.guild.id);
+      const logChannel = interactionChannel.guild.channels.cache.get(channel.channelId);
 
       let embed = new EmbedBuilder()
-        .setAuthor({ name: `Invite Created`, iconURL: createdInvite.guild.iconURL() })
-        .setDescription(
-          `**Created by <@${createdInvite.inviterId}>: \n\`https://discord.gg/${createdInvite.code}\` (to <#${createdInvite.channel.id}>)**`
-        )
-        .setFooter({ text: `Invite code: ${createdInvite.code}` })
+        .setAuthor({ name: `Bulk Delete`, iconURL: interactionChannel.guild.iconURL() })
+        .setDescription(`${Array.from(deletedMessages).length} messages deleted in <#${interactionChannel.id}>`)
+        .setFooter({ text: `Channel ID: ${interactionChannel.id}` })
         .setTimestamp()
         .setColor("#7289DA");
 
       await logChannel.send({ embeds: [embed] });
+      return;
     } catch (error) {
-      logger.log("error", `There was an error logging ${event} for ${createdInvite.guild.id}: \n${error}`);
+      logger.log("error", `There was an error logging ${event} for ${interactionChannel.guild.id}: \n${error}`);
       console.log(error);
     }
   }

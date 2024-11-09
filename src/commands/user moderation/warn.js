@@ -69,12 +69,12 @@ module.exports = {
 
       let outEmbed = new EmbedBuilder()
         .setTimestamp()
-        .setColor("Blurple")
+        .setColor("#7289DA")
         .setFooter({
           text: `ID: ${usr}`,
         })
         .setAuthor({
-          name: `Member Warned | ${targetUser?.user?.tag || usr}`,
+          name: `User Warned | ${targetUser?.user?.tag || usr}`,
         })
         .setTitle(`Warning ID: ${newWarn.id}`)
         .addFields(
@@ -147,7 +147,7 @@ module.exports = {
       }
     } else if (subcommand === "delete") {
       let ID = interaction.options.get("id").value;
-      let outEmbed = new EmbedBuilder().setColor("Blurple");
+      let outEmbed = new EmbedBuilder().setColor("#7289DA");
       const deletedWarn = await getGuildWarnWithId(interaction.guild.id, ID);
       if (deletedWarn) {
         const member = await interaction.guild.members.fetch(deletedWarn.userId);
@@ -173,7 +173,7 @@ module.exports = {
         return;
       }
     } else if (subcommand === "get") {
-      let outEmbed = new EmbedBuilder().setColor("Blurple");
+      let outEmbed = new EmbedBuilder().setColor("#7289DA");
       let out = "";
       const userID = interaction.options.get("user").value;
       const member = await interaction.guild.members.fetch(userID);

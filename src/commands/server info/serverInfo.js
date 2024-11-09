@@ -67,7 +67,7 @@ module.exports = {
         .setFooter({
           text: `ID: ${guild.id} | Created at: ${moment(guild.createdTimestamp).format("DD. MMM 'YY")}`,
         })
-        .setColor("Blurple")
+        .setColor("#7289DA")
         .setAuthor({ name: `${guild.name} Info`, iconURL: guild.iconURL() })
         .setThumbnail(guild.iconURL());
 

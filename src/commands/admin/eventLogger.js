@@ -16,7 +16,7 @@ const logger = winston.createLogger({
 
 // If it's commented out it means that the logger for it isn't ready
 // Only 25 options are allowed for each choice
-// Create a new command and a new Array if you need more logs
+// Create a new subcommand and a new Array if you need more logs
 const logEvents = [
   { name: "Channel Create", value: "channelCreate" },
   { name: "Channel Delete", value: "channelDelete" },
@@ -27,20 +27,20 @@ const logEvents = [
   // { name: 'Event Delete',value: 'guildScheduledEventDelete' },
   // { name: 'Event Update',value: 'guildScheduledEventUpdate' },
   { name: "Invite Create", value: "inviteCreate" },
-  // { name: 'Message Delete', value: 'messageDelete' },
-  // { name: 'Message Delete Bulk', value: 'messageDeleteBulk' },
+  { name: "Message Bulk Delete", value: "messageDeleteBulk" },
+  { name: "Message Delete", value: "messageDelete" },
   { name: "Message Edit", value: "messageUpdate" },
   { name: "Role Create", value: "roleCreate" },
   { name: "Role Delete", value: "roleDelete" },
-  // { name: 'Role Update', value: 'roleUpdate' },
+  { name: "Role Update", value: "roleUpdate" },
   // { name: 'Sticker Create', value: 'stickerCreate' },
   // { name: 'Sticker Delete', value: 'stickerDelete' },
   // { name: 'Thread Create', value: 'threadCreate' },
   // { name: 'Thread Delete', value: 'threadDelete' },
-  // { name: 'User Ban', value: 'guildBanAdd' },
-  // { name: 'User Join', value: 'guildMemberAdd' },
-  // { name: 'User Leave', value: 'guildMemberRemove' },
-  // { name: 'User Unban', value: 'guildBanRemove' },
+  { name: "User Ban", value: "guildBanAdd" },
+  { name: "User Join", value: "guildMemberAdd" },
+  { name: "User Leave", value: "guildMemberRemove" },
+  { name: "User Unban", value: "guildBanRemove" },
   { name: "User Update", value: "guildMemberUpdate" },
 ];
 
@@ -131,7 +131,7 @@ module.exports = {
 
   name: "event-logger", // Name of the command
   description: "Log events", // Description of the command
-  devOnly: true, // Is a dev only command
+  // devOnly: true, // Is a dev only command
   // testOnly: true, // Is a test command
   usage: "/event-logger channel [channel]\n/event-logger enable [event]\n/event-logger disable [event]", // How to use this command. [required], (optional)
   example: `/event-logger channel 1137315708406091776\n/event-logger enable Role Create\n/event-logger disable User Join`, // Example of how to run this command
