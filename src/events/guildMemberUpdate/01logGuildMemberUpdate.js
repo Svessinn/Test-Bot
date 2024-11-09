@@ -82,8 +82,9 @@ module.exports = async (client, ...args) => {
           embedDescription += `\n**Removed from role(s):** `;
           for (let role of removedRoles) {
             const roleName = await oldUser.guild.roles.cache.get(role).name;
-            embedDescription += `\`${roleName}\``;
+            embedDescription += `${roleName}, `;
           }
+          embedDescription = embedDescription.substring(0, embedDescription.length - 2) + `\``;
         }
 
         if (addedRoles.length) {
@@ -93,7 +94,6 @@ module.exports = async (client, ...args) => {
             const roleName = await newUser.guild.roles.cache.get(role).name;
             embedDescription += `${roleName}, `;
           }
-
           embedDescription = embedDescription.substring(0, embedDescription.length - 2) + `\``;
         }
       }

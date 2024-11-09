@@ -30,6 +30,7 @@ module.exports = async (client, newMember) => {
         .setAuthor({ name: `New User Joined`, iconURL: newMember.guild.iconURL() })
         .setDescription(`**\`${newMember.user.username}\` (<@${newMember.user.id}>)**`)
         .setFooter({ text: `User ID: ${newMember.user.id}` })
+        .setThumbnail(`https://cdn.discordapp.com/avatars/${newMember.user.id}/${newMember.user.avatar}.webp?size=1024`)
         .setTimestamp()
         .setColor("#7289DA");
 

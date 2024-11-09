@@ -30,6 +30,7 @@ module.exports = async (client, removedMember) => {
         .setAuthor({ name: `User Left`, iconURL: removedMember.guild.iconURL() })
         .setDescription(`**\`${removedMember.user.username}\` (<@${removedMember.user.id}>)**`)
         .setFooter({ text: `User ID: ${removedMember.user.id}` })
+        .setThumbnail(`https://cdn.discordapp.com/avatars/${removedMember.user.id}/${removedMember.user.avatar}.webp?size=1024`)
         .setTimestamp()
         .setColor("#7289DA");
 
