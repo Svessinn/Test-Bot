@@ -82,13 +82,13 @@ module.exports = async (client, ...args) => {
       }
 
       if (changes.includes("name")) {
-        embedDescription += `\Name: **#${oldRole.name}** -> **#${newRole.name}**`;
+        embedDescription += `\nName: **#${oldRole.name}** -> **#${newRole.name}**`;
       }
 
       if (changes.includes("color")) {
         let oldColour = oldRole.color.toString(16);
         let newColour = newRole.color.toString(16);
-        embedDescription += `\nColour: **${oldColour !== "0".toString(16) ? "#" + oldColour : "None"}** -> **${newColour !== "0".toString(16) ? "#" + newColour : "None"}**`;
+        embedDescription += `\nColour: **${oldColour !== "0".toString(16) ? "#" + String(oldColour).padStart(6, "0") : "None"}** -> **${newColour !== "0".toString(16) ? "#" + String(newColour).padStart(6, "0") : "None"}**`;
       }
 
       if (changes.includes("hoist")) {
@@ -101,7 +101,7 @@ module.exports = async (client, ...args) => {
 
       // If something noteworthy was changed, update the embed
       if (embedDescription.length > 0) {
-        embed.setDescription(`<@&${newRole.id}>` + embedDescription);
+        embed.setDescription(`<@&${newRole.id}>\n` + embedDescription);
       } else {
         return;
       }

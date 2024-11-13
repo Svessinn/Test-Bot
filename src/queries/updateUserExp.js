@@ -33,7 +33,7 @@ module.exports = async (userID, guildID, expToGive) => {
     })
     .select();
 
-  if (data) {
+  if (data[0]) {
     const expForNext = calcLevelExp(data[0].level);
     if (data[0].exp >= expForNext) {
       const newData = await updateUserLevel(data[0].userId, data[0].guildId);
@@ -45,6 +45,8 @@ module.exports = async (userID, guildID, expToGive) => {
 
   if (error) {
     logger.log("error", error);
+    console.log(userID, guildID);
+    console.log(error);
   }
   return;
 };

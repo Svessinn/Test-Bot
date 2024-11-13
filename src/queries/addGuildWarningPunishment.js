@@ -33,6 +33,8 @@ module.exports = async (guildID, warningAmount, punishmentType, time) => {
 
   if (error) {
     logger.log("error", error);
+    console.log(guildID);
+    console.log(error);
   }
   return;
 };

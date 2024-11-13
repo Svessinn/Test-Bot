@@ -28,6 +28,8 @@ module.exports = async (guildID, warnings) => {
 
   if (error) {
     logger.log("error", error);
+    console.log(guildID);
+    console.log(error);
   }
   return;
 };

@@ -31,6 +31,8 @@ module.exports = async (guildID) => {
 
   if (error) {
     logger.log("error", error);
+    console.log(guildID);
+    console.log(error);
   }
   return;
 };

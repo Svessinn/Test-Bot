@@ -14,9 +14,7 @@
  *      "equipment": [""],
  *      "serves":""
  *    }
- * 4. In the media folder you NEED to create a similar tree, except using .png instead of .json
- *    Just use a transparent png if you don't have an image
- *    Because there needs to be an image corresponding to the recipe, otherwise, an ERROR will be thrown
+ * 4. In the media folder you need to create a similar tree, except using .png instead of .json
  *
  * I am not sharing my recipes or images
  * If you don't intend on using this feature, just remove it at your leisure
@@ -126,14 +124,6 @@ module.exports = {
             servingSuggestions += suggestion.length ? `• ${suggestion}\n` : "";
           }
 
-          let recipeImage;
-          try {
-            recipeImage = new AttachmentBuilder(path.join(__dirname, `../../../media/recipes/${cuisine}/${recipe}.png`), { name: `${recipe}.png` });
-          } catch (error) {
-            recipeImage = null;
-            console.log(`No image for ${cuisine}/${recipe}`);
-          }
-
           outEmbed
             .setTitle(Recipe.name)
             .addFields(
@@ -141,8 +131,7 @@ module.exports = {
               { name: "Serves", value: Recipe?.serves || "\u200b", inline: true },
               { name: "Equipment Needed:", value: equipment, inline: true },
               { name: "Serving Suggestions", value: servingSuggestions, inline: true }
-            )
-            .setThumbnail(`attachment://${recipeImage.name}`);
+            );
 
           let directions = `\u200b`;
           let idx = 1;
@@ -153,15 +142,33 @@ module.exports = {
             if (directions.length >= 800) {
               outEmbed.addFields({ name: first ? "Directions" : "\u200b", value: directions });
               first = false;
-              directions = ``;
+              directions = `\u200b`;
             }
           }
           outEmbed.addFields({ name: first ? "Directions" : "\u200b", value: directions });
 
-          await interaction.editReply({
-            embeds: [outEmbed],
-            files: [recipeImage],
-          });
+          const imageFileLocation = path.join(__dirname, `../../../media/recipes/${cuisine}/${recipe}.png`);
+          let recipeImage;
+
+          try {
+            fs.access(imageFileLocation);
+            recipeImage = new AttachmentBuilder(imageFileLocation, { name: `${recipe}.png` });
+          } catch (error) {
+            recipeImage = null;
+            // console.log(`No image for ${cuisine}/${recipe}`);
+          }
+
+          if (recipeImage) {
+            outEmbed.setThumbnail(`attachment://${recipeImage.name}`);
+            await interaction.editReply({
+              embeds: [outEmbed],
+              files: [recipeImage],
+            });
+          } else {
+            await interaction.editReply({
+              embeds: [outEmbed],
+            });
+          }
           return;
         }
       }
