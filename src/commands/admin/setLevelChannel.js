@@ -32,9 +32,11 @@ module.exports = {
     });
 
     try {
-      if (interaction.options.get("channel")?.value || false) {
+      const channel = interaction.options.get("channel");
+      if (channel?.value || false) {
+        upsertGuildLevelChannel(interaction.guild.id, channel.value);
         await interaction.editReply({
-          content: `Levelup channel set to <#${interaction.options.get("channel").value}>`,
+          content: `Levelup channel set to <#${channel.value}>`,
         });
       } else {
         await interaction.editReply({
@@ -62,6 +64,7 @@ module.exports = {
       description: "Channel which the levelup messages are sent",
       type: ApplicationCommandOptionType.Channel,
       channelTypes: [ChannelType.GuildText],
+      required: true,
     },
   ], // Input options
   // deleted: true, // If the command is no longer in use

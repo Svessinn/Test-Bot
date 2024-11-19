@@ -36,8 +36,13 @@ module.exports = async (client, message) => {
   let level = await getLevel(memberID, guildID);
 
   if (!level) {
-    await createLevel(memberID, guildID);
-    level = await getLevel(memberID, guildID);
+    try {
+      await createLevel(memberID, guildID);
+      level = await getLevel(memberID, guildID);
+    } catch (error) {
+      logger.log("error", error);
+      console.log(error);
+    }
   }
 
   let L = level.level;
@@ -47,8 +52,7 @@ module.exports = async (client, message) => {
 
   if (updated.level > L) {
     const channel = await guildChannel(guildID);
-
-    const targetChannel = message.guild.channels.cache?.get(channel.channelId) || message.channel;
+    const targetChannel = message.guild.channels.cache?.get(channel ? channel.channelId : null) || message.channel;
 
     const levelupRoles = await getLevelupRoles(guildID);
     const levelupRole = levelupRoles.findIndex((u) => u.level === updated.level);

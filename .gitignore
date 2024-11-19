@@ -3,7 +3,6 @@ logs
 .env
 config.json
 test.js
-.prettierignore
 src/recipes/*
 media/recipes/*
 !recipeSkeleton.json

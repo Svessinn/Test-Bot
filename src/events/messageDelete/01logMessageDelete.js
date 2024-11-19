@@ -18,29 +18,31 @@ const logger = winston.createLogger({
  */
 
 module.exports = async (client, deletedMessage) => {
+  if (deletedMessage.author.bot) return;
+
   const event = path.basename(__dirname);
   const log = await getEventLogger(deletedMessage.guild.id, event);
 
-  if (log) {
-    try {
-      const channel = await getLogChannel(deletedMessage.guild.id);
-      const logChannel = deletedMessage.guild.channels.cache.get(channel.channelId);
+  if (!log) return;
 
-      let embed = new EmbedBuilder()
-        .setAuthor({ name: `Message Deleted`, iconURL: deletedMessage.guild.iconURL() })
-        .setDescription(
-          `**Sent by <@${deletedMessage.author.id}> in https://discord.com/channels/${deletedMessage.guild.id}/${deletedMessage.channel.id}/${deletedMessage.id}` +
-            ` <t:${Math.floor(deletedMessage.createdTimestamp / 1000)}:R>**\n${deletedMessage.content}`
-        )
-        .setFooter({ text: `User ID: ${deletedMessage.author.id}` })
-        .setTimestamp()
-        .setColor("#7289DA");
+  try {
+    const channel = await getLogChannel(deletedMessage.guild.id);
+    const logChannel = deletedMessage.guild.channels.cache.get(channel.channelId);
 
-      await logChannel.send({ embeds: [embed] });
-    } catch (error) {
-      logger.log("error", `There was an error logging ${event} for ${deletedMessage.guild.id}: \n${error}`);
-      console.log(error);
-    }
+    let embed = new EmbedBuilder()
+      .setAuthor({ name: `Message Deleted`, iconURL: deletedMessage.guild.iconURL() })
+      .setDescription(
+        `**Sent by <@${deletedMessage.author.id}> in https://discord.com/channels/${deletedMessage.guild.id}/${deletedMessage.channel.id}/${deletedMessage.id}` +
+          ` <t:${Math.floor(deletedMessage.createdTimestamp / 1000)}:R>**\n${deletedMessage.content}`
+      )
+      .setFooter({ text: `User ID: ${deletedMessage.author.id}` })
+      .setTimestamp()
+      .setColor("#7289DA");
+
+    await logChannel.send({ embeds: [embed] });
+  } catch (error) {
+    logger.log("error", `There was an error logging ${event} for ${deletedMessage.guild.id}: \n${error}`);
+    console.log(error);
   }
 
   return;
