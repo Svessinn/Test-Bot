@@ -79,7 +79,7 @@ module.exports = async (client, ...args) => {
         const addedRoles = newUser._roles.filter((r) => !oldUser._roles.includes(r));
 
         if (removedRoles.length) {
-          embedDescription += `\n**Removed from role(s):** `;
+          embedDescription += `\n**Removed from role(s):** \``;
           for (let role of removedRoles) {
             const roleName = await oldUser.guild.roles.cache.get(role).name;
             embedDescription += `${roleName}, `;
