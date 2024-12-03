@@ -18,6 +18,7 @@ const logger = winston.createLogger({
 // Only 25 options are allowed for each choice
 // Create a new subcommand and a new Array if you need more logs
 const logEvents = [
+  { name: "All", value: "guildAuditLogEntryCreate" },
   { name: "Channel Create", value: "channelCreate" },
   { name: "Channel Delete", value: "channelDelete" },
   { name: "Channel Update", value: "channelUpdate" },
