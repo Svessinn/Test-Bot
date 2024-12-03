@@ -47,6 +47,7 @@ module.exports = {
       targetUser = await interaction.guild.members.fetch(targetUserId);
     } catch (err) {
       logger.log("error", err);
+      await interaction.editReply(`Unknown User`);
       return;
     }
 
