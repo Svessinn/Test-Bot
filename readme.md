@@ -86,7 +86,7 @@ module.exports = {
 
 ## Event Logging
 
-The bot logs various events such as `guildMemberAdd`, `guildMemberRemove`, `messageCreate`, etc. Event handlers are located in the `src/events/` directory.
+The bot logs various events such as `guildMemberAdd`, `guildMemberRemove`, `messageDelete`, etc. Event handlers are located in the `src/events/` directory.
 
 ## Sharding
 
