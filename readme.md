@@ -29,8 +29,15 @@ This is a Discord bot built using the `discord.js` library. The bot includes var
    ```
 
 3. Create a `.env` file based on the `.env.example` file and fill in your credentials:
+
    ```sh
    cp .env.example .env
+   ```
+
+4. Create a `config.json` file based on the `config.json.example` file and fill in your info:
+
+   ```sh
+   cp config.json.example config.json
    ```
 
 ## Configuration
