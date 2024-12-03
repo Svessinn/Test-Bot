@@ -46,13 +46,13 @@ This is a Discord bot built using the `discord.js` library. The bot includes var
 To run the bot, use the following command:
 
 ```sh
-node [index.js](https://github.com/Svessinn/Test-Bot/blob/master/src/index.js)
+node src/index.js
 ```
 
 If your bot is in many servers, you should use sharding:
 
 ```sh
-node [sharding.js](https://github.com/Svessinn/Test-Bot/blob/master/src/sharding.js)
+node src/sharding.js
 ```
 
 ## Commands
@@ -93,7 +93,7 @@ The bot logs various events such as `guildMemberAdd`, `guildMemberRemove`, `mess
 If your bot is in many servers, you should use sharding to distribute the load. The sharding manager is already coded for the bot. To run the bot in sharding mode, use the following command:
 
 ```sh
-node [sharding.js](https://github.com/Svessinn/Test-Bot/blob/master/src/sharding.js)
+node src/sharding.js
 ```
 
 ## Contributing
