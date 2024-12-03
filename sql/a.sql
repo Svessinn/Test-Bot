@@ -9,7 +9,7 @@ ALTER TABLE EventLoggers ADD PRIMARY KEY (guildId, event);
 
 CREATE TABLE LevelChannels (
   guildId VARCHAR(255),
-  channelId VARCHAR(255)
+  channelId VARCHAR(255) NOT NULL
 );
 
 ALTER TABLE LevelChannels ADD PRIMARY KEY (guildId);
@@ -17,8 +17,8 @@ ALTER TABLE LevelChannels ADD PRIMARY KEY (guildId);
 CREATE TABLE Levels (
   userId VARCHAR(255),
   guildId VARCHAR(255),
-  level INT2,
-  exp INT8
+  level INT2 NOT NULL,
+  exp INT8 NOT NULL
 );
 
 ALTER TABLE Levels ADD PRIMARY KEY (userId, guildId);
@@ -26,14 +26,14 @@ ALTER TABLE Levels ADD PRIMARY KEY (userId, guildId);
 CREATE TABLE LevelupRoles (
   guildId VARCHAR(255),
   roleId VARCHAR(255),
-  level INT2
+  level INT2 NOT NULL
 );
 
 ALTER TABLE LevelupRoles ADD PRIMARY KEY (guildId, roleId);
 
 CREATE TABLE LogChannels (
   guildId VARCHAR(255),
-  channelId VARCHAR(255)
+  channelId VARCHAR(255) NOT NULL
 );
 
 ALTER TABLE LogChannels ADD PRIMARY KEY (guildId);
@@ -50,15 +50,15 @@ ALTER TABLE WarnPunishments ADD PRIMARY KEY (guildId, warnings);
 CREATE TABLE Warnings (
   id INT8,
   guildId VARCHAR(255),
-  userId VARCHAR(255),
-  reason VARCHAR(255)
+  userId VARCHAR(255) NOT NULL,
+  reason VARCHAR(255) NOT NULL
 );
 
 ALTER TABLE Warnings ADD PRIMARY KEY (id, guildId);
 
 CREATE TABLE WelcomeChannels (
   guildId VARCHAR(255),
-  channelId VARCHAR(255)
+  channelId VARCHAR(255) NOT NULL
 );
 
 ALTER TABLE WelcomeChannels ADD PRIMARY KEY (guildId);
@@ -71,7 +71,7 @@ CREATE TABLE WelcomeEmbeds (
   authorName VARCHAR(255),
   authorIconURL TEXT,
   authorURL TEXT,
-  description TEXT,
+  description TEXT NOT NULL,
   thumbnail TEXT,
   image TEXT,
   timestamp BOOLEAN,
