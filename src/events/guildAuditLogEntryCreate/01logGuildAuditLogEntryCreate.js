@@ -126,7 +126,7 @@ module.exports = async (client, auditLogEntry, guild) => {
                 break;
             }
           });
-        } else if (auditLogEntry.targetType === "Channel") {
+        } else if (auditLogEntry.targetType === "Channel" || auditLogEntry.targetType === "Thread") {
           auditLogEntry.actionType === "Delete"
             ? (description += `#${auditLogEntry.target.name}`)
             : (description += `${Object.keys(auditLogEntry.target).length > 1 ? auditLogEntry.target : auditLogEntry.targetId}`);
@@ -149,14 +149,20 @@ module.exports = async (client, auditLogEntry, guild) => {
                   case "rate_limit_per_user":
                     description += `\n**• Slowmode Updated:** ${change.old} **->** ${change.new}`;
                     break;
+                  case "locked":
+                    description += change.new === true ? `\n**• Channel Locked**` : `\n**• Channel Unlocked**`;
+                    break;
+                  case "auto_archive_duration":
+                    description += `\n**• Auto Archive Duration Updated:** ${change.old / 228} Days **->** ${change.new / 228} Days`;
+                    break;
+                  case "archived":
+                    description += change.new === true ? `\n**• Channel Archived**` : `\n**• Channel Unarchived**`;
+                    break;
                   case "nsfw":
                     description += change.new === true ? `\n**• NSFW Enabled**` : `\n**• NSFW Disabled**`;
                     break;
                   case "permission_overwrites":
                     description += `\n**• Permission Overwrites Updated:** ${change.old} **->** ${change.new}`;
-                    break;
-                  case "type":
-                    description += change.new === "text" ? `\n**• Type Updated:** Voice **->** Text` : `\n**• Type Updated:** Text **->** Voice`;
                     break;
                   case "allow":
                     let newAllows = "";
@@ -191,10 +197,62 @@ module.exports = async (client, auditLogEntry, guild) => {
                   case "name":
                     description += `\n**• Name:** ${change.new}`;
                     break;
+                  case "type":
+                    description += `\n**• Type:** `;
+                    switch (change.new) {
+                      case 0:
+                        description += "Text";
+                        break;
+                      case 1:
+                        description += "DM";
+                        break;
+                      case 2:
+                        description += "Voice";
+                        break;
+                      case 3:
+                        description += "Group DM";
+                        break;
+                      case 4:
+                        description += "Category";
+                        break;
+                      case 5:
+                        description += "Announcement";
+                        break;
+                      case 10:
+                        description += "Announcement Thread";
+                        break;
+                      case 11:
+                        description += "Public Thread";
+                        break;
+                      case 12:
+                        description += "Private Thread";
+                        break;
+                      case 13:
+                        description += "Stage";
+                        break;
+                      case 14:
+                        description += "Directory";
+                        break;
+                      case 15:
+                        description += "Forum";
+                        break;
+                      case 16:
+                        description += "Media";
+                        break;
+                      default:
+                        description += `${change.new}`;
+                        break;
+                    }
+                    description += " Channel";
+                    break;
+                  case "auto_archive_duration":
+                    description += `\n**• Auto Archive Duration:** ${change.new / 60 / 24} Days`;
+                    break;
                 }
                 break;
               case "Delete":
                 // No additional information needed for channel deletion
+                // This is here in case I want to add something later
                 break;
               default:
                 // In case there are any other channel actions that need to be handled
@@ -203,7 +261,70 @@ module.exports = async (client, auditLogEntry, guild) => {
                 break;
             }
           });
+        } else if (auditLogEntry.targetType === "Role") {
+          description += `${Object.keys(auditLogEntry.target).length > 1 ? auditLogEntry.target : auditLogEntry.changes[0].old}`;
+          auditLogEntry.changes.forEach((change) => {
+            switch (auditLogEntry.actionType) {
+              case "Update":
+                switch (change.key) {
+                  case "name":
+                    description += `\n**• Name Updated:** ${change.old} **->** ${change.new}`;
+                    break;
+                  case "color":
+                    description += `\n**• Color Updated:** ${change.old} **->** ${change.new}`;
+                    break;
+                  case "hoist":
+                    description += change.new === true ? `\n**• Hoisted**` : `\n**• Unhoisted**`;
+                    break;
+                  case "mentionable":
+                    description += change.new === true ? `\n**• Mentionable**` : `\n**• Unmentionable**`;
+                    break;
+                  case "permissions":
+                    let newAllows = "";
+                    let newNulls = "";
+                    const oldPermissions = new PermissionsBitField(String(change.old)).serialize();
+                    const newPermissions = new PermissionsBitField(String(change.new)).serialize();
+                    diffs = compareObjects(oldPermissions, newPermissions);
+                    diffs.forEach((diff) => {
+                      if (newPermissions[diff]) {
+                        newAllows += `${diff}, `;
+                      } else if (oldPermissions[diff]) {
+                        newNulls += `${diff}, `;
+                      }
+                    });
+                    description += newAllows.length ? `\n**• Permissions Allowed:** ${newAllows.slice(0, -2)}` : "";
+                    description += newNulls.length ? `\n**• Permissions Removed:** ${newNulls.slice(0, -2)}` : "";
+                    break;
+                  default:
+                    break;
+                }
+                break;
+              case "Create":
+                switch (change.key) {
+                  case "name":
+                    description += `\n**• Name:** ${change.new}`;
+                    break;
+                  case "color":
+                    description += `\n**• Color:** ${change.new}`;
+                    break;
+                  case "hoist":
+                    description += change.new === true ? `\n**• Hoisted**` : `\n**• Unhoisted**`;
+                    break;
+                  case "mentionable":
+                    description += change.new === true ? `\n**• Mentionable**` : `\n**• Unmentionable**`;
+                    break;
+                }
+                break;
+              case "Delete":
+                // No additional information needed for role deletion
+                // This is here in case I want to add something later
+                break;
+              default:
+                break;
+            }
+          });
         } else {
+          logger.log("warn", `${auditLogEntry.targetType} ${auditLogEntry.actionType} not handled`);
           console.log(auditLogEntry.changes);
           description += `\n${auditLogEntry.changes.map((change) => `**• ${change.key}:** ${change.old} **->** ${change.new}`).join("\n")}`;
         }
@@ -214,18 +335,26 @@ module.exports = async (client, auditLogEntry, guild) => {
         // console.log("Extra:");
         // console.log(auditLogEntry.extra);
 
-        // Channel Permissions Overwrite Changes
         if (countOccurrences(description, "\n") > 1 && !auditLogEntry.extra.count) {
-          description += `\n**Extra:** ${auditLogEntry.extra?.type ? `<@${auditLogEntry.extra.id}>` : auditLogEntry.extra}`;
-        }
-        // Bulk Deletion
-        else if (auditLogEntry.extra.count) {
+          // Channel Permissions Overwrite Changes
+          description += `\n** ${auditLogEntry.extra?.type ? `User:** <@${auditLogEntry.extra.id}>` : `Role:** ${auditLogEntry.extra}`}`;
+        } else if (auditLogEntry.extra.count) {
+          // Bulk Deletion
           description = `**Executor:** <@${auditLogEntry.executorId}>`;
           description += `\n**Bulk Delete:** ${auditLogEntry.extra.count} messages in <#${auditLogEntry.targetId}>`;
           embed.setAuthor({ name: `Bulk Delete`, iconURL: guild.iconURL() });
-        }
-        // More info needed to handle the extra information
-        else {
+        } else if (auditLogEntry.action === 15 && auditLogEntry.targetType === "Channel") {
+          if (auditLogEntry.changes[0].key === "id") {
+            description = `**Executor:** <@${auditLogEntry.executorId}>`;
+            description +=
+              `\n**Channel:** ${auditLogEntry.target.type !== 4 ? `<#${auditLogEntry.target.id}>` : `#${auditLogEntry.target.name}`}` +
+              `\n**• Permission Overwrites Removed**` +
+              `\n**User:** <@${auditLogEntry.extra.id}>`;
+            embed.setAuthor({ name: `Channel Update`, iconURL: guild.iconURL() });
+          }
+        } else {
+          // More info needed to handle the extra information
+          logger.log("warn", `Extra information for ${auditLogEntry.targetType} ${auditLogEntry.actionType} not handled.`);
           console.log(auditLogEntry);
           return;
         }

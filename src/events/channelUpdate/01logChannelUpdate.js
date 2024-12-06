@@ -36,6 +36,7 @@ function compareObjects(oldObj, newObj) {
         }
 
         for (let j in oldCache) {
+          if (!newCache[j]) continue;
           if (
             PermissionsBitField.resolve(oldCache[j].deny) !== PermissionsBitField.resolve(newCache[j].deny) ||
             PermissionsBitField.resolve(oldCache[j].allow) !== PermissionsBitField.resolve(newCache[j].allow)
