@@ -169,6 +169,8 @@ module.exports = async (client, auditLogEntry, guild) => {
         case 1: // Guild Update
           embed.setAuthor({ name: `Guild Updated`, iconURL: guild.iconURL() });
           console.log(auditLogEntry);
+          return; // Returning so that the embed is not sent
+          // Need to figure out how to handle this
           break;
         case 10: // Channel Create
           description +=
@@ -608,7 +610,7 @@ module.exports = async (client, auditLogEntry, guild) => {
           description += `\n**Channel:** <#${auditLogEntry.extra.channel.id}>`;
           description +=
             `\n**Message:** https://discord.com/channels/` +
-            `${auditLogEntry.extra.channel.guild.id}/` +
+            `${guild.id}/` +
             `${auditLogEntry.extra.channel.id}/` +
             `${auditLogEntry.extra.messageId}`;
           embed.setAuthor({ name: `Message Pinned`, iconURL: guild.iconURL() });
@@ -618,7 +620,7 @@ module.exports = async (client, auditLogEntry, guild) => {
           description += `\n**Channel:** <#${auditLogEntry.extra.channel.id}>`;
           description +=
             `\n**Message:** https://discord.com/channels/` +
-            `${auditLogEntry.extra.channel.guild.id}/` +
+            `${guild.id}/` +
             `${auditLogEntry.extra.channel.id}/` +
             `${auditLogEntry.extra.messageId}`;
           embed.setAuthor({ name: `Message Unpinned`, iconURL: guild.iconURL() });
@@ -668,14 +670,20 @@ module.exports = async (client, auditLogEntry, guild) => {
         case 90: // Sticker Create
           embed.setAuthor({ name: `Sticker Created`, iconURL: guild.iconURL() });
           console.log(auditLogEntry);
+          return; // Returning so that the embed is not sent
+          // Need to figure out how to handle this
           break;
         case 91: // Sticker Update
           embed.setAuthor({ name: `Sticker Updated`, iconURL: guild.iconURL() });
           console.log(auditLogEntry);
+          return; // Returning so that the embed is not sent
+          // Need to figure out how to handle this
           break;
         case 92: // Sticker Delete
           embed.setAuthor({ name: `Sticker Deleted`, iconURL: guild.iconURL() });
           console.log(auditLogEntry);
+          return; // Returning so that the embed is not sent
+          // Need to figure out how to handle this
           break;
         case 100: // Event Create
           auditLogEntry.changes.forEach((change) => {
@@ -784,87 +792,150 @@ module.exports = async (client, auditLogEntry, guild) => {
         case 121: // Application Command Permission Update
           embed.setAuthor({ name: `Application Command Permission Updated`, iconURL: guild.iconURL() });
           console.log(auditLogEntry);
+          return; // Returning so that the embed is not sent
+          // Need to figure out how to handle this
           break;
         case 130: // Soundboard Sound Create
-          embed.setAuthor({ name: `Soundboard Sound Created`, iconURL: guild.iconURL() });
+          description += `\n**Sound:** ${auditLogEntry.target.name}`;
+          const emoji = auditLogEntry.target.emoji_id
+            ? client.guilds.cache.get(guild.id).emojis.cache.get(auditLogEntry.target.emoji_id)
+            : auditLogEntry.target.emoji_name;
+          description += `\n**⦁ Emoji:** ${emoji}`;
+          embed
+            .setAuthor({ name: `Soundboard Sound Created`, iconURL: guild.iconURL() })
+            .setFooter({ text: `Sound ID: ${auditLogEntry.target.sound_id}` });
           console.log(auditLogEntry);
           break;
         case 131: // Soundboard Sound Update
-          embed.setAuthor({ name: `Soundboard Sound Updated`, iconURL: guild.iconURL() });
+          // description += auditLogEntry.target.name ? `\n**Sound:** ${auditLogEntry.target.name}` : "";
+          // auditLogEntry.changes.forEach((change) => {
+          //   switch (change.key) {
+          //     case "name":
+          //       description += `\n**⦁ Name:** ${change.old} **➜** ${change.new}`;
+          //       break;
+          //     case "emoji_id":
+          //       description +=
+          //         `\n**⦁ Emoji:**` +
+          //         `${change.old ? ` ${client.guilds.cache.get(guild.id).emojis.cache.get(change.old)} **➜**` : ""}` +
+          //         ` ${client.guilds.cache.get(guild.id).emojis.cache.get(change.new)}`;
+          //       break;
+          //     case "emoji_name":
+          //       description += `\n**⦁ Emoji:**${change.old ? ` ${change.old} **➜**` : ""} ${change.new}`;
+          //       break;
+          //     default:
+          //       // Don't care about the rest of the changes
+          //       break;
+          //   }
+          // });
+          // embed
+          //   .setAuthor({ name: `Soundboard Sound Updated`, iconURL: guild.iconURL() })
+          //   .setFooter({ text: `Sound ID: ${auditLogEntry.target.sound_id}` });
           console.log(auditLogEntry);
+          return; // Returning so that the embed is not sent
+          // Need to figure out how to handle this
           break;
         case 132: // Soundboard Sound Delete
-          embed.setAuthor({ name: `Soundboard Sound Deleted`, iconURL: guild.iconURL() });
+          description += `\n**Sound:** ${auditLogEntry.target.name}`;
+          embed
+            .setAuthor({ name: `Soundboard Sound Deleted`, iconURL: guild.iconURL() })
+            .setFooter({ text: `Sound ID: ${auditLogEntry.target.sound_id}` });
           console.log(auditLogEntry);
           break;
         case 140: // Auto Mod Rule Create
           embed.setAuthor({ name: `Auto Mod Rule Created`, iconURL: guild.iconURL() });
           console.log(auditLogEntry);
+          return; // Returning so that the embed is not sent
+          // Need to figure out how to handle this
           break;
         case 141: // Auto Mod Rule Update
           embed.setAuthor({ name: `Auto Mod Rule Updated`, iconURL: guild.iconURL() });
           console.log(auditLogEntry);
+          return; // Returning so that the embed is not sent
+          // Need to figure out how to handle this
           break;
         case 142: // Auto Mod Rule Delete
           embed.setAuthor({ name: `Auto Mod Rule Deleted`, iconURL: guild.iconURL() });
           console.log(auditLogEntry);
+          return; // Returning so that the embed is not sent
+          // Need to figure out how to handle this
           break;
         case 143: // Auto Mod Block Message
           embed.setAuthor({ name: `Auto Mod Blocked Message`, iconURL: guild.iconURL() });
           console.log(auditLogEntry);
+          return; // Returning so that the embed is not sent
+          // Need to figure out how to handle this
           break;
         case 144: // Auto Mod Flagged Message
           embed.setAuthor({ name: `Auto Mod Flagged Message`, iconURL: guild.iconURL() });
           console.log(auditLogEntry);
+          return; // Returning so that the embed is not sent
+          // Need to figure out how to handle this
           break;
         case 145: // Auto Mod User Timed Out
           embed.setAuthor({ name: `Auto Mod User Timed Out`, iconURL: guild.iconURL() });
           console.log(auditLogEntry);
+          return; // Returning so that the embed is not sent
+          // Need to figure out how to handle this
           break;
         case 150: // Creator Monetization Request Create
           embed.setAuthor({ name: `Creator Monetization Request Created`, iconURL: guild.iconURL() });
           console.log(auditLogEntry);
+          return; // Returning so that the embed is not sent
+          // Need to figure out how to handle this
           break;
         case 151: // Creator Monetization Terms Accepted
           embed.setAuthor({ name: `Creator Monetization Terms Accepted`, iconURL: guild.iconURL() });
           console.log(auditLogEntry);
+          return; // Returning so that the embed is not sent
+          // Need to figure out how to handle this
           break;
         case 163: // Onboarding Prompt Create
           embed.setAuthor({ name: `Onboarding Prompt Created`, iconURL: guild.iconURL() });
           console.log(auditLogEntry);
+          return; // Returning so that the embed is not sent
+          // Need to figure out how to handle this
           break;
         case 164: // Onboarding Prompt Update
           embed.setAuthor({ name: `Onboarding Prompt Updated`, iconURL: guild.iconURL() });
           console.log(auditLogEntry);
+          return; // Returning so that the embed is not sent
+          // Need to figure out how to handle this
           break;
         case 165: // Onboarding Prompt Delete
           embed.setAuthor({ name: `Onboarding Prompt Deleted`, iconURL: guild.iconURL() });
           console.log(auditLogEntry);
+          return; // Returning so that the embed is not sent
+          // Need to figure out how to handle this
           break;
         case 166: // Onboarding Create
           embed.setAuthor({ name: `Onboarding Created`, iconURL: guild.iconURL() });
           console.log(auditLogEntry);
+          return; // Returning so that the embed is not sent
+          // Need to figure out how to handle this
           break;
         case 167: // Onboarding Update
           embed.setAuthor({ name: `Onboarding Updated`, iconURL: guild.iconURL() });
           console.log(auditLogEntry);
+          return; // Returning so that the embed is not sent
+          // Need to figure out how to handle this
           break;
         case 190: // Guild Server Guide Create
           embed.setAuthor({ name: `Guild Server Guide Created`, iconURL: guild.iconURL() });
           console.log(auditLogEntry);
+          return; // Returning so that the embed is not sent
+          // Need to figure out how to handle this
           break;
         case 191: // Guild Server Guide Update
           embed.setAuthor({ name: `Guild Server Guide Updated`, iconURL: guild.iconURL() });
           console.log(auditLogEntry);
+          return; // Returning so that the embed is not sent
+          // Need to figure out how to handle this
           break;
         default:
           // In case there are any other actions that need to be handled
-          logger.log(
-            "warn",
-            `Action ${auditLogEntry.targetType} ${auditLogEntry.actionType} (${auditLogEntry.action}) not handled`
-          );
+          logger.log("warn", `Action ${auditLogEntry.action} not handled`);
           console.log(auditLogEntry);
-          return;
+          return; // Returning so that the embed is not sent
       }
       // Set the description of the embed message
       embed.setDescription(description);
