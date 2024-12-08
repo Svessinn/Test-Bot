@@ -10,7 +10,8 @@ const winston = require("winston");
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
   format: winston.format.printf(
-    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+    (log) =>
+      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
   ),
 });
 
@@ -18,7 +19,7 @@ const logger = winston.createLogger({
 // Only 25 options are allowed for each choice
 // Create a new subcommand and a new Array if you need more logs
 const logEvents = [
-  { name: "All", value: "guildAuditLogEntryCreate" },
+  { name: "Audit Log", value: "guildAuditLogEntryCreate" },
   { name: "Channel Create", value: "channelCreate" },
   { name: "Channel Delete", value: "channelDelete" },
   { name: "Channel Update", value: "channelUpdate" },
@@ -85,7 +86,9 @@ module.exports = {
 
     const logChannel = await getLogChannel(interaction.guild.id);
     if (!logChannel) {
-      interaction.editReply("Please set up a log channel before enabling logs\nUse the `/event-logger channel` command to do so");
+      interaction.editReply(
+        "Please set up a log channel before enabling logs\nUse the `/event-logger channel` command to do so"
+      );
       return;
     }
 
