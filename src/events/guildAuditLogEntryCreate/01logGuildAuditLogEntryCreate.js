@@ -738,7 +738,6 @@ module.exports = async (client, auditLogEntry, guild) => {
         description += `\n**Integration:** ${auditLogEntry.target.name}`;
         description += `\n**⦁ Type:** ${auditLogEntry.target.type}`;
         embed.setAuthor({ name: `Integration Created`, iconURL: guild.iconURL() });
-        console.log(auditLogEntry);
         break;
       case 81: // Integration Update
         // I have no idea when this triggers
@@ -766,7 +765,6 @@ module.exports = async (client, auditLogEntry, guild) => {
       case 82: // Integration Delete
         description += `\n**Integration:** ${auditLogEntry.target.name}`;
         embed.setAuthor({ name: `Integration Deleted`, iconURL: guild.iconURL() });
-        console.log(auditLogEntry);
         break;
       case 83: // Stage Instance Create
         description += `\n**Stage:** <#${auditLogEntry.extra.channel.id}>`;
