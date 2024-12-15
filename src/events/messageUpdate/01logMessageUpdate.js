@@ -9,7 +9,8 @@ const winston = require("winston");
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
   format: winston.format.printf(
-    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+    (log) =>
+      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
   ),
 });
 
@@ -71,30 +72,20 @@ module.exports = async (client, ...args) => {
 
   if (log) {
     try {
+      if (!changes.includes("content")) return;
+
       const channel = await getLogChannel(oldMessage.guild.id);
       const logChannel = oldMessage.guild.channels.cache.get(channel.channelId);
 
       let embed = new EmbedBuilder()
         .setAuthor({ name: `Message Edited`, iconURL: oldMessage.guild.iconURL() })
         .setTitle(`https://discord.com/channels/${oldMessage.guild.id}/${oldMessage.channel.id}/${oldMessage.id}`)
-        .setDescription(`Something changed for <#${oldMessage.id}>`)
         .setFooter({ text: `Message ID: ${oldMessage.id}` })
         .setThumbnail(`https://cdn.discordapp.com/avatars/${oldMessage.author.id}/${oldMessage.author.avatar}.webp?size=1024`)
         .setTimestamp()
         .setColor("#7289DA");
 
-      let embedDescription = ``;
-
-      if (changes.includes("content")) {
-        embedDescription += `\n**Was:** ${oldMessage.content}\n**Now:** ${newMessage.content}`;
-      }
-
-      // If something noteworthy was changed, update the embed
-      if (embedDescription.length > 0) {
-        embed.setDescription(embedDescription + `\n**Edited by:** <@${oldMessage.author.id}> <t:${Math.floor(newMessage.editedTimestamp / 1000)}:R>`);
-      } else {
-        return;
-      }
+      embed.setDescription(`\n**Was:**\n${oldMessage.content}\n**Now:**\n${newMessage.content}`);
 
       await logChannel.send({ embeds: [embed] });
       return;

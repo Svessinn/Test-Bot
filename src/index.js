@@ -30,7 +30,7 @@ const client = new Client({
     IntentsBitField.Flags.GuildModeration,
     // IntentsBitField.Flags.GuildPresences,
     IntentsBitField.Flags.GuildScheduledEvents,
-    // IntentsBitField.Flags.GuildVoiceStates,
+    IntentsBitField.Flags.GuildVoiceStates,
     // IntentsBitField.Flags.GuildWebhooks,
     IntentsBitField.Flags.Guilds,
     IntentsBitField.Flags.MessageContent,
