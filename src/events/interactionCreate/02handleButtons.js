@@ -26,36 +26,52 @@ module.exports = async (client, interaction) => {
       case "LB-0":
         interaction.reply({
           ephemeral: true,
-          content: "You pressed Button 1",
+          content: "Fetching leaderboard",
         });
         await updateLeaderboard(interaction, 1);
+        await interaction.editReply({
+          content: "Leaderboard has been updated",
+          ephemeral: true,
+        });
         break;
       case "LB-1":
         await interaction.reply({
           ephemeral: true,
-          content: "You pressed Button 2",
+          content: "Fetching leaderboard",
         });
         await updateLeaderboard(
           interaction,
           Number(interaction.message.embeds[0].data.footer.text.split(" ")[1].split("/")[0]) - 1
         );
+        await interaction.editReply({
+          content: "Leaderboard has been updated",
+          ephemeral: true,
+        });
         break;
       case "LB-2":
         await interaction.reply({
           ephemeral: true,
-          content: "You pressed Button 3",
+          content: "Fetching leaderboard",
         });
         await updateLeaderboard(
           interaction,
           Number(interaction.message.embeds[0].data.footer.text.split(" ")[1].split("/")[0]) + 1
         );
+        await interaction.editReply({
+          content: "Leaderboard has been updated",
+          ephemeral: true,
+        });
         break;
       case "LB-3":
         await interaction.reply({
           ephemeral: true,
-          content: "You pressed Button 4",
+          content: "Fetching leaderboard",
         });
         await updateLeaderboard(interaction, Number.MAX_VALUE);
+        await interaction.editReply({
+          content: "Leaderboard has been updated",
+          ephemeral: true,
+        });
         break;
       default:
         await interaction.reply({
