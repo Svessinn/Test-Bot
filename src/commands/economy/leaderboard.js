@@ -20,7 +20,8 @@ const winston = require("winston");
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
   format: winston.format.printf(
-    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+    (log) =>
+      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
   ),
 });
 
@@ -57,7 +58,8 @@ module.exports = {
     try {
       let lb = await getGuildLeaberboard(interaction.guild.id);
 
-      let page = (await interaction.options.get("page")?.value) || 1;
+      let page =
+        ((await interaction.options.get("page")?.value) || 1) > 1 ? (await interaction.options.get("page")?.value) || 1 : 1;
       const maxPage = Math.ceil(lb.length / 10);
       page = Math.min(page, maxPage);
 
