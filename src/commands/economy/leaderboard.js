@@ -148,8 +148,6 @@ module.exports = {
       setTimeout(async () => {
         buttons.components.forEach((button) => button.setDisabled(true));
         await interaction.editReply({
-          embeds: [lbEmbed],
-          files: [lbAttachment],
           components: [buttons],
         });
       }, 300000); // Disable buttons after 5 minutes
