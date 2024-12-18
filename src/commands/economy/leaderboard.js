@@ -132,7 +132,7 @@ module.exports = {
 
       lbEmbed.setImage(`attachment://${lbAttachment.name}`);
 
-      let testButtons = new ActionRowBuilder().addComponents(
+      let buttons = new ActionRowBuilder().addComponents(
         new ButtonBuilder().setCustomId("LB-0").setEmoji("⏪").setStyle(ButtonStyle.Secondary),
         new ButtonBuilder().setCustomId("LB-1").setEmoji("◀️").setStyle(ButtonStyle.Secondary),
         new ButtonBuilder().setCustomId("LB-2").setEmoji("▶️").setStyle(ButtonStyle.Secondary),
@@ -142,8 +142,17 @@ module.exports = {
       await interaction.editReply({
         embeds: [lbEmbed],
         files: [lbAttachment],
-        components: [testButtons],
+        components: [buttons],
       });
+
+      setTimeout(async () => {
+        buttons.components.forEach((button) => button.setDisabled(true));
+        await interaction.editReply({
+          embeds: [lbEmbed],
+          files: [lbAttachment],
+          components: [buttons],
+        });
+      }, 300000); // Disable buttons after 5 minutes
     } catch (error) {
       await interaction.editReply({
         content: `Bot Error, Try again later`,

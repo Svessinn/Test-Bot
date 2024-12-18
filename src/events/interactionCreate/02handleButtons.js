@@ -1,6 +1,6 @@
 const { devs, testServer } = require("../../../config.json");
 const path = require("path");
-const { Client, Interaction } = require("discord.js");
+const { Client, ButtonInteraction } = require("discord.js");
 const updateLeaderboard = require("../../utils/updateLeaderboard");
 
 // Logging tool
@@ -15,11 +15,28 @@ const logger = winston.createLogger({
 
 /**
  * @param {Client} client
- * @param {Interaction} interaction
+ * @param {ButtonInteraction} interaction
  */
 
 module.exports = async (client, interaction) => {
   if (!interaction.isButton()) return;
+
+  // Catchall for any old messages that were not disabled
+  if (Date.now() - interaction.message.createdTimestamp > 300000) {
+    await interaction.reply({
+      ephemeral: true,
+      content: "This message is too old to be interacted with",
+    });
+
+    // This needs to be changed if there are more than one row of buttons
+    let buttons = interaction.message.components[0];
+    buttons.components.forEach((button) => {
+      button.data.disabled = true;
+    });
+
+    await interaction.message.edit({ components: [buttons] });
+    return;
+  }
 
   try {
     switch (interaction.customId) {
