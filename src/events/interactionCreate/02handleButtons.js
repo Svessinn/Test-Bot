@@ -1,4 +1,3 @@
-const { devs, testServer } = require("../../../config.json");
 const path = require("path");
 const { Client, ButtonInteraction } = require("discord.js");
 const updateLeaderboard = require("../../utils/updateLeaderboard");
@@ -28,19 +27,21 @@ module.exports = async (client, interaction) => {
       content: "This message is too old to be interacted with",
     });
 
-    // This needs to be changed if there are more than one row of buttons
-    let buttons = interaction.message.components[0];
-    buttons.components.forEach((button) => {
-      button.data.disabled = true;
-    });
+    let buttonArray = [];
+    for (let component of interaction.message.components) {
+      component.components.forEach((button) => {
+        button.data.disabled = true;
+      });
+      buttonArray.push(component);
+    }
 
-    await interaction.message.edit({ components: [buttons] });
+    await interaction.message.edit({ components: buttonArray });
     return;
   }
 
   try {
     switch (interaction.customId) {
-      case "LB-0":
+      case "LB-0": // Go to the first page of the leaderboard
         interaction.reply({
           ephemeral: true,
           content: "Fetching leaderboard",
@@ -51,7 +52,7 @@ module.exports = async (client, interaction) => {
           ephemeral: true,
         });
         break;
-      case "LB-1":
+      case "LB-1": // Go back one page in the leaderboard
         await interaction.reply({
           ephemeral: true,
           content: "Fetching leaderboard",
@@ -65,7 +66,7 @@ module.exports = async (client, interaction) => {
           ephemeral: true,
         });
         break;
-      case "LB-2":
+      case "LB-2": // Go forward one page in the leaderboard
         await interaction.reply({
           ephemeral: true,
           content: "Fetching leaderboard",
@@ -79,7 +80,7 @@ module.exports = async (client, interaction) => {
           ephemeral: true,
         });
         break;
-      case "LB-3":
+      case "LB-3": // Go to the last page of the leaderboard
         await interaction.reply({
           ephemeral: true,
           content: "Fetching leaderboard",
@@ -90,13 +91,17 @@ module.exports = async (client, interaction) => {
           ephemeral: true,
         });
         break;
-      default:
+      default: // If the button ID is not handled
         await interaction.reply({
           ephemeral: true,
           content: "Unknown button pressed",
         });
         break;
     }
+    // Delete the reply after 5 seconds
+    setTimeout(async () => {
+      await interaction.deleteReply();
+    }, 5000);
   } catch (error) {
     logger.log("error", `There was an error handling the button interaction: \n${error}`);
     console.log(error);
