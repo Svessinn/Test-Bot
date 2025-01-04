@@ -12,7 +12,8 @@ const winston = require("winston");
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
   format: winston.format.printf(
-    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+    (log) =>
+      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
   ),
 });
 
@@ -54,22 +55,30 @@ module.exports = async (client, message) => {
     const channel = await guildChannel(guildID);
     const targetChannel = message.guild.channels.cache?.get(channel ? channel.channelId : null) || message.channel;
 
+    let outContent = `Congratulations <@${memberID}>\nYou've leveled up to level ${updated.level}`;
+
     const levelupRoles = await getLevelupRoles(guildID);
     const levelupRole = levelupRoles.findIndex((u) => u.level === updated.level);
 
-    if (levelupRole === -1) {
-      await targetChannel.send({
-        content: `Congratulations <@${memberID}>\nYou've leveled up to level ${updated.level}`,
-      });
-    } else {
-      const role = message.guild.roles.cache.get(levelupRoles[levelupRole].roleId);
-      await message.member.roles.add(role).catch((err) => {
-        logger.log("error", `Error adding levelup role\n${err}`);
-      });
+    let roles = [];
+    for (let i = 0; i < levelupRoles.length; i++) {
+      if (levelupRoles[i].level <= updated.level) {
+        const role = message.guild.roles.cache.get(levelupRoles[i].roleId);
+        roles.push(role);
+        if (levelupRoles[i].level === updated.level) {
+          outContent += `\nAnd been given the role \`${role.name}\``;
+        }
+      }
+    }
+    await message.member.roles.add(roles).catch((err) => {
+      logger.log("error", `Error adding levelup role\n${err}`);
+    });
 
-      await targetChannel.send({
-        content: `Congratulations <@${memberID}>\nYou've leveled up to level ${updated.level}\nAnd been given the role \`${role.name}\``,
-      });
+    try {
+      await targetChannel.send({ content: outContent });
+    } catch (error) {
+      logger.log("error", error);
+      console.log(error);
     }
   }
 
