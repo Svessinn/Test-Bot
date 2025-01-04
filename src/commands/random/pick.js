@@ -1,6 +1,5 @@
 const { Client, Interaction, PermissionFlagsBits, ApplicationCommandOptionType } = require("discord.js");
 const path = require("path");
-const rng = require("../../utils/generateRandomNumber");
 
 // Logging tool
 const winston = require("winston");
@@ -39,7 +38,10 @@ module.exports = {
       ephemeral: false,
     });
 
-    const list = interaction.options.get("list").value.split(",");
+    let list = interaction.options.get("list").value.split(",");
+    list = list.map((item) => item.trim());
+    list = list.filter((item) => item !== "");
+
     const amount = interaction.options.get("amount")?.value || 1;
     if (amount < 1) {
       await interaction.editReply({
@@ -73,7 +75,7 @@ module.exports = {
   // devOnly: true, // Is a dev only command
   // testOnly: true, // Is a test command
   usage: "/pick [list]", // How to use this command. [required], (optional)
-  example: "/pick 1,2,3,4,5,6,7", // Example of how to run this command
+  example: "/pick 1, two, 삼, fjórir, fünf, seks, 七", // Example of how to run this command
   options: [
     {
       name: "list",
