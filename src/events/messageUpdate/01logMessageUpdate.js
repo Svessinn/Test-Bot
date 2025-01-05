@@ -85,7 +85,27 @@ module.exports = async (client, ...args) => {
         .setTimestamp()
         .setColor("#7289DA");
 
-      embed.setDescription(`\n**Was:**\n${oldMessage.content}\n**Now:**\n${newMessage.content}`);
+      if (newMessage.content.length > 1024) {
+        embed.addFields(
+          {
+            name: "Old Message",
+            value: oldMessage.content.substring(0, 1021) + "...",
+          },
+          {
+            name: "New Message",
+            value: newMessage.content.substring(0, 1021) + "...",
+          }
+        );
+      } else {
+        embed.addField({
+          name: "Old Message",
+          value: oldMessage.content,
+        });
+        embed.addField({
+          name: "New Message",
+          value: newMessage.content,
+        });
+      }
 
       await logChannel.send({ embeds: [embed] });
       return;

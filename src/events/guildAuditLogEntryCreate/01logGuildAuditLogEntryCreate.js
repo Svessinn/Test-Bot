@@ -701,6 +701,9 @@ module.exports = async (client, auditLogEntry, guild) => {
         embed.setAuthor({ name: `Emoji Deleted`, iconURL: guild.iconURL() });
         break;
       case 72: // Message Delete
+        let target = await auditLogEntry.extra.channel.guild.members.fetch(auditLogEntry.targetId);
+        if (target.user.bot) return;
+
         description += `\n**Sender:** <@${auditLogEntry.targetId}>`;
         description += `\n**Channel:** <#${auditLogEntry.extra.channel.id}>`;
         embed
@@ -1097,7 +1100,12 @@ module.exports = async (client, auditLogEntry, guild) => {
         console.log(auditLogEntry);
         return; // Returning so that the embed is not sent
     }
+
     // Set the description of the embed message
+    if (!description) return;
+    if (description.length > 4096) {
+      description = description.slice(0, 4090) + "...";
+    }
     embed.setDescription(description);
 
     // Send the embed message to the log channel

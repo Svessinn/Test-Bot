@@ -6,7 +6,8 @@ const winston = require("winston");
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
   format: winston.format.printf(
-    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+    (log) =>
+      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
   ),
 });
 
@@ -55,3 +56,7 @@ module.exports = {
   // permissionsRequired: [], // What permissions are needed to run the command
   // botPermissions: [], // What permissions the bot needs to run the command
 };
+/*
+  The Usage and Example fields are required for all commands.
+  They are used to generate the help embed for the command.
+*/

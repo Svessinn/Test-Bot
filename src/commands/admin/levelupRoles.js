@@ -10,7 +10,8 @@ const level = require("../economy/level");
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
   format: winston.format.printf(
-    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+    (log) =>
+      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
   ),
 });
 
@@ -38,15 +39,14 @@ module.exports = {
     let outEmbed = new EmbedBuilder().setColor("#7289DA");
 
     if (subcommand === "get") {
-      let out = "";
+      let out = "\u200b";
       const levelupRoles = await getLevelupRoles(interaction.guild.id);
       outEmbed
         .setTitle(`Levelup roles for ${interaction.guild.name}`)
         .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() })
         .setTimestamp();
       levelupRoles.forEach((r) => {
-        let role = interaction.guild.roles.cache.get(r.roleId);
-        out += `**${role.name}** given at level ${r.level}\n`;
+        out += `**<@&${r.roleId}>** given at level ${r.level}\n`;
       });
       outEmbed.setDescription(out);
       try {
@@ -63,16 +63,18 @@ module.exports = {
     }
 
     if (subcommand === "add") {
-      await addLevelupRole(interaction.guild.id, interaction.options.get("role").value, interaction.options.get("level").value);
-      let role = interaction.guild.roles.cache.get(interaction.options.get("role").value);
+      const roleId = interaction.options.get("role").value;
+      const level = interaction.options.get("level").value;
+
+      await addLevelupRole(interaction.guild.id, roleId, level);
 
       outEmbed
         .setTitle(`Added new levelup role`)
         .setTimestamp()
         .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() })
         .addFields({
-          name: `**__Name:__** ${role.name}`,
-          value: `**__Level:__** ${String(interaction.options.get("level").value)}`,
+          name: `**__Role:__** <@&${roleId}>`,
+          value: `**__Level:__** ${String(level)}`,
         });
 
       try {
@@ -89,16 +91,17 @@ module.exports = {
     }
 
     if (subcommand === "delete") {
-      await delLevelupRole(interaction.guild.id, interaction.options.get("role").value);
-      let role = interaction.guild.roles.cache.get(interaction.options.get("role").value);
+      const roleId = interaction.options.get("role").value;
+
+      await delLevelupRole(interaction.guild.id, roleId);
 
       outEmbed
         .setTitle(`Removed a levelup role`)
         .setTimestamp()
         .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() })
         .addFields({
-          name: role.name,
-          value: "Has been removed as a levelup role",
+          name: `**__Role:__** <@&${roleId}>`,
+          value: "No longer given at any level",
         });
 
       try {

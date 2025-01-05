@@ -10,7 +10,8 @@ const winston = require("winston");
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
   format: winston.format.printf(
-    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+    (log) =>
+      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
   ),
 });
 
@@ -42,7 +43,7 @@ module.exports = {
 
     let subcommand = interaction.options.getSubcommand();
 
-    let out = "";
+    let out = "\u200b";
     if (subcommand === "get") {
       punishEmbed.setTitle("Warning Punishments");
       try {
@@ -126,7 +127,8 @@ module.exports = {
   devOnly: true, // Is a dev only command
   // testOnly: true, // Is a test command
   usage: "/warn-punishment get\n/warn-punishment add [type] [warnings] (timeout-duration)\n/warn-punishment delete [warnings]", // How to use this command. [required], (optional)
-  example: "/warn-punishment get\n/warn-punishment add [type] [warnings] (timeout-duration)\n/warn-punishment delete [warnings]", // Example of how to run this command
+  example:
+    "/warn-punishment get\n/warn-punishment add [type] [warnings] (timeout-duration)\n/warn-punishment delete [warnings]", // Example of how to run this command
   options: [
     {
       name: "get",

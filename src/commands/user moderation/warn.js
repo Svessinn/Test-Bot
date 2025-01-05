@@ -12,7 +12,8 @@ const winston = require("winston");
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
   format: winston.format.printf(
-    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+    (log) =>
+      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
   ),
 });
 
@@ -174,7 +175,7 @@ module.exports = {
       }
     } else if (subcommand === "get") {
       let outEmbed = new EmbedBuilder().setColor("#7289DA");
-      let out = "";
+      let out = "\u200b";
       const userID = interaction.options.get("user").value;
       const member = await interaction.guild.members.fetch(userID);
       const userWarns = await getGuildWarnWithUser(interaction.guild.id, userID);
