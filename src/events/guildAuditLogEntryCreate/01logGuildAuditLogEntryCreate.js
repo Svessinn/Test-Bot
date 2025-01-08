@@ -168,6 +168,8 @@ module.exports = async (client, auditLogEntry, guild) => {
     // Build the description for the embed message
     let description = `**Executor:** ${auditLogEntry.executor ? auditLogEntry.executor : `<@${auditLogEntry.executorId}>`}`;
 
+    // This is here to indicate the type of action that was taken in the audit log entry
+    // Not needed unless you are working on things and need to know what action was taken
     console.log(`${auditLogEntry.targetType} ${auditLogEntry.actionType}: ${auditLogEntry.action}`);
 
     switch (auditLogEntry.action) {

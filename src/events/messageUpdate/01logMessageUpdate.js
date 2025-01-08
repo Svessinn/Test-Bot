@@ -97,14 +97,16 @@ module.exports = async (client, ...args) => {
           }
         );
       } else {
-        embed.addField({
-          name: "Old Message",
-          value: oldMessage.content,
-        });
-        embed.addField({
-          name: "New Message",
-          value: newMessage.content,
-        });
+        embed.addFields(
+          {
+            name: "Old Message",
+            value: oldMessage.content,
+          },
+          {
+            name: "New Message",
+            value: newMessage.content,
+          }
+        );
       }
 
       await logChannel.send({ embeds: [embed] });
