@@ -6,7 +6,8 @@ const winston = require("winston");
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
   format: winston.format.printf(
-    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+    (log) =>
+      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
   ),
 });
 
@@ -48,10 +49,12 @@ module.exports = {
 
         helpEmbed = new EmbedBuilder()
           .setTitle(`Command: /${commandName}`)
-          .setDescription(`**Description:** ${localCommand.description}\n**Usage:**\n${localCommand.usage}\n**Example:**\n${localCommand.example}`)
+          .setDescription(
+            `**Description:** ${localCommand.description}\n**Usage:**\n${localCommand.usage}\n**Example:**\n${localCommand.example}`
+          )
           .setColor("#7289DA");
       } else {
-        helpEmbed = new EmbedBuilder().setTitle("Under Development").setColor("#7289DA");
+        helpEmbed = new EmbedBuilder().setTitle("Under Development").setColor("#7289DA").setDescription("\u200b");
       }
 
       interaction.editReply({
