@@ -31,9 +31,7 @@ module.exports = {
       return;
     }
 
-    await interaction.deferReply({
-      ephemeral: false,
-    });
+    await interaction.deferReply({});
 
     let subcommand = interaction.options.getSubcommand();
     let outEmbed = new EmbedBuilder().setColor("#7289DA");
@@ -72,10 +70,7 @@ module.exports = {
         .setTitle(`Added new levelup role`)
         .setTimestamp()
         .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() })
-        .addFields({
-          name: `**__Role:__** <@&${roleId}>`,
-          value: `**__Level:__** ${String(level)}`,
-        });
+        .setDescription(`**Role** <@&${roleId}> will be given at **level ${String(level)}**`);
 
       try {
         await interaction.editReply({
@@ -99,10 +94,7 @@ module.exports = {
         .setTitle(`Removed a levelup role`)
         .setTimestamp()
         .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() })
-        .addFields({
-          name: `**__Role:__** <@&${roleId}>`,
-          value: "No longer given at any level",
-        });
+        .setDescription(`**Role** <@&${roleId}> will no longer be given at any level`);
 
       try {
         await interaction.editReply({

@@ -7,7 +7,8 @@ const winston = require("winston");
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
   format: winston.format.printf(
-    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+    (log) =>
+      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
   ),
 });
 
@@ -27,9 +28,7 @@ module.exports = {
       return;
     }
 
-    await interaction.deferReply({
-      ephemeral: false,
-    });
+    await interaction.deferReply({});
 
     let subcommand = interaction.options.getSubcommand();
     let role = interaction.guild.roles.cache.get(interaction.options.get("role").value);
@@ -128,7 +127,9 @@ module.exports = {
     if (subcommand === "mentionable") {
       await role.setMentionable(interaction.options.get("mentionable").value);
 
-      outEmbed.setDescription(`${interaction.options.get("mentionable").value ? "Enabled" : "Disabled"} role mentions for ${role}`);
+      outEmbed.setDescription(
+        `${interaction.options.get("mentionable").value ? "Enabled" : "Disabled"} role mentions for ${role}`
+      );
     }
 
     try {

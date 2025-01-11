@@ -33,9 +33,7 @@ module.exports = {
       return;
     }
 
-    await interaction.deferReply({
-      ephemeral: false,
-    });
+    await interaction.deferReply({});
 
     let subcommand = interaction.options.getSubcommand();
 

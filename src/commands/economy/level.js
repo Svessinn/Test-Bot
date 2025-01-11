@@ -12,7 +12,8 @@ const background = "media/backgrounds/rankBackground.jpg";
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
   format: winston.format.printf(
-    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+    (log) =>
+      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
   ),
 });
 
@@ -33,13 +34,16 @@ module.exports = {
       return;
     }
 
-    await interaction.deferReply({
-      ephemeral: false,
-    });
+    await interaction.deferReply({});
 
     const member = interaction.options.get("user")?.value || interaction.member.id;
 
-    const level = (await getLevel(member, interaction.guild.id)) || { userId: member, guildId: interaction.guild.id, level: 0, exp: 0 };
+    const level = (await getLevel(member, interaction.guild.id)) || {
+      userId: member,
+      guildId: interaction.guild.id,
+      level: 0,
+      exp: 0,
+    };
 
     let targetUser;
     try {

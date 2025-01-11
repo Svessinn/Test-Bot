@@ -32,9 +32,7 @@ module.exports = {
       return;
     }
 
-    await interaction.deferReply({
-      ephemeral: false,
-    });
+    await interaction.deferReply({});
 
     let punishEmbed = new EmbedBuilder().setTimestamp().setColor("#7289DA").setFooter({
       text: interaction.guild.name,
@@ -57,7 +55,7 @@ module.exports = {
 
             out += `timed out for ${pretty}\n`;
           } else {
-            out += `${gwp.punishment === "kick" ? "kick" : gwp.punishment + "n"}ed from the server\n`;
+            out += `**${gwp.punishment === "kick" ? "kick" : gwp.punishment + "n"}ed** from the server\n`;
           }
         });
         punishEmbed.setDescription(out.length ? out : "No Warning Punishments set up fot this guild.");
@@ -104,8 +102,17 @@ module.exports = {
     } else if (subcommand === "delete") {
       const warns = interaction.options.get("warnings").value;
       const guildWarnPunishments = await getGuildWarnPunishments(interaction.guild.id);
-      const del = guildWarnPunishments.find((w) => (w.warnings = warns));
-      punishEmbed.setTitle("Deleted warning punishment").setDescription(`For __**${del.warnings}** warnings__`);
+      const del = guildWarnPunishments.find((w) => w.warnings === warns);
+
+      if (del) {
+        punishEmbed
+          .setTitle("Deleted Warning Punishment")
+          .setDescription(`Successfully deleted punishment for __**${del.warnings}** warnings__`);
+      } else {
+        punishEmbed
+          .setTitle("Warning Punishment Not Found")
+          .setDescription(`No punishment found for __**${warns}** warnings__`);
+      }
 
       try {
         await delGuildWarnPunishment(interaction.guild.id, warns);

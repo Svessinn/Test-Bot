@@ -6,7 +6,8 @@ const winston = require("winston");
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
   format: winston.format.printf(
-    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+    (log) =>
+      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
   ),
 });
 
@@ -26,13 +27,11 @@ module.exports = {
       return;
     }
 
-    await interaction.deferReply({
-      ephemeral: false,
-    });
+    await interaction.deferReply({});
 
     try {
       await interaction.editReply({
-        content: `[https://discord.com/api/oauth2/authorize?client_id=${client.user.id}](https://discord.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot%20applications.commands)`,
+        content: `https://discord.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot%20applications.commands`,
       });
     } catch (error) {
       await interaction.editReply({
@@ -44,7 +43,7 @@ module.exports = {
   }, // What the bot replies with
 
   name: "invite", // Name of the command
-  description: "Get an invite for the bot", // Description of the command
+  description: "Get an invite  for the bot", // Description of the command
   devOnly: true, // Is a dev only command
   // testOnly: true, // Is a test command
   usage: "/invite", // How to use this command. [required], (optional)

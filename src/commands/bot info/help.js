@@ -1,4 +1,11 @@
-const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits, EmbedBuilder } = require("discord.js");
+const {
+  Client,
+  Interaction,
+  ApplicationCommandOptionType,
+  PermissionFlagsBits,
+  EmbedBuilder,
+  MessageFlags,
+} = require("discord.js");
 const path = require("path");
 
 // Logging tool
@@ -28,7 +35,7 @@ module.exports = {
     }
 
     await interaction.deferReply({
-      ephemeral: true,
+      flags: [MessageFlags.Ephemeral],
     });
     try {
       const getLocalCommands = require("../../utils/getLocalCommands");

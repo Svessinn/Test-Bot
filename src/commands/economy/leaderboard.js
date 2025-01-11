@@ -51,9 +51,7 @@ module.exports = {
       return;
     }
 
-    await interaction.deferReply({
-      ephemeral: false,
-    });
+    await interaction.deferReply({});
 
     try {
       let lb = await getGuildLeaberboard(interaction.guild.id);

@@ -1,4 +1,11 @@
-const { Client, Interaction, ApplicationCommandOptionType, ChannelType, PermissionFlagsBits } = require("discord.js");
+const {
+  Client,
+  Interaction,
+  ApplicationCommandOptionType,
+  ChannelType,
+  PermissionFlagsBits,
+  MessageFlags,
+} = require("discord.js");
 const path = require("path");
 const ms = require("ms");
 
@@ -7,7 +14,8 @@ const winston = require("winston");
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
   format: winston.format.printf(
-    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+    (log) =>
+      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
   ),
 });
 
@@ -31,7 +39,7 @@ module.exports = {
     const duration = interaction.options.get("time")?.value || "5s";
 
     await interaction.deferReply({
-      ephemeral: true,
+      flags: [MessageFlags.Ephemeral],
     });
 
     let targetChannel;

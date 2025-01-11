@@ -34,9 +34,7 @@ module.exports = {
       return;
     }
 
-    await interaction.deferReply({
-      ephemeral: false,
-    });
+    await interaction.deferReply({});
 
     let list = interaction.options.get("list").value.split(",");
     list = list.map((item) => item.trim());

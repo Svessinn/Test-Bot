@@ -1,4 +1,11 @@
-const { Client, Interaction, EmbedBuilder, ApplicationCommandOptionType, PermissionFlagsBits } = require("discord.js");
+const {
+  Client,
+  Interaction,
+  EmbedBuilder,
+  ApplicationCommandOptionType,
+  PermissionFlagsBits,
+  MessageFlags,
+} = require("discord.js");
 const path = require("path");
 const colourNameToHex = require("../../utils/colourToHex");
 const welcomeEmbedCreate = require("../../queries/upsertGuildWelcomeEmbed");
@@ -12,7 +19,8 @@ const winston = require("winston");
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
   format: winston.format.printf(
-    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+    (log) =>
+      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
   ),
 });
 
@@ -34,7 +42,7 @@ module.exports = {
 
     await interaction.deferReply({
       content: `Creating embed`,
-      ephemeral: true,
+      flags: [MessageFlags.Ephemeral],
     });
 
     let subcommand = interaction.options.getSubcommand();
@@ -81,7 +89,7 @@ module.exports = {
 
         interaction.editReply({
           content: `Welcome Embed Successfully Deleted`,
-          ephemeral: true,
+          flags: [MessageFlags.Ephemeral],
         });
       } catch (error) {
         await interaction.editReply({
@@ -100,7 +108,7 @@ module.exports = {
 
         interaction.editReply({
           content: `Welcome Channel Successfully Selected`,
-          ephemeral: true,
+          flags: [MessageFlags.Ephemeral],
         });
       } catch (error) {
         await interaction.editReply({
@@ -118,7 +126,7 @@ module.exports = {
         if (!welcomeEmbedInfo) {
           interaction.editReply({
             content: `Your guild doesn't have a Welcome Embed set-up`,
-            ephemeral: true,
+            flags: [MessageFlags.Ephemeral],
           });
           return;
         }
@@ -167,7 +175,7 @@ module.exports = {
         interaction.editReply({
           content: `Welcome Embed Successfully Viewed\n${welcomeText}`,
           embeds: [welcomeEmbed],
-          ephemeral: true,
+          flags: [MessageFlags.Ephemeral],
         });
       } catch (error) {
         await interaction.editReply({

@@ -1,4 +1,11 @@
-const { Client, Interaction, EmbedBuilder, ApplicationCommandOptionType, PermissionFlagsBits } = require("discord.js");
+const {
+  Client,
+  Interaction,
+  EmbedBuilder,
+  ApplicationCommandOptionType,
+  PermissionFlagsBits,
+  MessageFlags,
+} = require("discord.js");
 const path = require("path");
 
 // Logging tool
@@ -6,7 +13,8 @@ const winston = require("winston");
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
   format: winston.format.printf(
-    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+    (log) =>
+      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
   ),
 });
 
@@ -28,23 +36,26 @@ module.exports = {
 
     const deletionAmount = Math.min(Math.abs(interaction.options.get("amount").value), 100);
 
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
     // Bulk Delete Messages
     try {
       await interaction.channel.bulkDelete(deletionAmount);
 
-      let outContent = deletionAmount > 1 ? `${deletionAmount} messages successfully deleted` : `${deletionAmount} message successfully deleted`;
+      let outContent =
+        deletionAmount > 1
+          ? `${deletionAmount} messages successfully deleted`
+          : `${deletionAmount} message successfully deleted`;
 
       interaction.editReply({
         content: outContent,
         embeds: [new EmbedBuilder().setDescription(outContent)],
-        ephemeral: true,
+        flags: [MessageFlags.Ephemeral],
       });
     } catch (error) {
       await interaction.editReply({
         content: `Bot Error, Try again later`,
-        ephemeral: true,
+        flags: [MessageFlags.Ephemeral],
       });
       logger.log("error", `There was an error while purging messages:\n${error}`);
       console.log(error);

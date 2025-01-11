@@ -1,4 +1,11 @@
-const { Client, Interaction, EmbedBuilder, ApplicationCommandOptionType, PermissionFlagsBits } = require("discord.js");
+const {
+  Client,
+  Interaction,
+  EmbedBuilder,
+  ApplicationCommandOptionType,
+  PermissionFlagsBits,
+  MessageFlags,
+} = require("discord.js");
 const path = require("path");
 const colourNameToHex = require("../../utils/colourToHex");
 
@@ -7,7 +14,8 @@ const winston = require("winston");
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
   format: winston.format.printf(
-    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+    (log) =>
+      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
   ),
 });
 
@@ -29,7 +37,7 @@ module.exports = {
 
     await interaction.deferReply({
       content: `Creating embed`,
-      ephemeral: true,
+      flags: [MessageFlags.Ephemeral],
     });
 
     let colour = interaction.options.get("colour")?.value || null;
@@ -46,7 +54,9 @@ module.exports = {
         iconURL: interaction.options.get("author-icon-url") ? interaction.options.get("author-icon-url").value : null,
         url: interaction.options.get("author-url") ? interaction.options.get("author-url").value : null,
       })
-      .setDescription(interaction.options.get("description") ? interaction.options.get("description").value.replace(/\\/g, "\n") : null)
+      .setDescription(
+        interaction.options.get("description") ? interaction.options.get("description").value.replace(/\\/g, "\n") : null
+      )
       .setThumbnail(interaction.options.get("thumbnail-url") ? interaction.options.get("thumbnail-url").value : null)
       .setImage(interaction.options.get("image-url") ? interaction.options.get("image-url").value : null)
       .setTimestamp(interaction.options.get("timestamp")?.value || false ? Date.now() : null)
@@ -61,7 +71,7 @@ module.exports = {
 
     interaction.editReply({
       content: `Embed sent`,
-      ephemeral: true,
+      flags: [MessageFlags.Ephemeral],
     });
   }, // What the bot replies with
 
