@@ -42,7 +42,7 @@ module.exports = {
 
     await interaction.deferReply({
       content: `Creating embed`,
-      flags: [MessageFlags.Ephemeral],
+      flags: MessageFlags.Ephemeral,
     });
 
     let subcommand = interaction.options.getSubcommand();
@@ -89,7 +89,7 @@ module.exports = {
 
         interaction.editReply({
           content: `Welcome Embed Successfully Deleted`,
-          flags: [MessageFlags.Ephemeral],
+          flags: MessageFlags.Ephemeral,
         });
       } catch (error) {
         await interaction.editReply({
@@ -108,7 +108,7 @@ module.exports = {
 
         interaction.editReply({
           content: `Welcome Channel Successfully Selected`,
-          flags: [MessageFlags.Ephemeral],
+          flags: MessageFlags.Ephemeral,
         });
       } catch (error) {
         await interaction.editReply({
@@ -126,7 +126,7 @@ module.exports = {
         if (!welcomeEmbedInfo) {
           interaction.editReply({
             content: `Your guild doesn't have a Welcome Embed set-up`,
-            flags: [MessageFlags.Ephemeral],
+            flags: MessageFlags.Ephemeral,
           });
           return;
         }
@@ -175,7 +175,7 @@ module.exports = {
         interaction.editReply({
           content: `Welcome Embed Successfully Viewed\n${welcomeText}`,
           embeds: [welcomeEmbed],
-          flags: [MessageFlags.Ephemeral],
+          flags: MessageFlags.Ephemeral,
         });
       } catch (error) {
         await interaction.editReply({

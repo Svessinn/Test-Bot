@@ -23,7 +23,7 @@ module.exports = async (client, interaction) => {
   // Catchall for any old messages that were not disabled
   if (Date.now() - interaction.message.createdTimestamp > 300000) {
     await interaction.reply({
-      flags: [MessageFlags.Ephemeral],
+      flags: MessageFlags.Ephemeral,
       content: "This message is too old to be interacted with",
     });
 
@@ -43,18 +43,18 @@ module.exports = async (client, interaction) => {
     switch (interaction.customId) {
       case "LB-0": // Go to the first page of the leaderboard
         interaction.reply({
-          flags: [MessageFlags.Ephemeral],
+          flags: MessageFlags.Ephemeral,
           content: "Fetching leaderboard",
         });
         await updateLeaderboard(interaction, 1);
         await interaction.editReply({
           content: "Leaderboard has been updated",
-          flags: [MessageFlags.Ephemeral],
+          flags: MessageFlags.Ephemeral,
         });
         break;
       case "LB-1": // Go back one page in the leaderboard
         await interaction.reply({
-          flags: [MessageFlags.Ephemeral],
+          flags: MessageFlags.Ephemeral,
           content: "Fetching leaderboard",
         });
         await updateLeaderboard(
@@ -63,12 +63,12 @@ module.exports = async (client, interaction) => {
         );
         await interaction.editReply({
           content: "Leaderboard has been updated",
-          flags: [MessageFlags.Ephemeral],
+          flags: MessageFlags.Ephemeral,
         });
         break;
       case "LB-2": // Go forward one page in the leaderboard
         await interaction.reply({
-          flags: [MessageFlags.Ephemeral],
+          flags: MessageFlags.Ephemeral,
           content: "Fetching leaderboard",
         });
         await updateLeaderboard(
@@ -77,23 +77,23 @@ module.exports = async (client, interaction) => {
         );
         await interaction.editReply({
           content: "Leaderboard has been updated",
-          flags: [MessageFlags.Ephemeral],
+          flags: MessageFlags.Ephemeral,
         });
         break;
       case "LB-3": // Go to the last page of the leaderboard
         await interaction.reply({
-          flags: [MessageFlags.Ephemeral],
+          flags: MessageFlags.Ephemeral,
           content: "Fetching leaderboard",
         });
         await updateLeaderboard(interaction, Number.MAX_VALUE);
         await interaction.editReply({
           content: "Leaderboard has been updated",
-          flags: [MessageFlags.Ephemeral],
+          flags: MessageFlags.Ephemeral,
         });
         break;
       default: // If the button ID is not handled
         await interaction.reply({
-          flags: [MessageFlags.Ephemeral],
+          flags: MessageFlags.Ephemeral,
           content: "Unknown button pressed",
         });
         break;

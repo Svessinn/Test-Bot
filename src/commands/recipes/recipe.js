@@ -151,7 +151,9 @@ module.exports = {
               directions = `\u200b`;
             }
           }
-          outEmbed.addFields({ name: first ? "Directions" : "\u200b", value: directions });
+          if (directions.length > 1) {
+            outEmbed.addFields({ name: first ? "Directions" : "\u200b", value: directions });
+          }
 
           const imageFileLocation = path.join(__dirname, `../../../media/recipes/${cuisine}/${recipe}.png`);
           let recipeImage;

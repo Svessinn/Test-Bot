@@ -35,7 +35,7 @@ module.exports = {
     }
 
     await interaction.deferReply({
-      flags: [MessageFlags.Ephemeral],
+      flags: MessageFlags.Ephemeral,
     });
     try {
       const getLocalCommands = require("../../utils/getLocalCommands");

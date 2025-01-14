@@ -39,7 +39,7 @@ module.exports = {
     const duration = interaction.options.get("time")?.value || "5s";
 
     await interaction.deferReply({
-      flags: [MessageFlags.Ephemeral],
+      flags: MessageFlags.Ephemeral,
     });
 
     let targetChannel;

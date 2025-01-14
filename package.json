@@ -1,6 +1,6 @@
 {
   "name": "test-bot",
-  "version": "0.0.108",
+  "version": "1.0.0-beta",
   "description": "A Discord bot built using discord.js",
   "main": "src/sharding.js",
   "scripts": {

@@ -36,7 +36,7 @@ module.exports = {
 
     const deletionAmount = Math.min(Math.abs(interaction.options.get("amount").value), 100);
 
-    await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     // Bulk Delete Messages
     try {
@@ -50,12 +50,12 @@ module.exports = {
       interaction.editReply({
         content: outContent,
         embeds: [new EmbedBuilder().setDescription(outContent)],
-        flags: [MessageFlags.Ephemeral],
+        flags: MessageFlags.Ephemeral,
       });
     } catch (error) {
       await interaction.editReply({
         content: `Bot Error, Try again later`,
-        flags: [MessageFlags.Ephemeral],
+        flags: MessageFlags.Ephemeral,
       });
       logger.log("error", `There was an error while purging messages:\n${error}`);
       console.log(error);

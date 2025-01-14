@@ -1,3 +1,12 @@
+const Canvas = require("canvas");
+
+/**
+ *
+ * @param {Canvas.Canvas} canvas
+ * @param {String} text
+ * @param {Number} fontSize
+ * @return {String} Font size and family
+ */
 module.exports = (canvas, text, fontSize) => {
   const context = canvas.getContext("2d");
 

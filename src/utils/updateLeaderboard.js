@@ -61,6 +61,7 @@ module.exports = async (interaction, page) => {
         );
         console.log(error);
         lb = await getGuildLeaberboard(interaction.guild.id);
+        ln = page >= maxPage ? lb.length % 10 : 10;
       }
       tries -= 1;
     }

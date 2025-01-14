@@ -37,7 +37,7 @@ module.exports = {
 
     await interaction.deferReply({
       content: `Creating embed`,
-      flags: [MessageFlags.Ephemeral],
+      flags: MessageFlags.Ephemeral,
     });
 
     let colour = interaction.options.get("colour")?.value || null;
@@ -71,7 +71,7 @@ module.exports = {
 
     interaction.editReply({
       content: `Embed sent`,
-      flags: [MessageFlags.Ephemeral],
+      flags: MessageFlags.Ephemeral,
     });
   }, // What the bot replies with
 

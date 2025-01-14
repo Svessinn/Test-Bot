@@ -8,7 +8,8 @@ const winston = require("winston");
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
   format: winston.format.printf(
-    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+    (log) =>
+      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
   ),
 });
 
@@ -53,7 +54,9 @@ module.exports = async (client, interaction) => {
           ) || embedInfo.authorIconURL,
         url: embedInfo.authorURL,
       })
-      .setDescription(embedInfo.description.replace(/\\/g, "\n")?.replace("{user}", `<@${interaction.user.id}>`) || embedInfo.description)
+      .setDescription(
+        embedInfo.description.replace(/\\/g, "\n")?.replace("{user}", `<@${interaction.user.id}>`) || embedInfo.description
+      )
       .setThumbnail(embedInfo.thumbnail)
       .setImage(embedInfo.image)
       .setTimestamp(embedInfo.timestamp || false ? Date.now() : null)
