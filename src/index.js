@@ -1,8 +1,3 @@
-/**
- * To use index.js change your package.json's main to "src/index.js"
- */
-
-// importing stuff
 require("dotenv").config();
 const { Client, IntentsBitField } = require("discord.js");
 const TOKEN = process.env.TOKEN;
