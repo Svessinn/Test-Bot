@@ -26,7 +26,7 @@ To install and run the bot, follow these steps:
 3. Configure the bot with your Discord server details.
 
 - Create a `.env` file in the root directory of the project and configure it following the example provided in `.env.example`.
-- Create a `config.json` file in the root directory of the project and configure it following the example provided in `config.example.json`.
+- Create a `config.json` file in the root directory of the project and configure it following the example provided in `config.json.example`.
 
 4. Run the bot using `npm start`.
 
