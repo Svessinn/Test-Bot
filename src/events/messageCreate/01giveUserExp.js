@@ -58,7 +58,7 @@ module.exports = async (client, message) => {
     let outContent = `Congratulations <@${memberID}>\nYou've leveled up to level ${updated.level}`;
 
     const levelupRoles = await getLevelupRoles(guildID);
-    const levelupRole = levelupRoles.findIndex((u) => u.level === updated.level);
+    // const levelupRole = levelupRoles.findIndex((u) => u.level === updated.level);
 
     let roles = [];
     for (let i = 0; i < levelupRoles.length; i++) {

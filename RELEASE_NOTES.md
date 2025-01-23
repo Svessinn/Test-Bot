@@ -6,8 +6,8 @@ This is the first beta release of our Discord bot. This version includes the cor
 
 ## Features
 
-- **User Commands**: Basic commands such as `/hello`, `/help`, and `/info` to interact with the bot.
-- **Moderation Tools**: Commands for moderators to manage the server, including `/kick`, `/ban`, and `/mute`.
+- **User Commands**: Basic commands such as `/commands`, `/help`, and `/level` to interact with the bot.
+- **Moderation Tools**: Commands for moderators to manage the server, including `/kick`, `/ban`, and `/timrout`.
 - **Logging**: Basic logging of user interactions and command usage.
 
 ## Future Improvements

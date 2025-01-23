@@ -21,9 +21,9 @@ const manager = new ShardingManager("./src/index.js", {
 });
 
 manager.on("shardCreate", async (shard) => {
-  shard.on("ready", async () => {
+  shard.on("death", async () => {
     try {
-      logger.log("info", `Shard ${shard.id} ready`);
+      logger.log("info", `Shard ${shard.id} died`);
     } catch (error) {
       console.log(error);
     }
@@ -35,6 +35,20 @@ manager.on("shardCreate", async (shard) => {
       console.log(error);
     }
   });
+  shard.on("error", async (error) => {
+    try {
+      logger.log("error", `Shard ${shard.id} encountered an error: ${error}`);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+  shard.on("ready", async () => {
+    try {
+      logger.log("info", `Shard ${shard.id} ready`);
+    } catch (error) {
+      console.log(error);
+    }
+  });
   shard.on("reconnecting", async () => {
     try {
       logger.log("info", `Shard ${shard.id} reconnecting`);
@@ -42,9 +56,16 @@ manager.on("shardCreate", async (shard) => {
       console.log(error);
     }
   });
-  shard.on("death", async () => {
+  shard.on("resume", async () => {
     try {
-      logger.log("info", `Shard ${shard.id} died`);
+      logger.log("info", `Shard ${shard.id} resumed`);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+  shard.on("spawn", async () => {
+    try {
+      logger.log("info", `Shard ${shard.id} spawned`);
     } catch (error) {
       console.log(error);
     }
