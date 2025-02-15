@@ -22,19 +22,19 @@ module.exports = async (guildID, Event) => {
   const roles = await levels(guildID);
 
   if (roles.length <= 25) {
-    let { data, error } = await supabase
-      .from("EventLoggers")
-      .insert({
-        guildId: guildID,
-        event: Event,
-      })
-      .select();
+    try {
+      let { data, error } = await supabase
+        .from("EventLoggers")
+        .insert({
+          guildId: guildID,
+          event: Event,
+        })
+        .select();
 
-    if (data) {
-      return data[0];
-    }
-
-    if (error) {
+      if (data) {
+        return data[0];
+      }
+    } catch (error) {
       if (error.code === "23505") return; // duplicate key, there was already an event logger for the event
       logger.log("error", error);
     }

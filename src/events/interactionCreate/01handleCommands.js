@@ -14,6 +14,13 @@ const logger = winston.createLogger({
   ),
 });
 
+const commandLogger = winston.createLogger({
+  transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/command.log` })],
+  format: winston.format.printf(
+    (log) => `[${log.level.toUpperCase()}] - ${log.message} ${new Date(Date.now()).toUTCString()}`
+  ),
+});
+
 /**
  * @param {Client} client
  * @param {Interaction} interaction
@@ -23,6 +30,10 @@ module.exports = async (client, interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
   const localCommands = getLocalCommands();
+  commandLogger.log(
+    "info",
+    `Command: ${interaction.commandName} was ran by ${interaction.user.username} in ${interaction.guild.name}`
+  );
 
   try {
     const commandObject = localCommands.find((cmd) => cmd.name === interaction.commandName);

@@ -18,15 +18,15 @@ const SUPABASE_KEY = process.env.SUPABASE_KEY;
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 module.exports = async (guildID) => {
-  let { data, error } = await supabase.from("WarnPunishments").delete().match({
-    guildId: guildID,
-  });
+  try {
+    let { data, error } = await supabase.from("WarnPunishments").delete().match({
+      guildId: guildID,
+    });
 
-  if (data) {
-    return data;
-  }
-
-  if (error) {
+    if (data) {
+      return data;
+    }
+  } catch (error) {
     logger.log("error", error);
     console.log(guildID);
     console.log(error);

@@ -89,12 +89,12 @@ module.exports = {
     }
   }, // What the bot replies with
 
-  name: "serverinfo", // Name of the command
+  name: "server-info", // Name of the command
   description: "Get server information", // Description of the command
   devOnly: true, // Is a dev only command
   // testOnly: true, // Is a test command
-  usage: "/serverinfo", // How to use this command. [required], (optional)
-  example: "/serverinfo", // Example of how to run this command
+  usage: "/server-info", // How to use this command. [required], (optional)
+  example: "/server-info", // Example of how to run this command
   // options: [], // Input options
   // deleted: true, // If the command is no longer in use
   // permissionsRequired: [], // What permissions are needed to run the command
