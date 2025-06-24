@@ -26,6 +26,11 @@ module.exports = async (client, deletedMessage) => {
 
   if (!log) return;
 
+  let attachments = [];
+  for (let i of deletedMessage.attachments) {
+    attachments.push([i[1].attachment, i[1].contentType]);
+  }
+
   try {
     const channel = await getLogChannel(deletedMessage.guild.id);
     const logChannel = deletedMessage.guild.channels.cache.get(channel.channelId);
@@ -40,10 +45,17 @@ module.exports = async (client, deletedMessage) => {
       .setTimestamp()
       .setColor("#7289DA");
 
+    if (attachments.length === 1 && attachments[0][1].startsWith("image/")) {
+      embed.setImage(attachments[0][0]);
+    } else {
+      for (let i = 0; i < Math.min(attachments.length, 25); i++) {
+        embed.addFields({ name: `Attachment ${i + 1}`, value: attachments[i][0], inline: true });
+      }
+    }
+
     await logChannel.send({ embeds: [embed] });
   } catch (error) {
     logger.log("error", `There was an error logging ${event} for ${deletedMessage.guild.id}: \n${error}`);
-    console.log(error);
   }
 
   return;
