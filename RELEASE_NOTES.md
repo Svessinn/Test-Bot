@@ -1,33 +1,33 @@
-# Release Notes for Version 1.0.0-beta
+# Release Notes for Version 1.0.1-beta
 
 ## Overview
 
-This is the first beta release of our Discord bot. This version includes the core functionalities and basic commands to interact with users on a Discord server.
+Version 1.0.1-beta marks the initial beta release of our Discord bot, introducing essential features for user interaction and server moderation.
 
 ## Features
 
-- **User Commands**: Basic commands such as `/commands`, `/help`, and `/level` to interact with the bot.
-- **Moderation Tools**: Commands for moderators to manage the server, including `/kick`, `/ban`, and `/timrout`.
-- **Logging**: Basic logging of user interactions and command usage.
+- **User Commands**: Interact with the bot using `/commands`, `/help`, and `/level`.
+- **Moderation Tools**: Manage your server with `/kick`, `/ban`, and `/timeout` commands.
+- **Logging**: Track user interactions and command usage for better server management.
 
 ## Future Improvements
 
-- Adding more user commands and enhancing existing ones.
-- Improving the stability and performance of the bot.
-- Implementing advanced moderation tools and features.
-- Enhancing the logging system to provide more detailed insights.
+- Expanding the set of user commands.
+- Enhancing bot stability and performance.
+- Adding advanced moderation features.
+- Improving the logging system for deeper insights.
 
 ## Installation
 
-To install and run the bot, follow these steps:
+To set up the bot:
 
 1. Clone the repository from GitHub.
-2. Install the required dependencies using `npm install`.
-3. Configure the bot with your Discord server details.
+2. Install dependencies: `npm install`.
+3. Configure your Discord server details:
 
-- Create a `.env` file in the root directory of the project and configure it following the example provided in `.env.example`.
-- Create a `config.json` file in the root directory of the project and configure it following the example provided in `config.json.example`.
+- Create a `.env` file in the root directory, following `.env.example`.
+- Create a `config.json` file in the root directory, following `config.json.example`.
 
-4. Run the bot using `npm start`.
+4. Start the bot: `npm start`.
 
-Thank you for trying out our Discord bot! We look forward to your feedback and suggestions.
+Thank you for using our Discord bot! Your feedback is appreciated.
