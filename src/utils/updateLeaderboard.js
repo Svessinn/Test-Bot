@@ -8,7 +8,6 @@ const applyText = require("./applyText");
 
 // Logging tool
 const winston = require("winston");
-const { timeStamp } = require("console");
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
   format: winston.format.printf(

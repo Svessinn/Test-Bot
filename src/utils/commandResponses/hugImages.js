@@ -1,5 +1,5 @@
 const responses = [
-  "https://media1.tenor.com/images/969f0f462e4b7350da543f0231ba94cb/tenor.gif?itemid=14246498",
+  "https://c.tenor.com/images/969f0f462e4b7350da543f0231ba94cb/tenor.gif?itemid=14246498",
   "https://media.giphy.com/media/od5H3PmEG5EVq/giphy.gif",
   "https://media.giphy.com/media/ZQN9jsRWp1M76/giphy.gif",
   "https://media.giphy.com/media/yziFo5qYAOgY8/giphy.gif",

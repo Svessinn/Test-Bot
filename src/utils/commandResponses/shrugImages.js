@@ -1,14 +1,14 @@
 const responses = [
-  "https://media1.tenor.com/m/F6ekeSqr9OsAAAAd/renge-shrug.gif",
-  "https://media1.tenor.com/m/U06tekgz-OQAAAAd/city-hunter-ryo-saeba.gif",
-  "https://media1.tenor.com/m/ZaxUeXcUtDkAAAAd/shrug-smug.gif",
-  "https://media1.tenor.com/m/nlSDG33ptOoAAAAC/geto-suguru.gif",
-  "https://media1.tenor.com/m/0GOwPHgcUj0AAAAC/anime-shrug.gif",
-  "https://media1.tenor.com/m/HtRb68DqNPwAAAAC/little-witch-academia-sucy.gif",
-  "https://media1.tenor.com/m/zYK9-2LYTiYAAAAC/idk-killua.gif",
-  "https://media1.tenor.com/m/e1uPTuA2toIAAAAC/kana-shrug.gif",
-  "https://media1.tenor.com/m/Zw_dz8zbaWIAAAAC/koakuma-touhou.gif",
-  "https://media1.tenor.com/m/SxvUPdLQfrgAAAAC/uzaki-chan-uzaki.gif",
+  "https://c.tenor.com/F6ekeSqr9OsAAAAd/renge-shrug.gif",
+  "https://c.tenor.com/U06tekgz-OQAAAAd/city-hunter-ryo-saeba.gif",
+  "https://c.tenor.com/ZaxUeXcUtDkAAAAd/shrug-smug.gif",
+  "https://c.tenor.com/nlSDG33ptOoAAAAC/geto-suguru.gif",
+  "https://c.tenor.com/0GOwPHgcUj0AAAAC/anime-shrug.gif",
+  "https://c.tenor.com/HtRb68DqNPwAAAAC/little-witch-academia-sucy.gif",
+  "https://c.tenor.com/zYK9-2LYTiYAAAAC/idk-killua.gif",
+  "https://c.tenor.com/e1uPTuA2toIAAAAC/kana-shrug.gif",
+  "https://c.tenor.com/Zw_dz8zbaWIAAAAC/koakuma-touhou.gif",
+  "https://c.tenor.com/SxvUPdLQfrgAAAAC/uzaki-chan-uzaki.gif",
 ];
 
 /**

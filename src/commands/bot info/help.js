@@ -13,8 +13,7 @@ const winston = require("winston");
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
   format: winston.format.printf(
-    (log) =>
-      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
   ),
 });
 
@@ -33,10 +32,19 @@ module.exports = {
       interaction.reply("Bots can't use this command");
       return;
     }
+    // Optional boolean that's why it's like this
+    let ephemeral = true;
+    if (interaction.options.get("ephemeral")) {
+      ephemeral = interaction.options.get("ephemeral").value;
+    }
 
-    await interaction.deferReply({
-      flags: MessageFlags.Ephemeral,
-    });
+    if (ephemeral) {
+      await interaction.deferReply({
+        flags: MessageFlags.Ephemeral,
+      });
+    } else {
+      await interaction.deferReply({});
+    }
     try {
       const getLocalCommands = require("../../utils/getLocalCommands");
       const localCommands = getLocalCommands();
@@ -87,6 +95,12 @@ module.exports = {
       name: "command",
       description: "Command to get help for",
       type: ApplicationCommandOptionType.String,
+      required: false,
+    },
+    {
+      name: "ephemeral",
+      description: "Whether the response should be ephemeral, defaults to true",
+      type: ApplicationCommandOptionType.Boolean,
       required: false,
     },
   ],
