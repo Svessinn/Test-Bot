@@ -9,4 +9,4 @@ media/recipes/*
 !randomResponseSkeleton.js
 !commandSkeleton.js
 kfs 
-kfs.json
+kfs.*
