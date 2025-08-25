@@ -1,4 +1,4 @@
-const { Client, Message } = require("discord.js");
+const { Client, Message, MessageFlags } = require("discord.js");
 const path = require("path");
 const getLevel = require("../../queries/getUserLevelData");
 const createLevel = require("../../queries/addNewUserLevelData");
@@ -12,8 +12,7 @@ const winston = require("winston");
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
   format: winston.format.printf(
-    (log) =>
-      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
   ),
 });
 
@@ -75,7 +74,7 @@ module.exports = async (client, message) => {
     });
 
     try {
-      await targetChannel.send({ content: outContent });
+      await targetChannel.send({ content: outContent, flags: MessageFlags.SuppressNotifications });
     } catch (error) {
       logger.log("error", error);
       console.log(error);

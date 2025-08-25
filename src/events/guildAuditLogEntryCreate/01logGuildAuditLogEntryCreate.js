@@ -1124,6 +1124,55 @@ module.exports = async (client, auditLogEntry, guild) => {
         // Need to figure out how to handle this
         embed.setAuthor({ name: `Guild Server Guide Updated`, iconURL: guild.iconURL() });
         break;
+      case 211: // Guild Boost Tier Update
+        description += `\n**⦁ Old Tier:** ${auditLogEntry.extra.oldTier}`;
+        description += `\n**⦁ New Tier:** ${auditLogEntry.extra.newTier}`;
+        embed.setAuthor({ name: `Guild Boost Tier Updated`, iconURL: guild.iconURL() });
+        for (const change of auditLogEntry.changes) {
+          if (change.key === "premium_tier") {
+            description += `\n**⦁ Premium Tier:** ${change.old} **➜** ${change.new}`;
+          } else if (change.key === "server_tag") {
+            if (change.old === change.new) continue; // No change in server tag
+            if (change.old === null) {
+              description += `\n**⦁ Server Tag:** ${change.new}`;
+            } else if (change.new === null) {
+              description += `\n**⦁ Server Tag Removed:** ${change.old}`;
+            } else {
+              description += `\n**⦁ Server Tag:** ${change.old} **➜** ${change.new}`;
+            }
+          } else if (change.key === "brand_color_primary") {
+            if (change.old === change.new) continue; // No change in brand color
+            if (change.old === null) {
+              description += `\n**⦁ Brand Color:** ${change.new}`;
+            } else if (change.new === null) {
+              description += `\n**⦁ Brand Color Removed:** ${change.old}`;
+            } else {
+              description += `\n**⦁ Brand Color:** ${change.old} **➜** ${change.new}`;
+            }
+          } else if (change.key === "brand_color_secondary") {
+            if (change.old === change.new) continue; // No change in secondary brand color
+            if (change.old === null) {
+              description += `\n**⦁ Secondary Brand Color:** ${change.new}`;
+            } else if (change.new === null) {
+              description += `\n**⦁ Secondary Brand Color Removed:** ${change.old}`;
+            } else {
+              description += `\n**⦁ Secondary Brand Color:** ${change.old} **➜** ${change.new}`;
+            }
+          } else if (change.key === "icon") {
+            if (change.old === change.new) continue; // No change in icon
+            if (change.old === null) {
+              description += `\n**⦁ Icon:** ${change.new}`;
+            } else if (change.new === null) {
+              description += `\n**⦁ Icon Removed:** ${change.old}`;
+            } else {
+              description += `\n**⦁ Icon:** ${change.old} **➜** ${change.new}`;
+            }
+          } else {
+            logger.log("warn", `Guild Boost Tier Update ${change.key} not handled`);
+            console.log(change);
+          }
+        }
+        break;
       default:
         // In case there are any other actions that need to be handled
         logger.log("warn", `Action ${auditLogEntry.action} not handled`);
