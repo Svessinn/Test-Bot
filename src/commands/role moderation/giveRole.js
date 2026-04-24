@@ -6,8 +6,7 @@ const winston = require("winston");
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
   format: winston.format.printf(
-    (log) =>
-      `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`,
   ),
 });
 
@@ -38,7 +37,40 @@ module.exports = {
       .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() })
       .setTitle(`Gave role: ${role.name}`);
 
-    const membersCache = interaction.guild.members.cache;
+    // Cache can be partial; fetch ensures we work with the full guild member list.
+    const membersCache = await interaction.guild.members.fetch();
+
+    const addRoleToMembers = async (members, options = {}) => {
+      const { excludeBots = false } = options;
+
+      const results = await Promise.allSettled(
+        members.map((member) => {
+          if ((excludeBots && member.user.bot) || member.roles.cache.has(role.id)) {
+            return null;
+          }
+
+          return member.roles.add(role);
+        }),
+      );
+
+      return results.reduce(
+        (acc, result) => {
+          if (result.status === "fulfilled") {
+            // We return null for skipped users, only count actual additions.
+            if (result.value) {
+              acc.success += 1;
+            } else {
+              acc.skipped += 1;
+            }
+          } else {
+            acc.failed += 1;
+          }
+
+          return acc;
+        },
+        { success: 0, failed: 0, skipped: 0 },
+      );
+    };
 
     if (subcommand === "member") {
       let member = membersCache.get(interaction.options.get("member").value);
@@ -49,31 +81,53 @@ module.exports = {
     }
 
     if (subcommand === "all") {
-      membersCache.forEach(async (member) => {
-        await member.roles.add(role);
-      });
-
-      outEmbed.setDescription(`Gave ${role} to all members`);
+      const result = await addRoleToMembers(membersCache);
+      outEmbed.setDescription(
+        `Processed all members for ${role}: ${result.success} added, ${result.skipped} skipped, ${result.failed} failed`,
+      );
     }
 
     if (subcommand === "all-humans") {
-      membersCache.forEach(async (member) => {
-        if (!member.user.bot) {
-          await member.roles.add(role);
-        }
-      });
+      const humanMembers = membersCache.filter((member) => !member.user.bot);
+      const result = await addRoleToMembers(humanMembers, { excludeBots: true });
 
-      outEmbed.setDescription(`Gave ${role} to all humans`);
+      outEmbed.setDescription(
+        `Processed humans for ${role}: ${result.success} added, ${result.skipped} skipped, ${result.failed} failed`,
+      );
     }
 
     if (subcommand === "all-bots") {
-      membersCache.forEach(async (member) => {
-        if (member.user.bot) {
-          await member.roles.add(role);
-        }
-      });
+      const botMembers = membersCache.filter((member) => member.user.bot);
+      const results = await Promise.allSettled(
+        botMembers.map((member) => {
+          if (member.roles.cache.has(role.id)) {
+            return null;
+          }
 
-      outEmbed.setDescription(`Gave ${role} to all bots`);
+          return member.roles.add(role);
+        }),
+      );
+
+      const summary = results.reduce(
+        (acc, result) => {
+          if (result.status === "fulfilled") {
+            if (result.value) {
+              acc.success += 1;
+            } else {
+              acc.skipped += 1;
+            }
+          } else {
+            acc.failed += 1;
+          }
+
+          return acc;
+        },
+        { success: 0, failed: 0, skipped: 0 },
+      );
+
+      outEmbed.setDescription(
+        `Processed bots for ${role}: ${summary.success} added, ${summary.skipped} skipped, ${summary.failed} failed`,
+      );
     }
 
     try {
