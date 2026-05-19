@@ -8,7 +8,7 @@ const winston = require("winston");
 const logger = winston.createLogger({
   transports: [new winston.transports.Console(), new winston.transports.File({ filename: `logs/log.log` })],
   format: winston.format.printf(
-    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`
+    (log) => `[${log.level.toUpperCase()}] - ${path.basename(__filename)} - ${log.message} ${new Date(Date.now()).toUTCString()}`,
   ),
 });
 
@@ -731,11 +731,16 @@ module.exports = async (client, auditLogEntry, guild) => {
         // If the message was sent by a banned user, fetching the member will fail so it's nulled to avoid errors
         let target;
         try {
-          target = await auditLogEntry.extra.channel.guild.members.fetch(auditLogEntry.targetId);
+          const targetID = auditLogEntry?.targetId || auditLogEntry?.extra?.targetId;
+          target = await auditLogEntry.extra.channel.guild.members.fetch(targetID);
         } catch (error) {
+          logger.log(
+            "error",
+            `Error fetching member for audit log entry: ${error.message}\n      Entry: ${JSON.stringify(auditLogEntry)}`,
+          );
           target = null;
         }
-        if (target.user.bot) return;
+        if (target?.user?.bot) return;
 
         description += `\n**Sender:** <@${auditLogEntry.targetId}>`;
         description += `\n**Channel:** <#${auditLogEntry.extra.channel.id}>`;
@@ -1193,7 +1198,7 @@ module.exports = async (client, auditLogEntry, guild) => {
     // Log any errors that occur
     logger.log(
       "error",
-      `There was an error logging ${event} - ${auditLogEntry.targetType} ${auditLogEntry.actionType} for ${guild.id}: \n${error}`
+      `There was an error logging ${event} - ${auditLogEntry.targetType} ${auditLogEntry.actionType} for ${guild.id}: \n${error}`,
     );
     console.log(error);
   }
